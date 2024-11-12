@@ -1,3 +1,3 @@
 # Core
 
-A class library with utilities for .Net projects
+A library with utilities for .Net projects
