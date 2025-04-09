@@ -27,20 +27,20 @@ public class JwtToken
         _key = string.IsNullOrWhiteSpace(secret) ? [] : Encoding.ASCII.GetBytes(secret);
     }
 
-    public JwtToken(int userId, double expirationInSeconds, string issuer, string audience, string secret = "")
+    public JwtToken(int userId, JwtTokenConfiguration configuration)
     {
-        _key = string.IsNullOrWhiteSpace(secret) ? [] : Encoding.ASCII.GetBytes(secret);
+        _key = string.IsNullOrWhiteSpace(configuration.Secret) ? [] : Encoding.ASCII.GetBytes(configuration.Secret);
 
         ClaimsIdentity identity = new([new Claim("id", userId.ToString())]);
 
         var creationDate = DateTime.Now;
-        var expirationDate = creationDate + TimeSpan.FromSeconds(expirationInSeconds);
+        var expirationDate = creationDate + TimeSpan.FromSeconds(configuration.ExpirationInSeconds);
 
         JwtSecurityTokenHandler handler = new();
         _securityToken = handler.CreateToken(new SecurityTokenDescriptor
         {
-            Issuer = issuer,
-            Audience = audience,
+            Issuer = configuration.Issuer,
+            Audience = configuration.Audience,
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(_key), SecurityAlgorithms.HmacSha256Signature),
             Subject = identity,
