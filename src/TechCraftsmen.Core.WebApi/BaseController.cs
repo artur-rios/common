@@ -17,4 +17,12 @@ public class BaseController : Controller
         
         return webApiOutput.ToObjectResult();
     }
+    
+    public static ActionResult<WebApiOutput<T>> Resolve<T>(ProcessOutput processOutput, T dataOutput)
+    {
+        var statusCode = processOutput.Success ? HttpStatusCodes.Ok : HttpStatusCodes.BadRequest;
+        var webApiOutput = new WebApiOutput<T?>(processOutput, dataOutput, statusCode);
+        
+        return webApiOutput.ToObjectResult();
+    }
 }

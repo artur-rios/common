@@ -21,6 +21,14 @@ public class WebApiOutput<T> : DataOutput<T>
         
         _httpStatusCode = httpStatusCode;
     }
+    
+    public WebApiOutput(ProcessOutput processOutput, T dataOutput, int httpStatusCode) : base(dataOutput, processOutput.Errors.ToArray(), processOutput.Success)
+    {
+        ValidateStatusCode(httpStatusCode);
+        
+        _httpStatusCode = httpStatusCode;
+    }
+
 
     public ObjectResult ToObjectResult()
     {
