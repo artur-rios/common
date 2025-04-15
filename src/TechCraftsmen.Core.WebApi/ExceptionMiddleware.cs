@@ -21,8 +21,20 @@ public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFact
 
     private async Task HandleException(HttpContext context, Exception exception)
     {
+        string[] messages = ["Internal server error, please try again later"];
+            
+        if (exception is CustomException customException)
+        {
+            messages = customException.Messages;
+        }
+        
         _logger.LogError("Error: {error}", exception.Message);
         _logger.LogError("Stack: {stack}", exception.StackTrace);
+        
+        foreach (var message in messages)
+        {
+            _logger.LogError("Message: {message}", message);
+        }
 
         if (exception.InnerException is not null)
         {
@@ -32,7 +44,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFact
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = HttpStatusCodes.InternalServerError;
 
-        var output = new DataOutput<string>(string.Empty, ["Internal server error, please try again later"], false);
+        var output = new DataOutput<string>(string.Empty, messages, false);
         
         await context.Response.WriteAsync(JsonConvert.SerializeObject(output));
     }
