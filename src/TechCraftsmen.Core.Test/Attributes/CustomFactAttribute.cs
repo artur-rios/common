@@ -2,12 +2,10 @@
 
 public class CustomFactAttribute : Xunit.FactAttribute
 {
-    public string Type { get; private set; }
     public string[]? Environments { get; private set; }
         
-    protected CustomFactAttribute(string type = "Unit", string[]? environments = null)
+    protected CustomFactAttribute(string[]? environments = null)
     {
-        Type = type;
         Environments = environments;
 
         if (environments is null)
