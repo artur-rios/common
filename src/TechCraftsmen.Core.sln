@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Validati
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Extensions.Tests", "TechCraftsmen.Core.Extensions.Tests\TechCraftsmen.Core.Extensions.Tests.csproj", "{F1C18855-920A-43F8-86AD-150511E42893}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Extensions.Tests", "..\tests\TechCraftsmen.Core.Extensions.Tests\TechCraftsmen.Core.Extensions.Tests.csproj", "{F1C18855-920A-43F8-86AD-150511E42893}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Test", "TechCraftsmen.Core.Test\TechCraftsmen.Core.Test.csproj", "{CDA573E6-7565-4639-8AF8-F8A794E2A99E}"
 EndProject

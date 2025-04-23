@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TechCraftsmen.Core.Extensions\TechCraftsmen.Core.Extensions.csproj" />
+      <ProjectReference Include="..\..\src\TechCraftsmen.Core.Extensions\TechCraftsmen.Core.Extensions.csproj" />
     </ItemGroup>
 
 </Project>
