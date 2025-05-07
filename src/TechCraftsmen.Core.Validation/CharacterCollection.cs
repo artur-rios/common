@@ -1,0 +1,8 @@
+﻿namespace TechCraftsmen.Core.Validation;
+
+public class CharacterCollection
+{
+    public const string Digits = "0123456789";
+    public const string LowerChars = "abcdefghijklmnopqrstuvwxyz";
+    public const string UpperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+}
