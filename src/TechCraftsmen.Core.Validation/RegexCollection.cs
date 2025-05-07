@@ -7,12 +7,15 @@ public static partial class RegexCollection
     [GeneratedRegex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$")]
     public static partial Regex Email();
         
-    [GeneratedRegex(@"[0-9]+")]
+    [GeneratedRegex("[0-9]+")]
     public static partial Regex HasNumber();
 
-    [GeneratedRegex(@"[a-z]+")]
+    [GeneratedRegex("[a-z]+")]
     public static partial Regex HasLowerChar();
 
-    [GeneratedRegex(@"[A-Z]+")]
+    [GeneratedRegex("[A-Z]+")]
     public static partial Regex HasUpperChar();
+    
+    [GeneratedRegex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$")]
+    public static partial Regex HasNumberLowerAndUpperChar();
 }
