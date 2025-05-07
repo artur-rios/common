@@ -4,18 +4,24 @@ namespace TechCraftsmen.Core.Validation;
 
 public static partial class RegexCollection
 {
-    [GeneratedRegex(@"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$")]
+    public const string EmailPattern = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
+    public const string HasNumberPattern = "[0-9]+";
+    public const string HasLowerCharPattern = "[a-z]+";
+    public const string HasUpperCharPattern = "[A-Z]+";
+    public const string HasNumberLowerAndUpperCharPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$";
+    
+    [GeneratedRegex(EmailPattern)]
     public static partial Regex Email();
         
-    [GeneratedRegex("[0-9]+")]
+    [GeneratedRegex(HasNumberPattern)]
     public static partial Regex HasNumber();
 
-    [GeneratedRegex("[a-z]+")]
+    [GeneratedRegex(HasLowerCharPattern)]
     public static partial Regex HasLowerChar();
 
-    [GeneratedRegex("[A-Z]+")]
+    [GeneratedRegex(HasUpperCharPattern)]
     public static partial Regex HasUpperChar();
     
-    [GeneratedRegex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$")]
+    [GeneratedRegex(HasNumberLowerAndUpperCharPattern)]
     public static partial Regex HasNumberLowerAndUpperChar();
 }
