@@ -1,5 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// Reason: This is a base test class, therefore the properties and methods should be accessible on derived classes
+
+// ReSharper disable UnusedMember.Global
+// Reason: This is a base test class, and the methods should be used  on derived classes
+
+using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
+using TechCraftsmen.Core.Environment;
 using TechCraftsmen.Core.Extensions;
 using TechCraftsmen.Core.WebApi;
 using TechCraftsmen.Core.WebApi.Security.Records;
@@ -11,9 +18,9 @@ public class WebApiTest<T> where T : class
     public readonly HttpClient Client;
     private readonly WebApplicationFactory<T> _factory = new();
 
-    public WebApiTest(string environment)
+    public WebApiTest(EnvironmentType environment)
     {
-        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", environment);
+        System.Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", environment.ToString().ToLower());
 
         Client = _factory.CreateClient();
     }

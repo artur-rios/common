@@ -1,10 +1,14 @@
-﻿namespace TechCraftsmen.Core.Test.Attributes;
+﻿using TechCraftsmen.Core.Environment;
+
+namespace TechCraftsmen.Core.Test.Attributes;
 
 public class CustomFactAttribute : Xunit.FactAttribute
 {
-    public string[]? Environments { get; private set; }
-        
-    protected CustomFactAttribute(string[]? environments = null)
+    // ReSharper disable once MemberCanBePrivate.Global
+    // Reason: This property is used by the test framework to determine if the test should be skipped
+    public EnvironmentType[]? Environments { get; }
+
+    protected CustomFactAttribute(EnvironmentType[]? environments = null)
     {
         Environments = environments;
 
@@ -13,13 +17,15 @@ public class CustomFactAttribute : Xunit.FactAttribute
             return;
         }
 
-        var currentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        var currentEnvironment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-        var hasEnvironment = environments.FirstOrDefault(environment => environment == currentEnvironment);
+        var hasEnvironment =
+            Environments?.Any(x => x.ToString().Equals(currentEnvironment, StringComparison.OrdinalIgnoreCase)) ?? true;
 
-        if (string.IsNullOrWhiteSpace(hasEnvironment))
+        if (hasEnvironment)
         {
             // ReSharper disable once VirtualMemberCallInConstructor
+            // Reason: This is a virtual member call in the constructor of the base class
             Skip = $"Test can't run on {currentEnvironment}";
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace TechCraftsmen.Core.Validation.Tests;
+﻿using TechCraftsman.Core.Util.Collections;
+
+namespace TechCraftsmen.Core.Security.Tests;
 
 public class RegexCollectionTests
 {

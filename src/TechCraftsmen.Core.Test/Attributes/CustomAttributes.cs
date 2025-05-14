@@ -1,5 +1,7 @@
-﻿namespace TechCraftsmen.Core.Test.Attributes;
+﻿using TechCraftsmen.Core.Environment;
 
-public class UnitAttribute(string[]? environments = null) : CustomFactAttribute(environments);
+namespace TechCraftsmen.Core.Test.Attributes;
 
-public class FunctionalAttribute(string[]? environments = null) : CustomFactAttribute(environments);
+public class UnitAttribute(EnvironmentType[]? environments = null) : CustomFactAttribute(environments);
+
+public class FunctionalAttribute(EnvironmentType[]? environments = null) : CustomFactAttribute(environments);

@@ -21,7 +21,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\TechCraftsmen.Core.Validation\TechCraftsmen.Core.Validation.csproj" />
+      <ProjectReference Include="..\..\src\TechCraftsman.Core.Util\TechCraftsman.Core.Util.csproj" />
+      <ProjectReference Include="..\..\src\TechCraftsmen.Core.Security\TechCraftsmen.Core.Security.csproj" />
     </ItemGroup>
 
 </Project>

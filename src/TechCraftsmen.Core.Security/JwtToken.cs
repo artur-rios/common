@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace TechCraftsmen.Core.Validation;
+namespace TechCraftsmen.Core.Security;
 
 public class JwtToken
 {

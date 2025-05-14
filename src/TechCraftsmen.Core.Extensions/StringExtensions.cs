@@ -1,4 +1,5 @@
-﻿using TechCraftsmen.Core.Validation;
+﻿using TechCraftsman.Core.Util;
+using TechCraftsman.Core.Util.Collections;
 
 namespace TechCraftsmen.Core.Extensions;
 

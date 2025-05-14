@@ -1,4 +1,4 @@
-﻿namespace TechCraftsmen.Core.Validation;
+﻿namespace TechCraftsman.Core.Util.Collections;
 
 public class CharacterCollection
 {

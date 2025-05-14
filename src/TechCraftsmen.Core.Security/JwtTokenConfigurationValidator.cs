@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace TechCraftsmen.Core.Validation;
+namespace TechCraftsmen.Core.Security;
 
 public class JwtTokenConfigurationValidator : AbstractValidator<JwtTokenConfiguration>
 {

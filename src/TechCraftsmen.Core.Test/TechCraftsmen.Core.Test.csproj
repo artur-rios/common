@@ -12,6 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\TechCraftsmen.Core.Environment\TechCraftsmen.Core.Environment.csproj" />
       <ProjectReference Include="..\TechCraftsmen.Core.WebApi\TechCraftsmen.Core.WebApi.csproj" />
     </ItemGroup>
 

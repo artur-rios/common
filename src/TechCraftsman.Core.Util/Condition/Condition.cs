@@ -1,6 +1,12 @@
-﻿using TechCraftsmen.Core.Output;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// Reason: This class is used in other projects and it's properties and methods should be public
 
-namespace TechCraftsmen.Core.Validation;
+// ReSharper disable UnusedMember.Global
+// Reason: This class is meant to be used in other projects
+
+using TechCraftsmen.Core.Output;
+
+namespace TechCraftsman.Core.Util.Condition;
 
 public class Condition
 {

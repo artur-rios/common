@@ -1,13 +1,19 @@
-﻿using System.Security.Cryptography;
+﻿// ReSharper disable once UnusedType.Global
+// Reason: This class is meant to be used in other projects
+
+// ReSharper disable MemberCanBePrivate.Global
+// Reason: This class is used in other projects and it's properties and methods should be public
+
+using System.Security.Cryptography;
 using System.Text;
 using Konscious.Security.Cryptography;
 
-namespace TechCraftsmen.Core.Validation;
+namespace TechCraftsman.Core.Util.Hash;
 
 public class Hash
 {
-    public byte[] Value { get; set; }
-    public byte[] Salt { get; set; }
+    public byte[] Value { get; }
+    public byte[] Salt { get; }
         
     // Number of CPU Cores x 2
     private const int DegreeOfParallelism = 16;
