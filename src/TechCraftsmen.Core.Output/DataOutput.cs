@@ -1,9 +1,21 @@
 ﻿namespace TechCraftsmen.Core.Output;
 
-public class DataOutput<T>(T? data, string[] messages, bool success)
+public class DataOutput<T>
 {
-    public T? Data { get; } = data;
-    public string[] Messages { get; } = messages;
-    public bool Success = success;
+    // Necessary for json serialization
+    public DataOutput()
+    {
+    }
+    
+    public DataOutput(T? data, string[] messages, bool success)
+    {
+        Data = data;
+        Messages = messages;
+        Success = success;
+    }
+    
+    public T? Data { get; }
+    public string[] Messages { get; } = [];
+    public bool Success { get; }
     public DateTime Timestamp = DateTime.UtcNow;
 }

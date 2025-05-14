@@ -7,6 +7,11 @@ namespace TechCraftsmen.Core.WebApi;
 public class WebApiOutput<T> : DataOutput<T>
 {
     private readonly int _httpStatusCode;
+
+    // Necessary for json serialization
+    public WebApiOutput()
+    {
+    }
     
     public WebApiOutput(T? data, string[] messages, bool success, int httpStatusCode) : base(data, messages, success)
     {
