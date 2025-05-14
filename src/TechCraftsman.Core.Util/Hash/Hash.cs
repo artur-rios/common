@@ -1,4 +1,5 @@
-﻿// ReSharper disable once UnusedType.Global
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
 // Reason: This class is meant to be used in other projects
 
 // ReSharper disable MemberCanBePrivate.Global
@@ -7,40 +8,48 @@
 using System.Security.Cryptography;
 using System.Text;
 using Konscious.Security.Cryptography;
-
 namespace TechCraftsman.Core.Util.Hash;
 
 public class Hash
 {
+    private const int Argon2IdKeyBytes = 128;
+    private const int SaltByteSize = 16;
+    
+    private readonly HashConfiguration _configuration;
     public byte[] Value { get; }
     public byte[] Salt { get; }
-        
-    // Number of CPU Cores x 2
-    private const int DegreeOfParallelism = 16;
-
-    // Recommended minimum value
-    private const int NumberOfIterations = 4;
-
-    // 600 MB
-    private const int MemoryToUseInKb = 600000;
-
-    public Hash(byte[] value, byte[] salt)
+    
+    public static Hash NewFromBytes(byte[] value, HashConfiguration hashConfiguration, byte[] salt)
     {
+        return new Hash(value, hashConfiguration, salt);
+    }
+    
+    public static Hash NewFromText(string text, HashConfiguration? hashConfiguration = null, byte[]? salt = null)
+    {
+        hashConfiguration ??= new HashConfiguration();
+
+        return new Hash(text, hashConfiguration, salt);
+    }
+    
+    private Hash(byte[] value, HashConfiguration hashConfiguration, byte[] salt)
+    {
+        _configuration = hashConfiguration;
         Value = value;
         Salt = salt;
     }
 
-    public Hash(string text, byte[]? salt = null)
+    private Hash(string text, HashConfiguration hashConfiguration, byte[]? salt = null)
     {
         salt ??= CreateSalt();
 
+        _configuration = hashConfiguration;
         Value = HashText(text, salt);
         Salt = salt;
     }
         
     private static byte[] CreateSalt()
     {
-        var buffer = new byte[16];
+        var buffer = new byte[SaltByteSize];
 
         using var rng = RandomNumberGenerator.Create();
         rng.GetBytes(buffer);
@@ -55,16 +64,16 @@ public class Hash
         return Value.SequenceEqual(hashToMatch);
     }
 
-    private static byte[] HashText(string text, byte[] salt)
+    private byte[] HashText(string text, byte[] salt)
     {
         Argon2id argon2Id = new(Encoding.UTF8.GetBytes(text))
         {
             Salt = salt,
-            DegreeOfParallelism = DegreeOfParallelism,
-            Iterations = NumberOfIterations,
-            MemorySize = MemoryToUseInKb
+            DegreeOfParallelism = _configuration.DegreeOfParallelism,
+            Iterations = _configuration.NumberOfIterations,
+            MemorySize = _configuration.MemoryToUseInKb
         };
             
-        return argon2Id.GetBytes(128);
+        return argon2Id.GetBytes(Argon2IdKeyBytes);
     }
 }
