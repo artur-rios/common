@@ -17,5 +17,5 @@ public class DataOutput<T>
     public T? Data { get; }
     public string[] Messages { get; } = [];
     public bool Success { get; }
-    public DateTime Timestamp = DateTime.UtcNow;
+    public DateTime Timestamp { get; } = DateTime.UtcNow;
 }
