@@ -1,8 +1,12 @@
-﻿namespace TechCraftsmen.Core.Output;
+﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// Reason: Keep the setters for deserialization purposes.
+
+// ReSharper disable MemberCanBeProtected.Global
+// Reason: public empty constructor is necessary for json deserialization
+namespace TechCraftsmen.Core.Output;
 
 public class DataOutput<T>
 {
-    // Necessary for json serialization
     public DataOutput()
     {
     }
@@ -14,8 +18,11 @@ public class DataOutput<T>
         Success = success;
     }
     
-    public T? Data { get; }
-    public string[] Messages { get; } = [];
-    public bool Success { get; }
-    public DateTime Timestamp { get; } = DateTime.UtcNow;
+    public T? Data { get; set; }
+    public string[] Messages { get; set; } = [];
+    public bool Success { get; set; }
+    
+    // ReSharper disable once UnusedMember.Global
+    // Reason: This is a metadata field
+    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 }
