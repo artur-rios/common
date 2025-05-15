@@ -1,4 +1,4 @@
-﻿namespace TechCraftsmen.Core.Security;
+﻿namespace TechCraftsmen.Core.Util;
 
 public record JwtTokenConfiguration(double ExpirationInSeconds, string Issuer, string Audience, string Secret)
 {

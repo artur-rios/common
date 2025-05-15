@@ -7,6 +7,7 @@
 
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
+        <RootNamespace>TechCraftsmen.Core.Validation.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\TechCraftsman.Core.Util\TechCraftsman.Core.Util.csproj" />
+      <ProjectReference Include="..\..\src\TechCraftsmen.Core.Util\TechCraftsmen.Core.Util.csproj" />
       <ProjectReference Include="..\..\src\TechCraftsmen.Core.Security\TechCraftsmen.Core.Security.csproj" />
     </ItemGroup>
 

@@ -1,4 +1,8 @@
-﻿using FluentValidation.Results;
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+// Reason: This class is meant to be used in other projects
+
+using FluentValidation.Results;
 using TechCraftsmen.Core.Output;
 
 namespace TechCraftsmen.Core.Extensions;

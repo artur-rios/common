@@ -1,4 +1,8 @@
-﻿namespace TechCraftsmen.Core.Data;
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+// Reason: This class is meant to be used in other projects
+
+namespace TechCraftsmen.Core.Data;
 
 public interface ICrudRepository<T> where T : Entity
 {

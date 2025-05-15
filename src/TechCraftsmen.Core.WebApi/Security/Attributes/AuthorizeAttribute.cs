@@ -4,6 +4,8 @@ using TechCraftsmen.Core.WebApi.Security.Records;
 
 namespace TechCraftsmen.Core.WebApi.Security.Attributes;
 
+// ReSharper disable UnusedType.Global
+// Reason: This is a custom attribute meant to be used in other projects
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class AuthorizeAttribute : Attribute, IAuthorizationFilter
 {

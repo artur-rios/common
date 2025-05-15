@@ -1,6 +1,9 @@
-﻿using System.Text.RegularExpressions;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// These properties need to be public because they are meant to be used in other projects
 
-namespace TechCraftsman.Core.Util.Collections;
+using System.Text.RegularExpressions;
+
+namespace TechCraftsmen.Core.Util.Collections;
 
 public static partial class RegexCollection
 {

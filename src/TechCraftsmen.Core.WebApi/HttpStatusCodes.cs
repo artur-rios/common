@@ -1,4 +1,7 @@
-﻿namespace TechCraftsmen.Core.WebApi;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// Reason: These properties are meant to be used in other projects
+
+namespace TechCraftsmen.Core.WebApi;
 
 public static class HttpStatusCodes
 {

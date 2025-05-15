@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+// Reason: This class is meant to be used in other projects
+
+using Newtonsoft.Json;
 
 namespace TechCraftsmen.Core.Extensions;
 

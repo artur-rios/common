@@ -1,4 +1,7 @@
-﻿using TechCraftsmen.Core.Environment;
+﻿// ReSharper disable UnusedType.Global
+// Reason: These annotations are meant to be used in other projects
+
+using TechCraftsmen.Core.Environment;
 
 namespace TechCraftsmen.Core.Test.Attributes;
 

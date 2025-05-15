@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Output",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.WebApi", "TechCraftsmen.Core.WebApi\TechCraftsmen.Core.WebApi.csproj", "{6A40DD5B-E8C0-4780-95DD-D6B968CD89E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Validation.Tests", "..\tests\TechCraftsmen.Core.Validation.Tests\TechCraftsmen.Core.Validation.Tests.csproj", "{D6365923-C461-40A3-B2FF-E9CBE61BC960}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Util.Tests", "..\tests\TechCraftsmen.Core.Util.Tests\TechCraftsmen.Core.Util.Tests.csproj", "{D6365923-C461-40A3-B2FF-E9CBE61BC960}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}"
 EndProject
@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Test", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Environment", "TechCraftsmen.Core.Environment\TechCraftsmen.Core.Environment.csproj", "{454FE37F-9E0C-48ED-AE06-A8284DF5FD33}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsman.Core.Util", "TechCraftsman.Core.Util\TechCraftsman.Core.Util.csproj", "{57AAD716-EABB-4517-B2D9-C62943E45A04}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechCraftsmen.Core.Util", "TechCraftsmen.Core.Util\TechCraftsmen.Core.Util.csproj", "{57AAD716-EABB-4517-B2D9-C62943E45A04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

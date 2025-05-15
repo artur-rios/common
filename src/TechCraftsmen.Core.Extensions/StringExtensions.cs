@@ -1,5 +1,8 @@
-﻿using TechCraftsman.Core.Util;
-using TechCraftsman.Core.Util.Collections;
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+// Reason: This class is meant to be used in other projects
+
+using TechCraftsmen.Core.Util.Collections;
 
 namespace TechCraftsmen.Core.Extensions;
 

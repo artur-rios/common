@@ -1,4 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+// Reason: this middleware is meant to be used in other projects
+
+using Newtonsoft.Json;
 using TechCraftsmen.Core.WebApi.Security.Attributes;
 using TechCraftsmen.Core.WebApi.Security.Interfaces;
 

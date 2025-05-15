@@ -6,7 +6,7 @@
 
 using TechCraftsmen.Core.Output;
 
-namespace TechCraftsman.Core.Util.Condition;
+namespace TechCraftsmen.Core.Util.Condition;
 
 public class Condition
 {

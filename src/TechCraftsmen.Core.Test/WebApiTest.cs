@@ -2,7 +2,8 @@
 // Reason: This is a base test class, therefore the properties and methods should be accessible on derived classes
 
 // ReSharper disable UnusedMember.Global
-// Reason: This is a base test class, and the methods should be used  on derived classes
+// ReSharper disable UnusedType.Global
+// Reason: This is a base test class, and the methods should be used on derived classes
 
 using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;

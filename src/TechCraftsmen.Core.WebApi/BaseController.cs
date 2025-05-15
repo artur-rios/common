@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿// ReSharper disable UnusedMember.Global
+// Reason: This is a base controller class meant to be used in other projects
+
+using Microsoft.AspNetCore.Mvc;
 using TechCraftsmen.Core.Output;
 
 namespace TechCraftsmen.Core.WebApi;

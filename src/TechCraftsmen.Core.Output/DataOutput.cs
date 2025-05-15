@@ -3,6 +3,7 @@
 
 // ReSharper disable MemberCanBeProtected.Global
 // Reason: public empty constructor is necessary for json deserialization
+
 namespace TechCraftsmen.Core.Output;
 
 public class DataOutput<T>

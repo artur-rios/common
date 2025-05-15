@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿// ReSharper disable UnusedMember.Global
+// Reason: This is a test class for the extension methods
+
+using System.ComponentModel;
 
 namespace TechCraftsmen.Core.Extensions.Tests.Mock;
 

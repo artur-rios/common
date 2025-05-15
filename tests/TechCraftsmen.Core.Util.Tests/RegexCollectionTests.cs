@@ -1,6 +1,6 @@
-﻿using TechCraftsman.Core.Util.Collections;
+﻿using TechCraftsmen.Core.Util.Collections;
 
-namespace TechCraftsmen.Core.Security.Tests;
+namespace TechCraftsmen.Core.Util.Tests;
 
 public class RegexCollectionTests
 {

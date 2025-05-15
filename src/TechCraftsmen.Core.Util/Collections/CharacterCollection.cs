@@ -1,4 +1,9 @@
-﻿namespace TechCraftsman.Core.Util.Collections;
+﻿// ReSharper disable UnusedMember.Global
+// ReSharper disable UnusedType.Global
+// ReSharper disable MemberCanBePrivate.Global
+// Reason: This class is used in other projects and it's properties and methods should be public
+
+namespace TechCraftsmen.Core.Util.Collections;
 
 public class CharacterCollection
 {

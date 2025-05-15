@@ -1,4 +1,7 @@
-﻿namespace TechCraftsmen.Core.Data;
+﻿// ReSharper disable UnusedMember.Global
+// Reason: This class is meant to be used in other projects
+
+namespace TechCraftsmen.Core.Data;
 
 public abstract class Entity
 {

@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TechCraftsman.Core.Util\TechCraftsman.Core.Util.csproj" />
+      <ProjectReference Include="..\TechCraftsmen.Core.Util\TechCraftsmen.Core.Util.csproj" />
       <ProjectReference Include="..\TechCraftsmen.Core.Security\TechCraftsmen.Core.Security.csproj" />
     </ItemGroup>
 
