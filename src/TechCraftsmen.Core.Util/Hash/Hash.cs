@@ -19,30 +19,31 @@ public class Hash
     public byte[] Value { get; }
     public byte[] Salt { get; }
     
-    public static Hash NewFromBytes(byte[] value, HashConfiguration hashConfiguration, byte[] salt)
+    public static Hash NewFromBytes(byte[] value, byte[] salt, HashConfiguration? configuration = null)
     {
-        return new Hash(value, hashConfiguration, salt);
+        return new Hash(value, salt, configuration);
     }
     
-    public static Hash NewFromText(string text, HashConfiguration? hashConfiguration = null, byte[]? salt = null)
+    public static Hash NewFromText(string text, HashConfiguration? configuration = null, byte[]? salt = null)
     {
-        hashConfiguration ??= new HashConfiguration();
-
-        return new Hash(text, hashConfiguration, salt);
+        return new Hash(text, salt, configuration);
     }
     
-    private Hash(byte[] value, HashConfiguration hashConfiguration, byte[] salt)
+    private Hash(byte[] value, byte[] salt, HashConfiguration? configuration = null)
     {
-        _configuration = hashConfiguration;
+        configuration ??= new HashConfiguration();
+        
+        _configuration = configuration;
         Value = value;
         Salt = salt;
     }
 
-    private Hash(string text, HashConfiguration hashConfiguration, byte[]? salt = null)
+    private Hash(string text, byte[]? salt = null, HashConfiguration? configuration = null)
     {
         salt ??= CreateSalt();
+        configuration ??= new HashConfiguration();
 
-        _configuration = hashConfiguration;
+        _configuration = configuration;
         Value = HashText(text, salt);
         Salt = salt;
     }
