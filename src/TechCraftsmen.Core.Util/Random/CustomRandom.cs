@@ -8,7 +8,7 @@ using TechCraftsmen.Core.Util.Collections;
 
 namespace TechCraftsmen.Core.Util.Random;
 
-public class CustomRandom
+public static class CustomRandom
 {
     public static int NumberFromRng(int start, int end, int? differentFrom = null)
     {
