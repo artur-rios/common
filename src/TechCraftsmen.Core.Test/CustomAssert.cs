@@ -10,17 +10,17 @@ namespace TechCraftsmen.Core.Test;
 
 public static class CustomAssert
 {
-    public static void NotNullOrEmpty(IEnumerable collection)
+    public static void NotNullOrEmpty(IEnumerable? collection)
     {
-        Assert.False(collection.Empty());
+        Assert.False(collection?.Empty());
     }
     
-    public static void NotNullOrEmpty(string @string)
+    public static void NotNullOrEmpty(string? @string)
     {
         Assert.False(string.IsNullOrEmpty(@string));
     }
     
-    public static void NotNullOrWhiteSpace(string @string)
+    public static void NotNullOrWhiteSpace(string? @string)
     {
         Assert.False(string.IsNullOrWhiteSpace(@string));
     }
