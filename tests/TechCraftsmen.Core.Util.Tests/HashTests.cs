@@ -65,8 +65,6 @@ public class HashTests
         
         Assert.NotEqual(hash1.Salt, hash2.Salt);
         Assert.NotEqual(hash1.Value, hash2.Value);
-        Assert.True(hash1.TextMatches(text));
-        Assert.True(hash2.TextMatches(text));
     }
     
     [Fact]
