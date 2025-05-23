@@ -8,7 +8,8 @@
 using System.Security.Cryptography;
 using System.Text;
 using Konscious.Security.Cryptography;
-namespace TechCraftsmen.Core.Util.Hash;
+
+namespace TechCraftsmen.Core.Util.Hashing;
 
 public class Hash
 {

@@ -1,7 +1,7 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // Reason: This class is meant to be used in other projects, so the attributes and methods should be public
 
-namespace TechCraftsmen.Core.Util.Hash;
+namespace TechCraftsmen.Core.Util.Hashing;
 
 public class HashConfiguration(
     int? degreeOfParallelism = null,
