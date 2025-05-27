@@ -12,17 +12,17 @@ public static class StringExtensions
     {
         return RegexCollection.HasLowerChar().IsMatch(@string);
     }
-    
+
     public static bool HasMaxLength(this string @string, int maxLength)
     {
         return !(@string.Length > maxLength);
     }
-    
+
     public static bool HasMinLength(this string @string, int minLength)
     {
         return !(@string.Length < minLength);
     }
-    
+
     public static bool HasNumber(this string @string)
     {
         return RegexCollection.HasNumber().IsMatch(@string);
@@ -32,9 +32,14 @@ public static class StringExtensions
     {
         return RegexCollection.HasUpperChar().IsMatch(@string);
     }
-    
+
     public static bool IsValidEmail(this string @string)
     {
         return RegexCollection.Email().IsMatch(@string);
+    }
+
+    public static string TrimChar(this string input, char charToTrim)
+    {
+        return string.IsNullOrEmpty(input) ? input : input.Trim().Trim(charToTrim);
     }
 }
