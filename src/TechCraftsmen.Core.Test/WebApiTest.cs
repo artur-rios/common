@@ -39,9 +39,9 @@ public class WebApiTest<T> where T : class
         Client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authToken}");
     }
     
-    public void AuthenticateAndAuthorize(Credentials credentials, string authRoute)
+    public async Task AuthenticateAndAuthorize(Credentials credentials, string authRoute)
     {
-        var authentication = Authenticate(credentials, authRoute).GetAwaiter().GetResult();
+        var authentication = await Authenticate(credentials, authRoute);
 
         Authorize(authentication.Token!);
     }
