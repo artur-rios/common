@@ -33,6 +33,18 @@ public class WebApiTest<T> where T : class
 
         return output.Data ?? throw new Exception("Could not authenticate");
     }
+
+    public void Authorize(string authToken)
+    {
+        Client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authToken}");
+    }
+    
+    public void AuthenticateAndAuthorize(Credentials credentials, string authRoute)
+    {
+        var authentication = Authenticate(credentials, authRoute).GetAwaiter().GetResult();
+
+        Authorize(authentication.Token!);
+    }
     
     public async Task<WebApiOutput<TO>> Get<TO>(string route, HttpStatusCode? expectedHttpStatusCode = null)
     {
