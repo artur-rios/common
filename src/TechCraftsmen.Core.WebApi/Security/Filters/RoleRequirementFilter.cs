@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using TechCraftsmen.Core.Extensions;
 using TechCraftsmen.Core.WebApi.Security.Records;
 
@@ -18,9 +17,13 @@ public class RoleRequirementFilter(params int[] authorizedRoles) : IAuthorizatio
             authorized = user.Role.In(authorizedRoles);
         }
 
-        if (!authorized)
+        if (authorized)
         {
-            context.Result = new ForbidResult();
+            return;
         }
+        
+        var webApiOutput = new WebApiOutput<string>("Forbidden", ["You do not have permission to access this resource"], false, HttpStatusCodes.Forbidden);
+            
+        context.Result = webApiOutput.ToObjectResult();
     }
 }
