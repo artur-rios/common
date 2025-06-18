@@ -7,8 +7,8 @@ namespace TechCraftsmen.Core.Data;
 public interface ICrudRepository<T> where T : Entity
 {
     int Create(T entity);
-    IQueryable<T> GetByFilter(DataFilter filter);
-    T? GetById(int id);
+    IQueryable<T> GetByFilter(DataFilter filter, bool track = false);
+    T? GetById(int id, bool track = false);
     void Update(T entity);
     void Delete(int id);
 }
