@@ -30,7 +30,7 @@ public class WebApiOutput<T> : DataOutput<T>
 
     public WebApiOutput(ProcessOutput processOutput, T dataOutput, int httpStatusCode) : base(
         dataOutput,
-        processOutput.Success ? processOutput.Errors.ToArray() : ["Process executed with no errors"],
+        processOutput.Success ? ["Process executed with no errors"] : processOutput.Errors.ToArray(),
         processOutput.Success)
     {
         ValidateStatusCode(httpStatusCode);
