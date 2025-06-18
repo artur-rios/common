@@ -1,4 +1,6 @@
-﻿using TechCraftsmen.Core.Environment;
+﻿// ReSharper disable VirtualMemberCallInConstructor
+// Reason: call needed
+using TechCraftsmen.Core.Environment;
 
 namespace TechCraftsmen.Core.Test.Attributes;
 
@@ -8,7 +10,7 @@ public class CustomFactAttribute : Xunit.FactAttribute
     // Reason: This property is used by the test framework to determine if the test should be skipped
     public EnvironmentType[]? Environments { get; }
 
-    protected CustomFactAttribute(EnvironmentType[]? environments = null)
+    protected CustomFactAttribute(EnvironmentType[]? environments = null, bool skip = false)
     {
         Environments = environments;
 
@@ -24,9 +26,14 @@ public class CustomFactAttribute : Xunit.FactAttribute
 
         if (hasEnvironment)
         {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            // Reason: This is a virtual member call in the constructor of the base class
             Skip = $"Test can't run on {currentEnvironment}";
+
+            return;
+        }
+
+        if (skip)
+        {
+            Skip = "Condition to skip matched";
         }
     }
 }
