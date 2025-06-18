@@ -10,7 +10,7 @@ public class CustomFactAttribute : Xunit.FactAttribute
     // Reason: This property is used by the test framework to determine if the test should be skipped
     public EnvironmentType[]? Environments { get; }
 
-    protected CustomFactAttribute(EnvironmentType[]? environments = null, bool skip = false)
+    protected CustomFactAttribute(EnvironmentType[]? environments = null, bool skipCondition = false)
     {
         Environments = environments;
 
@@ -31,7 +31,7 @@ public class CustomFactAttribute : Xunit.FactAttribute
             return;
         }
 
-        if (skip)
+        if (skipCondition)
         {
             Skip = "Condition to skip matched";
         }

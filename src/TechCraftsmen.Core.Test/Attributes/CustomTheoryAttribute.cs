@@ -10,7 +10,7 @@ public class CustomTheoryAttribute : Xunit.TheoryAttribute
     // Reason: This property is used by the test framework to determine if the test should be skipped
     public EnvironmentType[]? Environments { get; }
 
-    protected CustomTheoryAttribute(EnvironmentType[]? environments = null, bool skip = false)
+    protected CustomTheoryAttribute(EnvironmentType[]? environments = null, bool skipCondition = false)
     {
         Environments = environments;
 
@@ -31,7 +31,7 @@ public class CustomTheoryAttribute : Xunit.TheoryAttribute
             return;
         }
         
-        if (skip)
+        if (skipCondition)
         {
             Skip = "Condition to skip matched";
         }
