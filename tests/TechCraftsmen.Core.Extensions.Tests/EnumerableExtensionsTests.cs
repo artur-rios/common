@@ -20,14 +20,14 @@ public class EnumerableExtensionsTests
 
     [Theory]
     [MemberData(nameof(EmptyCollections))]
-    public void Should_ReturnTrue_IfCollectionIsNullOrEmpty(IEnumerable collection)
+    public void Should_ReturnTrue(IEnumerable collection)
     {
         Assert.True(collection.IsEmpty());
     }
     
     [Theory]
     [MemberData(nameof(NotEmptyCollections))]
-    public void Should_ReturnFalse_IfCollectionIsNullOrEmpty(IEnumerable collection)
+    public void Should_ReturnFalse(IEnumerable collection)
     {
         Assert.False(collection.IsEmpty());
     }
