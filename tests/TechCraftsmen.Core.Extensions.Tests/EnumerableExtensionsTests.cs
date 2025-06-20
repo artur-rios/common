@@ -22,13 +22,13 @@ public class EnumerableExtensionsTests
     [MemberData(nameof(EmptyCollections))]
     public void Should_ReturnTrue_IfCollectionIsNullOrEmpty(IEnumerable collection)
     {
-        Assert.True(collection.Empty());
+        Assert.True(collection.IsEmpty());
     }
     
     [Theory]
     [MemberData(nameof(NotEmptyCollections))]
     public void Should_ReturnFalse_IfCollectionIsNullOrEmpty(IEnumerable collection)
     {
-        Assert.False(collection.Empty());
+        Assert.False(collection.IsEmpty());
     }
 }

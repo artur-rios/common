@@ -4,27 +4,32 @@ namespace TechCraftsmen.Core.Extensions;
 
 public static class EnumerableExtensions
 {
-    public static bool Empty(this IEnumerable enumerable)
+    public static bool IsEmpty(this IEnumerable? enumerable)
     {
-        // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-        // Reason: Should test even for non-nullable types
-        if (enumerable is null)
+        switch (enumerable)
         {
-            return true;
-        }
-        
-        var enumerator = enumerable.GetEnumerator();
-
-        try
-        {
-            return !enumerator.MoveNext();
-        }
-        finally
-        {
-            if (enumerator is IDisposable disposable)
+            case null:
+                return true;
+            case ICollection collection:
+                return collection.Count == 0;
+            default:
             {
-                disposable.Dispose();
+                var enumerator = enumerable.GetEnumerator();
+                try
+                {
+                    return !enumerator.MoveNext();
+                }
+                finally
+                {
+                    if (enumerator is IDisposable disposable)
+                        disposable.Dispose();
+                }
             }
         }
+    }
+    
+    public static bool IsNotEmpty(this IEnumerable? enumerable)
+    {
+        return !IsEmpty(enumerable);
     }
 }

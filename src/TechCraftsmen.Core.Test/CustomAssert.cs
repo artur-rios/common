@@ -12,7 +12,7 @@ public static class CustomAssert
 {
     public static void NotNullOrEmpty(IEnumerable? collection)
     {
-        Assert.False(collection?.Empty());
+        Assert.False(collection?.IsEmpty());
     }
     
     public static void NotNullOrEmpty(string? @string)
