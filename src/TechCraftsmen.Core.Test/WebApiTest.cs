@@ -58,8 +58,6 @@ public class WebApiTest<T> where T : class
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PatchAsync(route, payload);
-        
-        TestHttpStatusCode(response.StatusCode, expectedHttpStatusCode);
 
         return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
     }
@@ -69,8 +67,6 @@ public class WebApiTest<T> where T : class
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PostAsync(route, payload);
-        
-        TestHttpStatusCode(response.StatusCode, expectedHttpStatusCode);
 
         return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
     }
@@ -80,8 +76,6 @@ public class WebApiTest<T> where T : class
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PutAsync(route, payload);
-        
-        TestHttpStatusCode(response.StatusCode, expectedHttpStatusCode);
 
         return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
     }
@@ -89,8 +83,6 @@ public class WebApiTest<T> where T : class
     public async Task<WebApiOutput<TO>?> Delete<TO>(string route, HttpStatusCode? expectedHttpStatusCode = null)
     {
         var response = await Client.DeleteAsync(route);
-        
-        TestHttpStatusCode(response.StatusCode, expectedHttpStatusCode);
 
         return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
     }
@@ -98,7 +90,7 @@ public class WebApiTest<T> where T : class
     private static async Task<WebApiOutput<TO>?> TestHttpStatusCodeAndDeserialize<TO>(HttpResponseMessage response, HttpStatusCode? expectedHttpStatusCode = null)
     {
         var httpStatusCodeValid = TestHttpStatusCode(response.StatusCode, expectedHttpStatusCode);
-        var result = await Deserialize<TO>(response, false);
+        var result = await Deserialize<TO>(response);
         List<string> errors = [];
         
         if (!httpStatusCodeValid)
@@ -124,16 +116,11 @@ public class WebApiTest<T> where T : class
         return received == expected;
     }
     
-    private static async Task<WebApiOutput<TO>?> Deserialize<TO>(HttpResponseMessage response, bool throwException = true)
+    private static async Task<WebApiOutput<TO>?> Deserialize<TO>(HttpResponseMessage response)
     {
         var body = await response.Content.ReadAsStringAsync();
         
         var output = JsonConvert.DeserializeObject<WebApiOutput<TO>>(body);
-        
-        if (output is null && throwException)
-        {
-            throw new TestException("Error when deserializing response body");
-        }
 
         return output;
     }
