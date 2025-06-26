@@ -96,6 +96,11 @@ public class WebApiTest<T> where T : class
         if (!httpStatusCodeValid)
         {
             errors.Add($"Expected HTTP status code {expectedHttpStatusCode.ToString()} but received {response.StatusCode.ToString()}");
+            
+            if (result is not null)
+            {
+                errors.AddRange(result.Messages);
+            }
         }
 
         if (result is null)
