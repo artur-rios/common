@@ -99,25 +99,19 @@ public class WebApiTest<T> where T : class
     {
         var httpStatusCodeValid = TestHttpStatusCode(response.StatusCode, expectedHttpStatusCode);
         var result = await Deserialize<TO>(response, false);
+        List<string> errors = [];
         
         if (!httpStatusCodeValid)
         {
-            var testException = new TestException($"Expected HTTP status code {expectedHttpStatusCode.ToString()} but received {response.StatusCode.ToString()}");
-            
-            if (result is not null)
-            {
-                testException.ExceptionDetails = result.Messages;
-            }
-            
-            throw testException;
+            errors.Add($"Expected HTTP status code {expectedHttpStatusCode.ToString()} but received {response.StatusCode.ToString()}");
         }
 
-        if (result is not null)
+        if (result is null)
         {
-            return result;
+            errors.Add("Error when deserializing response body");
         }
         
-        throw new TestException("Error when deserializing response body");;
+        return errors.Count == 0 ? result : throw new TestException(string.Join("\n", errors));
     }
 
     private static bool TestHttpStatusCode(HttpStatusCode received, HttpStatusCode? expected = null)
