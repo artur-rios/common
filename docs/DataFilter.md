@@ -2,7 +2,7 @@
 
 An abstract class to use as a base for classes that contains properties to be used as filters on database queries
 
-[Source code](../src/TechCraftsmen.Core.Data/DataFilter.cs)
+[Source code](../src/ArturRios.Common.Data/DataFilter.cs)
 
 ## Usage
 

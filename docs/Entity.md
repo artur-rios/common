@@ -2,7 +2,7 @@
 
 A base class for other classes that represents a database entity. Contain an int id property.
 
-[Source code](../src/TechCraftsmen.Core.Data/Entity.cs)
+[Source code](../src/ArturRios.Common.Data/Entity.cs)
 
 ## Usage
 

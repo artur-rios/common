@@ -2,7 +2,7 @@
 
 An interface that can be used to implement basic database operations on repository classes
 
-[Source code](../src/TechCraftsmen.Core.Data/ICrudRepository.cs)
+[Source code](../src/ArturRios.Common.Data/ICrudRepository.cs)
 
 ## Usage
 
