@@ -6,7 +6,7 @@
 
 using System.Text.RegularExpressions;
 
-namespace ArturRios.Common.Util.Collections;
+namespace ArturRios.Common.Util.RegularExpressions;
 
 public static partial class RegexCollection
 {

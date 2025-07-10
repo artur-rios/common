@@ -1,4 +1,4 @@
-﻿using ArturRios.Common.Util.Collections;
+﻿using ArturRios.Common.Util.RegularExpressions;
 
 namespace ArturRios.Common.Util.Tests;
 

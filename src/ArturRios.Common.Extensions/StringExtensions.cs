@@ -5,7 +5,7 @@
 // ReSharper disable InconsistentNaming
 // Reason: These are not test methods
 
-using ArturRios.Common.Util.Collections;
+using ArturRios.Common.Util.RegularExpressions;
 
 namespace ArturRios.Common.Extensions;
 
