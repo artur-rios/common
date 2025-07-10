@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ArturRios.Common.Output\ArturRios.Common.Output.csproj" />
+      <ProjectReference Include="..\ArturRios.Common.Validation\ArturRios.Common.Validation.csproj" />
     </ItemGroup>
 
     <ItemGroup>
