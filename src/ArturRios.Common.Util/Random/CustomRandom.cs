@@ -48,10 +48,10 @@ public static class CustomRandom
         {
             random = rng.Next(start, end);
         }
-        
+
         return random;
     }
-    
+
     public static string Text(RandomStringOptions options, string[]? differentFrom = null)
     {
         while (true)

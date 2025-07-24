@@ -18,25 +18,13 @@ public class Hash
 {
     private const int Argon2IdKeyBytes = 128;
     private const int SaltByteSize = 16;
-    
+
     private readonly HashConfiguration _configuration;
-    public byte[] Value { get; }
-    public byte[] Salt { get; }
-    
-    public static Hash NewFromBytes(byte[] value, byte[] salt, HashConfiguration? configuration = null)
-    {
-        return new Hash(value, salt, configuration);
-    }
-    
-    public static Hash NewFromText(string text, HashConfiguration? configuration = null, byte[]? salt = null)
-    {
-        return new Hash(text, salt, configuration);
-    }
-    
+
     private Hash(byte[] value, byte[] salt, HashConfiguration? configuration = null)
     {
         configuration ??= new HashConfiguration();
-        
+
         _configuration = configuration;
         Value = value;
         Salt = salt;
@@ -51,7 +39,16 @@ public class Hash
         Value = HashText(text, salt);
         Salt = salt;
     }
-        
+
+    public byte[] Value { get; }
+    public byte[] Salt { get; }
+
+    public static Hash NewFromBytes(byte[] value, byte[] salt, HashConfiguration? configuration = null) =>
+        new(value, salt, configuration);
+
+    public static Hash NewFromText(string text, HashConfiguration? configuration = null, byte[]? salt = null) =>
+        new(text, salt, configuration);
+
     private static byte[] CreateSalt()
     {
         var buffer = new byte[SaltByteSize];
@@ -78,7 +75,7 @@ public class Hash
             Iterations = _configuration.NumberOfIterations,
             MemorySize = _configuration.MemoryToUseInKb
         };
-            
+
         return argon2Id.GetBytes(Argon2IdKeyBytes);
     }
 }

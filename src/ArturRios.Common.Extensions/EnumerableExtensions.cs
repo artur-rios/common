@@ -25,14 +25,13 @@ public static class EnumerableExtensions
                 finally
                 {
                     if (enumerator is IDisposable disposable)
+                    {
                         disposable.Dispose();
+                    }
                 }
             }
         }
     }
-    
-    public static bool IsNotEmpty(this IEnumerable? enumerable)
-    {
-        return !IsEmpty(enumerable);
-    }
+
+    public static bool IsNotEmpty(this IEnumerable? enumerable) => !IsEmpty(enumerable);
 }

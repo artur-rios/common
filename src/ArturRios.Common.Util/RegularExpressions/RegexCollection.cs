@@ -10,15 +10,17 @@ namespace ArturRios.Common.Util.RegularExpressions;
 
 public static partial class RegexCollection
 {
-    public const string EmailPattern = @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
+    public const string EmailPattern =
+        @"^[\w!#$%&'*+\-/=?\^_`{|}~]+(\.[\w!#$%&'*+\-/=?\^_`{|}~]+)*@((([\-\w]+\.)+[a-zA-Z]{2,4})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$";
+
     public const string HasNumberPattern = "[0-9]+";
     public const string HasLowerCharPattern = "[a-z]+";
     public const string HasUpperCharPattern = "[A-Z]+";
     public const string HasNumberLowerAndUpperCharPattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$";
-    
+
     [GeneratedRegex(EmailPattern)]
     public static partial Regex Email();
-        
+
     [GeneratedRegex(HasNumberPattern)]
     public static partial Regex HasNumber();
 
@@ -27,7 +29,7 @@ public static partial class RegexCollection
 
     [GeneratedRegex(HasUpperCharPattern)]
     public static partial Regex HasUpperChar();
-    
+
     [GeneratedRegex(HasNumberLowerAndUpperCharPattern)]
     public static partial Regex HasNumberLowerAndUpperChar();
 }

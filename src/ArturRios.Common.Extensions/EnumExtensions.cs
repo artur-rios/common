@@ -13,7 +13,7 @@ public static class EnumExtensions
         var attribute = field?.GetCustomAttributes(typeof(DescriptionAttribute), false)
             .Cast<DescriptionAttribute>()
             .FirstOrDefault();
-        
+
         return attribute?.Description;
     }
 }

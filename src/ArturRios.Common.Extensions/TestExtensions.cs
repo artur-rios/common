@@ -14,12 +14,12 @@ public static class TestExtensions
             if (item == null)
             {
                 Console.WriteLine("null");
-                
+
                 continue;
             }
 
             var type = item.GetType();
-            
+
             if (type.IsPrimitive || item is string || item is decimal)
             {
                 Console.WriteLine(item);

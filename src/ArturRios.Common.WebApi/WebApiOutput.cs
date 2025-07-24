@@ -42,10 +42,7 @@ public class WebApiOutput<T> : DataOutput<T>
     }
 
 
-    public ObjectResult ToObjectResult()
-    {
-        return new ObjectResult(this) { StatusCode = _httpStatusCode };
-    }
+    public ObjectResult ToObjectResult() => new(this) { StatusCode = _httpStatusCode };
 
     private static void ValidateStatusCode(int httpStatusCode)
     {

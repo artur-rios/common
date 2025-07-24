@@ -18,7 +18,7 @@ public static class FluentValidationExtensions
 
         return new DataOutput<T>(default, validationErrors, validationResult.IsValid);
     }
-    
+
     public static ProcessOutput ToProcessOutput(this ValidationResult validationResult)
     {
         var validationErrors = validationResult.Errors.Select(vf => vf.ErrorMessage).ToArray();

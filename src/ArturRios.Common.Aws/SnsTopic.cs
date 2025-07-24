@@ -6,18 +6,15 @@ namespace ArturRios.Common.Aws;
 
 public class SnsTopic : CfnTopic
 {
-    CfnTopicPolicy? _topicPolicy;
-    List<PolicyStatement>? _policyStatements;
-    
-    public SnsTopic(Construct scope, string id) : base(scope, id, new CfnTopicProps())
-    {
-        Tags.SetDefaultTags();
-    }
+    private List<PolicyStatement>? _policyStatements;
+    private CfnTopicPolicy? _topicPolicy;
+
+    public SnsTopic(Construct scope, string id) : base(scope, id, new CfnTopicProps()) => Tags.SetDefaultTags();
 
     public SnsTopic SetTopicName(string name)
     {
         TopicName = name;
-        
+
         return this;
     }
 
@@ -25,15 +22,16 @@ public class SnsTopic : CfnTopic
     {
         _policyStatements ??= [];
 
-        _topicPolicy ??= new CfnTopicPolicy(this, $"Policy{TopicName}", new CfnTopicPolicyProps
-        {
-            Topics = [AttrTopicArn],
-            PolicyDocument = new PolicyDocument(new PolicyDocumentProps
+        _topicPolicy ??= new CfnTopicPolicy(this, $"Policy{TopicName}",
+            new CfnTopicPolicyProps
             {
-                Statements = _policyStatements.ToArray()
-            })
-        });
-        
+                Topics = [AttrTopicArn],
+                PolicyDocument = new PolicyDocument(new PolicyDocumentProps
+                {
+                    Statements = _policyStatements.ToArray()
+                })
+            });
+
         _policyStatements.Add(new PolicyStatement(new PolicyStatementProps
         {
             Effect = Effect.ALLOW,
@@ -46,7 +44,7 @@ public class SnsTopic : CfnTopic
         {
             Statements = _policyStatements.ToArray()
         });
-        
+
         return this;
     }
 }

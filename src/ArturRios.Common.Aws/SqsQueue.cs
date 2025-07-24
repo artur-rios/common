@@ -11,15 +11,12 @@ namespace ArturRios.Common.Aws;
 
 public class SqsQueue : CfnQueue
 {
-    public SqsQueue(Construct scope, string id) : base(scope, id, new CfnQueueProps())
-    {
-        Tags.SetDefaultTags();
-    }
-    
+    public SqsQueue(Construct scope, string id) : base(scope, id, new CfnQueueProps()) => Tags.SetDefaultTags();
+
     public SqsQueue SetQueueName(string queueName)
     {
         QueueName = queueName;
-        
+
         return this;
     }
 
@@ -31,7 +28,7 @@ public class SqsQueue : CfnQueue
         {
             QueueName = $"{QueueName}.fifo";
         }
-        
+
         return this;
     }
 
@@ -43,27 +40,28 @@ public class SqsQueue : CfnQueue
         {
             QueueName = QueueName[..^".fifo".Length];
         }
-        
+
         return this;
     }
 
     public SqsQueue SetVisibilityTimeout(Duration duration)
     {
         VisibilityTimeout = duration.ToSeconds();
-        
+
         return this;
     }
 
     public SnsSubscription SubscribeToTopic(string topicArn, string topicName, string region)
     {
-        var subscription = new SnsSubscription(this, $"subscription-{topicName}", new CfnSubscriptionProps
-        {
-            Endpoint = AttrArn,
-            Protocol = "sqs",
-            RawMessageDelivery = true,
-            Region = region,
-            TopicArn = topicArn
-        });
+        var subscription = new SnsSubscription(this, $"subscription-{topicName}",
+            new CfnSubscriptionProps
+            {
+                Endpoint = AttrArn,
+                Protocol = "sqs",
+                RawMessageDelivery = true,
+                Region = region,
+                TopicArn = topicArn
+            });
 
         // ReSharper disable once UnusedVariable
         // Reason: this variable is used for its side effects
@@ -82,16 +80,13 @@ public class SqsQueue : CfnQueue
                         Principals = [new ServicePrincipal("sns.amazonaws.com")],
                         Conditions = new Dictionary<string, object>
                         {
-                            ["ArnEquals"] = new Dictionary<string, object>
-                            {
-                                ["aws:SourceArn"] = topicArn
-                            }
+                            ["ArnEquals"] = new Dictionary<string, object> { ["aws:SourceArn"] = topicArn }
                         }
                     })
                 ]
             })
         });
-        
+
         return subscription;
     }
 }

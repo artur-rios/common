@@ -16,7 +16,7 @@ public class HashConfiguration(
 
     // 600 MB
     public const int DefaultMemoryToUseInKb = 600000;
-    
+
     public int DegreeOfParallelism { get; } = degreeOfParallelism ?? DefaultDegreeOfParallelism;
 
     public int NumberOfIterations { get; } = numberOfIterations ?? DefaultNumberOfIterations;

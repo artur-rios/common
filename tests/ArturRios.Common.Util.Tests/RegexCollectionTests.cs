@@ -43,7 +43,7 @@ public class RegexCollectionTests
         "ma.a@1hostname.com",
         "ma@1hostname.com"
     };
-    
+
     [Theory]
     [MemberData(nameof(ValidEmails))]
     public void Should_MatchValidEmails(string email)
@@ -53,7 +53,7 @@ public class RegexCollectionTests
         Assert.True(result);
     }
 
-    
+
     [Theory]
     [MemberData(nameof(InvalidEmails))]
     public void ShouldNot_MatchInvalidEmails(string email)
@@ -62,7 +62,7 @@ public class RegexCollectionTests
 
         Assert.False(result);
     }
-    
+
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
@@ -72,63 +72,63 @@ public class RegexCollectionTests
 
         Assert.False(result);
     }
-    
+
     [Fact]
     public void Should_MatchStringWithNumber()
     {
         var result = RegexCollection.HasNumber().IsMatch("ABC123");
-        
+
         Assert.True(result);
     }
-    
+
     [Fact]
     public void ShouldNot_MatchStringWithNoNumber()
     {
         var result = RegexCollection.HasNumber().IsMatch("ABC");
-        
+
         Assert.False(result);
     }
-    
+
     [Fact]
     public void Should_Match_StringWithLowerChar()
     {
         var result = RegexCollection.HasLowerChar().IsMatch("ABCabc");
-        
+
         Assert.True(result);
     }
-    
+
     [Fact]
     public void ShouldNot_MatchStringWithNoLowerChar()
     {
         var result = RegexCollection.HasLowerChar().IsMatch("ABC");
-        
+
         Assert.False(result);
     }
-    
+
     [Fact]
     public void Should_MatchStringWithUpperChar()
     {
         var result = RegexCollection.HasUpperChar().IsMatch("abcABC");
-        
+
         Assert.True(result);
     }
-    
+
     [Fact]
     public void ShouldNot_MatchStringWithNoUpperChar()
     {
         var result = RegexCollection.HasUpperChar().IsMatch("abc");
-        
+
         Assert.False(result);
     }
-    
+
     [Fact]
     public void Should_MatchStringWithNumberLowerAndUpperChar()
     {
         var result = RegexCollection.HasNumberLowerAndUpperChar().IsMatch("abcABC123");
-        
+
         Assert.True(result);
     }
-    
+
     [Theory]
     [InlineData("abc")]
     [InlineData("ABC")]
@@ -138,7 +138,7 @@ public class RegexCollectionTests
     public void ShouldNot_Match_StringWithNoNumberLowerAndUpperChar(string @string)
     {
         var result = RegexCollection.HasNumberLowerAndUpperChar().IsMatch(@string);
-        
+
         Assert.False(result);
     }
 }

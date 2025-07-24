@@ -6,7 +6,7 @@ public class CfnPolicyDocument
 {
     public string Version { get; set; } = "2008-10-17";
     public List<StatementEntry> Statements { get; set; } = [];
-    
+
     public class StatementEntry
     {
         public string Effect { get; set; }

@@ -11,11 +11,9 @@ namespace ArturRios.Common.Data;
 
 public static class ValueConverterCollection
 {
-    public static ValueConverter<int, string> EnumIntToString<T>() where T : Enum
-    {
-        return new ValueConverter<int, string>(
+    public static ValueConverter<int, string> EnumIntToString<T>() where T : Enum =>
+        new(
             v => Enum.GetName(typeof(T), v) ?? string.Empty,
             v => (int)Enum.Parse(typeof(T), v)
         );
-    }
 }

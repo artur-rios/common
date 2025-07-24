@@ -8,18 +8,6 @@ public class RestApiUsagePlan(Construct scope, string id, string usagePlanName, 
     new CfnUsagePlanProps
     {
         UsagePlanName = usagePlanName,
-        ApiStages = new[]
-        {
-            new ApiStageProperty
-            {
-                ApiId = stage.Api.Ref,
-                Stage = stage.Ref
-            }
-        },
-        Throttle = new ThrottleSettingsProperty
-        {
-            BurstLimit = 1000,
-            RateLimit = 1000
-        }
+        ApiStages = new[] { new ApiStageProperty { ApiId = stage.Api.Ref, Stage = stage.Ref } },
+        Throttle = new ThrottleSettingsProperty { BurstLimit = 1000, RateLimit = 1000 }
     });
-    

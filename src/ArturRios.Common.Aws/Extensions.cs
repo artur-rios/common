@@ -7,7 +7,7 @@ public static class Extensions
     public static void SetDefaultTags(this TagManager tags)
     {
         var env = Fn.FindInMap(Fn.Ref("Stage"), Fn.Ref("AWS::Region"), "Environment");
-        
+
         tags.SetTag("business_criticality", "Medium");
         tags.SetTag("env", env);
         tags.SetTag("product_name", "test");

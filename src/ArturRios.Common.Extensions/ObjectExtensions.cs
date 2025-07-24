@@ -18,7 +18,7 @@ public static class ObjectExtensions
 
         return new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.Json);
     }
-    
+
     public static Dictionary<string, object> NonNullPropertiesToDictionary(this object @object)
     {
         Dictionary<string, object> dictionary = new();

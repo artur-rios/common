@@ -16,7 +16,7 @@ public class JwtMiddleware(RequestDelegate next)
     public async Task Invoke(HttpContext context, IAuthenticationService authService)
     {
         var endpoint = context.GetEndpoint();
-            
+
         if (endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>() is null)
         {
             var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last() ?? "";
@@ -30,7 +30,7 @@ public class JwtMiddleware(RequestDelegate next)
             {
                 context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                 context.Response.ContentType = "application/json";
-                
+
                 var payload = JsonConvert.SerializeObject(validationOutput);
 
                 await context.Response.WriteAsync(payload);
@@ -38,7 +38,7 @@ public class JwtMiddleware(RequestDelegate next)
                 return;
             }
         }
-            
+
         await next(context);
     }
 }

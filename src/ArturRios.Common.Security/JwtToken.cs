@@ -16,13 +16,10 @@ namespace ArturRios.Common.Security;
 
 public class JwtToken
 {
-    public string Token { get; }
-    public string CreatedAt { get; } = string.Empty;
-    public string Expiration { get; } = string.Empty;
+    private readonly JwtSecurityTokenHandler _handler = new();
 
     private readonly byte[] _key;
     private readonly SecurityToken? _securityToken;
-    private readonly JwtSecurityTokenHandler _handler = new();
 
     public JwtToken(string token, string secret = "")
     {
@@ -56,11 +53,15 @@ public class JwtToken
             NotBefore = creationDate,
             Expires = expirationDate
         });
-        
+
         Token = handler.WriteToken(_securityToken);
         CreatedAt = creationDate.ToString("yyyy-MM-dd HH:mm:ss");
         Expiration = expirationDate.ToString("yyyy-MM-dd HH:mm:ss");
     }
+
+    public string Token { get; }
+    public string CreatedAt { get; } = string.Empty;
+    public string Expiration { get; } = string.Empty;
 
     public int? GetUserId()
     {
