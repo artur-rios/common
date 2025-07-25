@@ -36,16 +36,16 @@ public class ApiGatewayRestApi : CfnRestApi
         return this;
     }
 
-    public ApiGatewayRestApi AddResource(string pathPart, RestApiResource parent = null)
+    public RestApiResource AddResource(string pathPart, RestApiResource? parent = null)
     {
         var resource = parent is null ? new RestApiResource(pathPart, this) : new RestApiResource(pathPart, parent);
 
         _resources.Add(resource);
 
-        return this;
+        return resource;
     }
 
-    public RestApiKey AddApiKey(string keyName, RestApiUsagePlan usagePlan = null)
+    public RestApiKey AddApiKey(string keyName, RestApiUsagePlan? usagePlan = null)
     {
         var key = new RestApiKey(this, keyName, keyName);
 

@@ -11,4 +11,9 @@
     <PackageReference Include="Amazon.JSII.Runtime" Version="1.112.0"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ArturRios.Common.Attributes\ArturRios.Common.Attributes.csproj" />
+    <ProjectReference Include="..\ArturRios.Common.Extensions\ArturRios.Common.Extensions.csproj" />
+  </ItemGroup>
+
 </Project>
