@@ -18,7 +18,7 @@ public class TestCloudFormationSetup : CloudFormationSetup
 
     public override void Init(App app)
     {
-        var factory = new ResourcesFactory();
+        var factory = new CloudFormationResourcesFactory();
 
         _stack = factory.CreateDefaultStack(app, StackName);
 
@@ -26,7 +26,7 @@ public class TestCloudFormationSetup : CloudFormationSetup
         SetupWebApi(factory);
     }
 
-    private void SetupLambda(ResourcesFactory factory)
+    private void SetupLambda(CloudFormationResourcesFactory factory)
     {
         _testQueue = new SqsQueue(_stack!, "TestQueue")
             .SetQueueName("test-queue")
@@ -44,7 +44,7 @@ public class TestCloudFormationSetup : CloudFormationSetup
         _testLambda.AddEventSource(_testQueue);
     }
 
-    private void SetupWebApi(ResourcesFactory factory)
+    private void SetupWebApi(CloudFormationResourcesFactory factory)
     {
         var apiLambdaHandler = factory.CreateDefaultLambda(_stack!, "WebApiHandler")
             .SetFunctionName("test-web-api-handler")

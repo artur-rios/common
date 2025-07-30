@@ -1,3 +1,5 @@
-﻿namespace ArturRios.Common.Aws.Tests.Lambda;
+﻿using ArturRios.Common.Aws.Sqs;
 
-public class LambdaTestEntryPoint : SqsEntryPoint<LambdaHandler>;
+namespace ArturRios.Common.Aws.Tests.Lambda;
+
+public class LambdaTestEntryPoint : SqsEntryPoint<SqsMessageHandler>;

@@ -9,13 +9,24 @@
   <ItemGroup>
     <PackageReference Include="Amazon.CDK.Lib" Version="2.206.0"/>
     <PackageReference Include="Amazon.JSII.Runtime" Version="1.112.0"/>
+    <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="9.2.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="2.7.0" />
     <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.2.0" />
+    <PackageReference Include="AWSSDK.SQS" Version="4.0.0.17" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ArturRios.Common.Attributes\ArturRios.Common.Attributes.csproj" />
     <ProjectReference Include="..\ArturRios.Common.Custom\ArturRios.Common.Custom.csproj" />
+    <ProjectReference Include="..\ArturRios.Common.Environment\ArturRios.Common.Environment.csproj" />
     <ProjectReference Include="..\ArturRios.Common.Extensions\ArturRios.Common.Extensions.csproj" />
+    <ProjectReference Include="..\ArturRios.Common.Pipelines\ArturRios.Common.Pipelines.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Http.Abstractions">
+      <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.18\Microsoft.AspNetCore.Http.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@ using Amazon.Lambda.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace ArturRios.Common.Aws.Tests.WebApi;
+namespace ArturRios.Common.Aws.Middleware;
 
 public class GuidTraceIdentifierMiddleware(RequestDelegate next, ILogger<GuidTraceIdentifierMiddleware> logger)
 {

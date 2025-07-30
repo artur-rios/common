@@ -1,4 +1,5 @@
-﻿using ArturRios.Common.Output;
+﻿using ArturRios.Common.Aws.Middleware;
+using ArturRios.Common.Output;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

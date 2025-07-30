@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
-namespace ArturRios.Common.Aws.Tests.Lambda;
+namespace ArturRios.Common.Aws.Sqs;
 
 public class SqsEntryPoint<THandler> where THandler : class, ISqsMessageHandler
 {

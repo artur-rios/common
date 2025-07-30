@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Amazon.CDK;
 using Amazon.CDK.CXAPI;
 using ArturRios.Common.Custom;
 
@@ -8,15 +9,26 @@ public sealed class CloudFormationBuilder
 {
     private static readonly JsonSerializerOptions s_jsonSerializerOptions = new() { WriteIndented = true };
 
-    public static void Main(CloudFormationResourcesFactory resourcesFactory, CloudFormationSetup setup, string outputPath)
+    public static void Main(CloudFormationSetup setup, string outputPath)
     {
-        var app = resourcesFactory.CreateDefaultApp();
+        var app = CreateDefaultApp();
         setup.Init(app);
 
         var assembly = app.Synth();
 
         PrintStacksToConsole(assembly);
         SaveTemplateToFile(assembly, outputPath);
+    }
+
+    private static App CreateDefaultApp()
+    {
+        return new App(new AppProps
+        {
+            DefaultStackSynthesizer = new DefaultStackSynthesizer(new DefaultStackSynthesizerProps
+            {
+                GenerateBootstrapVersionRule = false, Qualifier = null
+            })
+        });
     }
 
     private static void PrintStacksToConsole(CloudAssembly assembly)

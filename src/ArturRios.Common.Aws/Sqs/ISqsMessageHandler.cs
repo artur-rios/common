@@ -1,7 +1,7 @@
 ﻿using Amazon.Lambda.SQSEvents;
 using ArturRios.Common.Output;
 
-namespace ArturRios.Common.Aws.Tests.Lambda;
+namespace ArturRios.Common.Aws.Sqs;
 
 public interface ISqsMessageHandler
 {
