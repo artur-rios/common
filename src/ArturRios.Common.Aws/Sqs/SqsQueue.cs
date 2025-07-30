@@ -2,9 +2,11 @@
 using Amazon.CDK.AWS.IAM;
 using Amazon.CDK.AWS.SNS;
 using Amazon.CDK.AWS.SQS;
+using ArturRios.Common.Aws.Extensions;
+using ArturRios.Common.Aws.Sns;
 using Constructs;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.Sqs;
 
 public class SqsQueue : CfnQueue
 {

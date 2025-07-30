@@ -1,4 +1,8 @@
 ﻿using Amazon.CDK;
+using ArturRios.Common.Aws.CloudFormation;
+using ArturRios.Common.Aws.Lambda;
+using ArturRios.Common.Aws.RestApi;
+using ArturRios.Common.Aws.Sqs;
 using ArturRios.Common.Aws.Tests.Lambda;
 using ArturRios.Common.Aws.Tests.WebApi;
 using HttpMethod = Amazon.CDK.AWS.Apigatewayv2.HttpMethod;
@@ -52,7 +56,7 @@ public class TestCloudFormationSetup : CloudFormationSetup
 
         apiLambdaHandler.AddDependency(_testQueue!);
 
-        var api = new ApiGatewayRestApi(_stack!, "WebApi")
+        var api = new AwsRestApi(_stack!, "WebApi")
             .SetName("test-web-api")
             .SetDescription("Test Web API");
 

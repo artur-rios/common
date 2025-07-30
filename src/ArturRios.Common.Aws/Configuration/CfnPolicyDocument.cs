@@ -1,6 +1,6 @@
 ﻿using Amazon.CDK.AWS.IAM;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.Configuration;
 
 public class CfnPolicyDocument
 {

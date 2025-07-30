@@ -2,9 +2,11 @@
 using System.Reflection;
 using Amazon.CDK;
 using Amazon.CDK.AWS.Lambda;
+using ArturRios.Common.Aws.RestApi;
+using ArturRios.Common.Aws.Sqs;
 using Constructs;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.Lambda;
 
 public class LambdaFunction : CfnFunction
 {
@@ -125,9 +127,9 @@ public class LambdaFunction : CfnFunction
         return eventSourceMapping;
     }
 
-    public CfnPermission AddPermission(ApiGatewayRestApi apiGatewayRestApi)
+    public CfnPermission AddPermission(AwsRestApi awsRestApi)
     {
-        var key = $"permission-{Stack.GetLogicalId(apiGatewayRestApi)}";
+        var key = $"permission-{Stack.GetLogicalId(awsRestApi)}";
 
         if (_permissions.TryGetValue(key, out var existingPermission))
         {
@@ -140,7 +142,7 @@ public class LambdaFunction : CfnFunction
             FunctionName = FunctionName!,
             Principal = "apigateway.amazonaws.com",
             SourceArn = Fn.Sub(
-                $"arn:aws:execute-api:${{AWS::Region}}:${{AWS::AccountId}}:${{{apiGatewayRestApi.LogicalId}}}/*/*")
+                $"arn:aws:execute-api:${{AWS::Region}}:${{AWS::AccountId}}:${{{awsRestApi.LogicalId}}}/*/*")
         });
 
         _permissions[key] = permission;

@@ -1,6 +1,6 @@
 ﻿using Amazon.CDK;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.CloudFormation;
 
 public abstract class CloudFormationSetup
 {

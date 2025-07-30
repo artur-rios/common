@@ -1,15 +1,16 @@
 ﻿using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
+using ArturRios.Common.Aws.Lambda;
 using HttpMethod = Amazon.CDK.AWS.Apigatewayv2.HttpMethod;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.RestApi;
 
-public class RestApiResourceMethod : CfnMethod
+public class AwsRestApiResourceMethod : CfnMethod
 {
-    public RestApiResourceMethod(HttpMethod method, RestApiResource resource) : base(resource, method.ToString(),
-        new CfnMethodProps { HttpMethod = method.ToString(), ResourceId = resource.Ref, RestApiId = resource.Api.Ref })
+    public AwsRestApiResourceMethod(HttpMethod method, AwsRestApiResource resource) : base(resource, method.ToString(),
+        new CfnMethodProps { HttpMethod = method.ToString(), ResourceId = resource.Ref, RestApiId = resource.AwsRestApi.Ref })
     {
-        resource.Api.Stage.AddMethodSetting(new CfnStage.MethodSettingProperty
+        resource.AwsRestApi.Stage.AddMethodSetting(new CfnStage.MethodSettingProperty
         {
             HttpMethod = method.ToString() == "ANY" ? "*" : method.ToString(), ResourcePath = resource.GetFullPath()
         });
@@ -18,7 +19,7 @@ public class RestApiResourceMethod : CfnMethod
         AuthorizationType = "NONE";
     }
 
-    public RestApiResource Resource { get; }
+    public AwsRestApiResource Resource { get; }
 
     public void SetProxyIntegration(LambdaFunction lambdaFunction)
     {
@@ -31,7 +32,7 @@ public class RestApiResourceMethod : CfnMethod
                 new Dictionary<string, string> { ["ApiFunctionARN"] = lambdaFunction.AttrArn })
         };
 
-        lambdaFunction.AddPermission(Resource.Api);
+        lambdaFunction.AddPermission(Resource.AwsRestApi);
 
         AddDependency(lambdaFunction);
     }

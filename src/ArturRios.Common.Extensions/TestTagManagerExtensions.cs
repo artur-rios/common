@@ -2,7 +2,7 @@
 
 namespace ArturRios.Common.Extensions;
 
-public static class TestExtensions
+public static class TestTagManagerExtensions
 {
     public static void PrintContents(this IEnumerable enumerable)
     {

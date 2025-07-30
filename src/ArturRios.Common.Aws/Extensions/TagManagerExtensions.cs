@@ -1,8 +1,8 @@
 ﻿using Amazon.CDK;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.Extensions;
 
-public static class Extensions
+public static class TagManagerExtensions
 {
     public static void SetDefaultTags(this TagManager tags)
     {

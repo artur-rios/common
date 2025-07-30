@@ -2,7 +2,7 @@
 using Amazon.CDK.CXAPI;
 using ArturRios.Common.Custom;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.CloudFormation;
 
 public sealed class CloudFormationBuilder
 {

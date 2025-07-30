@@ -2,7 +2,7 @@
 using Amazon.CDK;
 using Constructs;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.CloudFormation;
 
 public class CloudFormationStack(Construct scope, string id, IStackProps props) : Stack(scope, id, props)
 {

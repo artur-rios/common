@@ -1,8 +1,9 @@
 ﻿using Amazon.CDK.AWS.IAM;
 using Amazon.CDK.AWS.SNS;
+using ArturRios.Common.Aws.Extensions;
 using Constructs;
 
-namespace ArturRios.Common.Aws;
+namespace ArturRios.Common.Aws.Sns;
 
 public class SnsTopic : CfnTopic
 {

@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using ArturRios.Common.Aws.CloudFormation;
 using ArturRios.Common.Aws.Tests.Setup;
 
 namespace ArturRios.Common.Aws.Tests;
