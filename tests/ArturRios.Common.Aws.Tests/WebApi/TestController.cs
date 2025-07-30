@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: this is not a test class
-
-using ArturRios.Common.WebApi;
+﻿using ArturRios.Common.WebApi;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArturRios.Common.Aws.Tests.WebApi;

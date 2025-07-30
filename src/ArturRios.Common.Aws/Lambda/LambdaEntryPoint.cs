@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: this is not a test class
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace ArturRios.Common.Aws.Lambda;
 

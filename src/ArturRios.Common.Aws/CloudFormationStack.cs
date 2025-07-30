@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: this is not a test class
-
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using Amazon.CDK;
 using Constructs;
 

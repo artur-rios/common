@@ -5,9 +5,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This is a base test class, and the methods should be used on derived classes
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods, but utility methods for testing Web API endpoints
-
 using System.Net;
 using ArturRios.Common.Environment;
 using ArturRios.Common.Extensions;

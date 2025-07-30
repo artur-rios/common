@@ -1,9 +1,6 @@
 ﻿// ReSharper disable UnusedMember.Global
 // Reason: This class is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using System.Net.Mime;
 using System.Text;
 using Newtonsoft.Json;

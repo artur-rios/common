@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// These are not test methods
-
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ArturRios.Common.Util.RegularExpressions;
 

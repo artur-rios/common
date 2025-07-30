@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace ArturRios.Common.Validation;
 

@@ -5,9 +5,6 @@
 // ReSharper disable MemberCanBePrivate.Global
 // Reason: This class is used in other projects and it's properties and methods should be public
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using System.Security.Cryptography;
 using System.Text;
 using Konscious.Security.Cryptography;

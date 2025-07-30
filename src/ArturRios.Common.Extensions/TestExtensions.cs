@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods, but rather utility methods for testing purposes
-
-using System.Collections;
+﻿using System.Collections;
 
 namespace ArturRios.Common.Extensions;
 

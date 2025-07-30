@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: this is not a test class
-
-using Amazon.CDK;
+﻿using Amazon.CDK;
 using Amazon.CDK.AWS.IAM;
 using Amazon.CDK.AWS.SNS;
 using Amazon.CDK.AWS.SQS;

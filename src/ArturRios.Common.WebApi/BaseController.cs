@@ -1,9 +1,6 @@
 ﻿// ReSharper disable UnusedMember.Global
 // Reason: This is a base controller class meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using ArturRios.Common.Output;
 using Microsoft.AspNetCore.Mvc;
 

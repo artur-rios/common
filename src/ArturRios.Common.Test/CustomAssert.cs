@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: These assertion methods are meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: These are not test methods, but utility methods for assertions
-
 using System.Collections;
 using ArturRios.Common.Extensions;
 using Xunit;

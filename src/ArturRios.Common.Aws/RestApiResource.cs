@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: this is not a test class
-
-using Amazon.CDK.AWS.APIGateway;
+﻿using Amazon.CDK.AWS.APIGateway;
 using HttpMethod = Amazon.CDK.AWS.Apigatewayv2.HttpMethod;
 
 namespace ArturRios.Common.Aws;

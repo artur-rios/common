@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using ArturRios.Common.Util.RegularExpressions;
 using FluentValidation;
 using FluentValidation.Results;

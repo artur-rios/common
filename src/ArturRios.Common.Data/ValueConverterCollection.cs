@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-// ReSharper disable UnusedMember.Global
+﻿// ReSharper disable UnusedMember.Global
 // ReSharper disable UnusedType.Global
 // Reason: these methods are meant to be used in other projects
 

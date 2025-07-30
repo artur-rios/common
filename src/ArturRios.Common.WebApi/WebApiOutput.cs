@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-using ArturRios.Common.Extensions;
+﻿using ArturRios.Common.Extensions;
 using ArturRios.Common.Output;
 using Microsoft.AspNetCore.Mvc;
 

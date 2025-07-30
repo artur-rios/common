@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: this middleware is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using ArturRios.Common.WebApi.Security.Attributes;
 using ArturRios.Common.WebApi.Security.Interfaces;
 using Newtonsoft.Json;

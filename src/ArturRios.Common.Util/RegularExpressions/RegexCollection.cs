@@ -1,9 +1,6 @@
 ﻿// ReSharper disable MemberCanBePrivate.Global
 // These properties need to be public because they are meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using System.Text.RegularExpressions;
 
 namespace ArturRios.Common.Util.RegularExpressions;

@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-namespace ArturRios.Common.Extensions;
+﻿namespace ArturRios.Common.Extensions;
 
 public static class ComparisonExtensions
 {

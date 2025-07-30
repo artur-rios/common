@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace ArturRios.Common.Extensions;
 

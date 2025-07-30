@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-using ArturRios.Common.Output;
+﻿using ArturRios.Common.Output;
 using ArturRios.Common.WebApi.Security.Records;
 
 namespace ArturRios.Common.WebApi.Security.Interfaces;

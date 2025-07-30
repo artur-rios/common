@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This class is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: These are not test methods
-
 using ArturRios.Common.Util.RegularExpressions;
 
 namespace ArturRios.Common.Extensions;

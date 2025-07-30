@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This class is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using Newtonsoft.Json;
 
 namespace ArturRios.Common.Extensions;

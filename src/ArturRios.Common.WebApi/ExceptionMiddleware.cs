@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This middleware is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using ArturRios.Common.Output;
 using Newtonsoft.Json;
 

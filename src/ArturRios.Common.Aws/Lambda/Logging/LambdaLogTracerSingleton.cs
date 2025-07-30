@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: this is not a test class
-
-using System.Web;
+﻿using System.Web;
 using ArturRios.Common.Attributes;
 using ArturRios.Common.Aws.Lambda.Config;
 using ArturRios.Common.Aws.Lambda.Logging.Interfaces;

@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: this is not a test class
-
-namespace ArturRios.Common.Extensions;
+﻿namespace ArturRios.Common.Extensions;
 
 public static class ExceptionExtensions
 {

@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This class in meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using System.Security.Cryptography;
 using System.Text;
 using ArturRios.Common.Util.Collections;

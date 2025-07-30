@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: this is not a test class
-
-using Amazon.Lambda.AspNetCoreServer;
+﻿using Amazon.Lambda.AspNetCoreServer;
 using Amazon.Lambda.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
