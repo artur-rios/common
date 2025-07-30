@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-using ArturRios.Common.Extensions;
+﻿using ArturRios.Common.Extensions;
 using ArturRios.Common.Output;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,10 +39,7 @@ public class WebApiOutput<T> : DataOutput<T>
     }
 
 
-    public ObjectResult ToObjectResult()
-    {
-        return new ObjectResult(this) { StatusCode = _httpStatusCode };
-    }
+    public ObjectResult ToObjectResult() => new(this) { StatusCode = _httpStatusCode };
 
     private static void ValidateStatusCode(int httpStatusCode)
     {

@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace ArturRios.Common.Extensions;
 
@@ -13,7 +10,7 @@ public static class EnumExtensions
         var attribute = field?.GetCustomAttributes(typeof(DescriptionAttribute), false)
             .Cast<DescriptionAttribute>()
             .FirstOrDefault();
-        
+
         return attribute?.Description;
     }
 }

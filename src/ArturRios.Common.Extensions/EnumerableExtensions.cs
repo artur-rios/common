@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-using System.Collections;
+﻿using System.Collections;
 
 namespace ArturRios.Common.Extensions;
 
@@ -25,14 +22,13 @@ public static class EnumerableExtensions
                 finally
                 {
                     if (enumerator is IDisposable disposable)
+                    {
                         disposable.Dispose();
+                    }
                 }
             }
         }
     }
-    
-    public static bool IsNotEmpty(this IEnumerable? enumerable)
-    {
-        return !IsEmpty(enumerable);
-    }
+
+    public static bool IsNotEmpty(this IEnumerable? enumerable) => !IsEmpty(enumerable);
 }

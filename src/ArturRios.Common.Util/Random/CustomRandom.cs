@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This class in meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using System.Security.Cryptography;
 using System.Text;
 using ArturRios.Common.Util.Collections;
@@ -48,10 +45,10 @@ public static class CustomRandom
         {
             random = rng.Next(start, end);
         }
-        
+
         return random;
     }
-    
+
     public static string Text(RandomStringOptions options, string[]? differentFrom = null)
     {
         while (true)

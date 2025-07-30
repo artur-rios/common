@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This middleware is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using ArturRios.Common.Output;
 using Newtonsoft.Json;
 
@@ -29,15 +26,15 @@ public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFact
     private async Task HandleException(HttpContext context, Exception exception)
     {
         string[] messages = ["Internal server error, please try again later"];
-            
+
         if (exception is CustomException customException)
         {
             messages = customException.Messages;
         }
-        
+
         _logger.LogError("Error: {error}", exception.Message);
         _logger.LogError("Stack: {stack}", exception.StackTrace);
-        
+
         foreach (var message in messages)
         {
             _logger.LogError("Message: {message}", message);
@@ -52,7 +49,7 @@ public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFact
         context.Response.StatusCode = HttpStatusCodes.InternalServerError;
 
         var output = new DataOutput<string>(string.Empty, messages, false);
-        
+
         await context.Response.WriteAsync(JsonConvert.SerializeObject(output));
     }
 }

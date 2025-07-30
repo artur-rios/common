@@ -2,15 +2,12 @@
 // Reason: call needed
 
 using ArturRios.Common.Environment;
+using Xunit;
 
 namespace ArturRios.Common.Test.Attributes;
 
-public class CustomFactAttribute : Xunit.FactAttribute
+public class CustomFactAttribute : FactAttribute
 {
-    // ReSharper disable once MemberCanBePrivate.Global
-    // Reason: This property is used by the test framework to determine if the test should be skipped
-    public EnvironmentType[]? Environments { get; }
-
     protected CustomFactAttribute(EnvironmentType[]? environments = null, bool skipCondition = false)
     {
         Environments = environments;
@@ -37,4 +34,8 @@ public class CustomFactAttribute : Xunit.FactAttribute
             Skip = "Condition to skip matched";
         }
     }
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    // Reason: This property is used by the test framework to determine if the test should be skipped
+    public EnvironmentType[]? Environments { get; }
 }

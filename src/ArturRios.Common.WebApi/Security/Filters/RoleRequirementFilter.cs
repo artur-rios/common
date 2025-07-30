@@ -21,9 +21,10 @@ public class RoleRequirementFilter(params int[] authorizedRoles) : IAuthorizatio
         {
             return;
         }
-        
-        var webApiOutput = new WebApiOutput<string>("Forbidden", ["You do not have permission to access this resource"], false, HttpStatusCodes.Forbidden);
-            
+
+        var webApiOutput = new WebApiOutput<string>("Forbidden", ["You do not have permission to access this resource"],
+            false, HttpStatusCodes.Forbidden);
+
         context.Result = webApiOutput.ToObjectResult();
     }
 }
