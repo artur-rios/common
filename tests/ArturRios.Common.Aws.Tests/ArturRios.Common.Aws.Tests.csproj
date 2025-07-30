@@ -11,6 +11,8 @@
 
     <ItemGroup>
         <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="9.2.0" />
+        <PackageReference Include="Amazon.Lambda.SQSEvents" Version="2.2.0" />
+        <PackageReference Include="AWSSDK.SQS" Version="4.0.0.17" />
         <PackageReference Include="coverlet.collector" Version="6.0.0"/>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"/>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.3" />
@@ -27,6 +29,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\src\ArturRios.Common.Aws\ArturRios.Common.Aws.csproj" />
       <ProjectReference Include="..\..\src\ArturRios.Common.Environment\ArturRios.Common.Environment.csproj" />
+      <ProjectReference Include="..\..\src\ArturRios.Common.Pipelines\ArturRios.Common.Pipelines.csproj" />
       <ProjectReference Include="..\..\src\ArturRios.Common.WebApi\ArturRios.Common.WebApi.csproj" />
     </ItemGroup>
 

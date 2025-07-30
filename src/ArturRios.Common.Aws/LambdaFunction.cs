@@ -17,7 +17,7 @@ public class LambdaFunction : CfnFunction
     {
         _eventSources = [];
 
-        SetEnvironmentVariable($"REFRESH_STACK_TOKEN{Guid.NewGuid():N}", string.Empty);
+        SetEnvironmentVariable("REFRESH_STACK_TOKEN", $"{Guid.NewGuid():N}");
     }
 
     public LambdaFunction SetFunctionName(string name)

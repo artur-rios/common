@@ -1,4 +1,7 @@
-﻿using Amazon.CDK;
+﻿// ReSharper disable VirtualMemberCallInConstructor
+// Reason: necessary calls
+
+using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
 using Constructs;
 
@@ -6,13 +9,18 @@ namespace ArturRios.Common.Aws;
 
 public class ApiGatewayRestApi : CfnRestApi
 {
-    private readonly List<RestApiKey> _keys = new();
-    private readonly List<RestApiResource> _resources = new();
+    // ReSharper disable once CollectionNeverQueried.Local
+    // Reason: necessary for it's side effects
+    private readonly List<RestApiKey> _keys = [];
+
+    // ReSharper disable once CollectionNeverQueried.Local
+    // Reason: necessary for it's side effects
+    private readonly List<RestApiResource> _resources = [];
 
     public ApiGatewayRestApi(Construct scope, string constructId) : base(scope, constructId, new CfnRestApiProps())
     {
         ApiKeySourceType = "HEADER";
-        EndpointConfiguration = new EndpointConfigurationProperty { Types = new[] { "EDGE" } };
+        EndpointConfiguration = new EndpointConfigurationProperty { Types = ["EDGE"] };
         Deployment = new RestApiDeployment(this, Guid.NewGuid().ToString("N")[..4]);
         Stage = new RestApiStage("ApiStage", Fn.Ref("Stage"), this);
         DefaultUsagePlan = new RestApiUsagePlan(this, "DefaultUsagePlan", "DefaultUsagePlan", Stage);

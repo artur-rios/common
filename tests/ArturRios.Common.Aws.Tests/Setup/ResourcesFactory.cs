@@ -5,7 +5,7 @@ using Constructs;
 
 namespace ArturRios.Common.Aws.Tests.Setup;
 
-public class ResourcesFactory
+public class ResourcesFactory : CloudFormationResourcesFactory
 {
     public string LambdaDefaultRoleArn = Fn.Sub("arn:aws:iam::${AWS::AccountId}:role/lambda-role");
     public Runtime LambdaDefaultRuntime = Runtime.DOTNET_8;
@@ -98,7 +98,7 @@ public class ResourcesFactory
         return lambdaFunction;
     }
 
-    public App CreateDefaultApp()
+    public override App CreateDefaultApp()
     {
         return new App(new AppProps
         {

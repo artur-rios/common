@@ -1,37 +1,58 @@
 ﻿using Amazon.CDK;
+using ArturRios.Common.Aws.Tests.Lambda;
 using ArturRios.Common.Aws.Tests.WebApi;
 using HttpMethod = Amazon.CDK.AWS.Apigatewayv2.HttpMethod;
 
 namespace ArturRios.Common.Aws.Tests.Setup;
 
-public class CloudFormationTest
+public class TestCloudFormationSetup : CloudFormationSetup
 {
     private const string StackName = "cf-test-stack";
-    private CloudFormationStack? _stack = null;
-    private SqsQueue? _testQueue = null;
-    private LambdaFunction? _testLambda = null;
+    private CloudFormationStack? _stack;
+    private SqsQueue? _testQueue;
+    private LambdaFunction? _testLambda;
 
-    public CloudFormationTest(App app)
+    public override void Init(App app)
     {
         var factory = new ResourcesFactory();
 
         _stack = factory.CreateDefaultStack(app, StackName);
 
+        SetupLambda(factory);
         SetupWebApi(factory);
+    }
+
+    private void SetupLambda(ResourcesFactory factory)
+    {
+        _testQueue = new SqsQueue(_stack!, "TestQueue")
+            .SetQueueName("test-queue")
+            .SetVisibilityTimeout(Duration.Seconds(60));
+
+        _testLambda = factory.CreateDefaultLambda(_stack!, "TestLambda")
+            .SetFunctionName("test-lambda")
+            .SetTimeout(Duration.Seconds(30))
+            .SetHandler<LambdaTestEntryPoint>(h => h.Main)
+            .SetCodeUri("../Lambda")
+            .SetEnvironmentVariable("test-queue-arn", _testQueue.AttrArn)
+            .SetEnvironmentVariable("test-queue-url", _testQueue.AttrQueueUrl);
+
+        _testLambda.AddDependency(_testQueue);
+        _testLambda.AddEventSource(_testQueue);
     }
 
     private void SetupWebApi(ResourcesFactory factory)
     {
-        var apiLambdaHandler = factory.CreateDefaultLambda(_stack, "WebApiHandler")
+        var apiLambdaHandler = factory.CreateDefaultLambda(_stack!, "WebApiHandler")
             .SetFunctionName("test-web-api-handler")
             .SetTimeout(Duration.Seconds(30))
             .SetHandler<EntryPoint>(h => h.FunctionHandlerAsync)
             .SetCodeUri("../WebApi")
-            .SetEnvironmentVariable("ENABLE_API_DOCS", Fn.FindInMap(Fn.Ref("Stage"), Fn.Ref("AWS::Region"), "EnableApiDocs"));
+            .SetEnvironmentVariable("ENABLE_API_DOCS",
+                Fn.FindInMap(Fn.Ref("Stage"), Fn.Ref("AWS::Region"), "EnableApiDocs"));
 
-        apiLambdaHandler.AddDependency(_testQueue);
+        apiLambdaHandler.AddDependency(_testQueue!);
 
-        var api = new ApiGatewayRestApi(_stack, "WebApi")
+        var api = new ApiGatewayRestApi(_stack!, "WebApi")
             .SetName("test-web-api")
             .SetDescription("Test Web API");
 
