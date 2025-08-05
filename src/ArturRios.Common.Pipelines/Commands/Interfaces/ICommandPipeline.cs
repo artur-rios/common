@@ -1,6 +1,6 @@
-﻿using ArturRios.Common.Output;
+﻿using ArturRios.Common.Pipelines.Commands.IO;
 
-namespace ArturRios.Common.Pipelines;
+namespace ArturRios.Common.Pipelines.Commands.Interfaces;
 
 public interface ICommandPipeline
 {

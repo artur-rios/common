@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace ArturRios.Common.Pipelines;
+namespace ArturRios.Common.Pipelines.Commands;
 
 public class SerializedCommand
 {
