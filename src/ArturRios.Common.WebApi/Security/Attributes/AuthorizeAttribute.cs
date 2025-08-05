@@ -17,12 +17,13 @@ public class AuthorizeAttribute : Attribute, IAuthorizationFilter
         {
             return;
         }
-        
+
         var user = (AuthenticatedUser?)context.HttpContext.Items["User"];
 
         if (user is null)
         {
-            context.Result = new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
+            context.Result =
+                new JsonResult(new { message = "Unauthorized" }) { StatusCode = StatusCodes.Status401Unauthorized };
         }
     }
 }

@@ -2,15 +2,12 @@
 // Reason: call needed
 
 using ArturRios.Common.Environment;
+using Xunit;
 
 namespace ArturRios.Common.Test.Attributes;
 
-public class CustomTheoryAttribute : Xunit.TheoryAttribute
+public class CustomTheoryAttribute : TheoryAttribute
 {
-    // ReSharper disable once MemberCanBePrivate.Global
-    // Reason: This property is used by the test framework to determine if the test should be skipped
-    public EnvironmentType[]? Environments { get; }
-
     protected CustomTheoryAttribute(EnvironmentType[]? environments = null, bool skipCondition = false)
     {
         Environments = environments;
@@ -31,10 +28,14 @@ public class CustomTheoryAttribute : Xunit.TheoryAttribute
 
             return;
         }
-        
+
         if (skipCondition)
         {
             Skip = "Condition to skip matched";
         }
     }
+
+    // ReSharper disable once MemberCanBePrivate.Global
+    // Reason: This property is used by the test framework to determine if the test should be skipped
+    public EnvironmentType[]? Environments { get; }
 }

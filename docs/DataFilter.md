@@ -14,7 +14,8 @@ public class CustomFilter : DataFilter
 }
 ```
 
-The DataFilter class is the type of the parameter passed to the [ICrudRepository](./ICrudRepository.md) method `GetByFilter`. The following approach is recommended:
+The DataFilter class is the type of the parameter passed to the [ICrudRepository](./ICrudRepository.md) method
+`GetByFilter`. The following approach is recommended:
 
 ```csharp
     public IQueryable<CustomEntity> GetByFilter(DataFilter filter)
@@ -23,7 +24,7 @@ The DataFilter class is the type of the parameter passed to the [ICrudRepository
         {
             throw new ArgumentException("Invalid filter");
         }
-        
+
         var query = _dbContext.Set<CustomEntity>().AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(customFilter.Name))
@@ -35,7 +36,7 @@ The DataFilter class is the type of the parameter passed to the [ICrudRepository
         {
             query = query.Where(e => e.Name == customFilter.CreationDate);
         }
-        
+
         return query;
     }
 ```

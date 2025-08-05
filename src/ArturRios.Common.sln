@@ -25,6 +25,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Validation
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Validation.Tests", "..\tests\ArturRios.Common.Validation.Tests\ArturRios.Common.Validation.Tests.csproj", "{5425B185-0DEB-4CAA-9ACF-3EDB05B04DCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Aws", "ArturRios.Common.Aws\ArturRios.Common.Aws.csproj", "{6FBD5074-32AA-41B0-9364-5D5AE1723DA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Aws.Tests", "..\tests\ArturRios.Common.Aws.Tests\ArturRios.Common.Aws.Tests.csproj", "{82ABB80A-C0F5-477F-A3E3-CCB45A3A95B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Attributes", "ArturRios.Common.Attributes\ArturRios.Common.Attributes.csproj", "{23FF07B2-4EFE-47A8-853F-779F8D52235F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Pipelines", "ArturRios.Common.Pipelines\ArturRios.Common.Pipelines.csproj", "{028B3032-4E87-4B0D-9F16-0C3B99C29FA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Custom", "ArturRios.Common.Custom\ArturRios.Common.Custom.csproj", "{E6E0258E-28BD-4A3A-B9CF-B30233AFC5F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,10 +89,31 @@ Global
 		{5425B185-0DEB-4CAA-9ACF-3EDB05B04DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5425B185-0DEB-4CAA-9ACF-3EDB05B04DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5425B185-0DEB-4CAA-9ACF-3EDB05B04DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FBD5074-32AA-41B0-9364-5D5AE1723DA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FBD5074-32AA-41B0-9364-5D5AE1723DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FBD5074-32AA-41B0-9364-5D5AE1723DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FBD5074-32AA-41B0-9364-5D5AE1723DA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{82ABB80A-C0F5-477F-A3E3-CCB45A3A95B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82ABB80A-C0F5-477F-A3E3-CCB45A3A95B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82ABB80A-C0F5-477F-A3E3-CCB45A3A95B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82ABB80A-C0F5-477F-A3E3-CCB45A3A95B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23FF07B2-4EFE-47A8-853F-779F8D52235F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23FF07B2-4EFE-47A8-853F-779F8D52235F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23FF07B2-4EFE-47A8-853F-779F8D52235F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23FF07B2-4EFE-47A8-853F-779F8D52235F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{028B3032-4E87-4B0D-9F16-0C3B99C29FA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{028B3032-4E87-4B0D-9F16-0C3B99C29FA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{028B3032-4E87-4B0D-9F16-0C3B99C29FA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{028B3032-4E87-4B0D-9F16-0C3B99C29FA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6E0258E-28BD-4A3A-B9CF-B30233AFC5F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6E0258E-28BD-4A3A-B9CF-B30233AFC5F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6E0258E-28BD-4A3A-B9CF-B30233AFC5F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6E0258E-28BD-4A3A-B9CF-B30233AFC5F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D6365923-C461-40A3-B2FF-E9CBE61BC960} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
 		{F1C18855-920A-43F8-86AD-150511E42893} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
 		{5425B185-0DEB-4CAA-9ACF-3EDB05B04DCE} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
+		{82ABB80A-C0F5-477F-A3E3-CCB45A3A95B0} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
 	EndGlobalSection
 EndGlobal

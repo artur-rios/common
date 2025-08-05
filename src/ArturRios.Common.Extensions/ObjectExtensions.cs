@@ -1,9 +1,6 @@
 ﻿// ReSharper disable UnusedMember.Global
 // Reason: This class is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using System.Net.Mime;
 using System.Text;
 using Newtonsoft.Json;
@@ -18,7 +15,7 @@ public static class ObjectExtensions
 
         return new StringContent(json, Encoding.UTF8, MediaTypeNames.Application.Json);
     }
-    
+
     public static Dictionary<string, object> NonNullPropertiesToDictionary(this object @object)
     {
         Dictionary<string, object> dictionary = new();

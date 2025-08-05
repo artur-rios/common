@@ -2,9 +2,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This class is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using ArturRios.Common.Output;
 using FluentValidation.Results;
 
@@ -18,7 +15,7 @@ public static class FluentValidationExtensions
 
         return new DataOutput<T>(default, validationErrors, validationResult.IsValid);
     }
-    
+
     public static ProcessOutput ToProcessOutput(this ValidationResult validationResult)
     {
         var validationErrors = validationResult.Errors.Select(vf => vf.ErrorMessage).ToArray();

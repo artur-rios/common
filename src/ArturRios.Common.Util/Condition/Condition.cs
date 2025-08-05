@@ -4,20 +4,16 @@
 // ReSharper disable UnusedMember.Global
 // Reason: This class is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: These are not test methods
-
 using ArturRios.Common.Output;
 
 namespace ArturRios.Common.Util.Condition;
 
 public class Condition
 {
+    private readonly HashSet<string> _failedConditions = [];
     private bool _expression;
 
-    private readonly HashSet<string> _failedConditions = [];
-    
-    public static Condition Create => new ();
+    public static Condition Create => new();
 
     public string[] FailedConditions => _failedConditions.ToArray();
 
@@ -57,8 +53,5 @@ public class Condition
         throw new ConditionFailedException(FailedConditions);
     }
 
-    public ProcessOutput ToProcessOutput()
-    {
-        return new ProcessOutput(_failedConditions.ToList());
-    }
+    public ProcessOutput ToProcessOutput() => new(_failedConditions.ToList());
 }

@@ -1,7 +1,4 @@
-﻿// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 // These methods are intended to be used publicly if needed
 
 using System.Text;
@@ -22,14 +19,7 @@ public class RegexBuilder
         return this;
     }
 
-    public Regex Build()
-    {
-        return new Regex(GetPattern());
-    }
-    
-    public string GetPattern()
-    {
-        return $"[{_patternBuilder}]";
-    }
+    public Regex Build() => new(GetPattern());
+
+    public string GetPattern() => $"[{_patternBuilder}]";
 }
-    

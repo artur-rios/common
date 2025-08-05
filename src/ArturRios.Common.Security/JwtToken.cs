@@ -4,9 +4,6 @@
 // ReSharper disable UnusedType.Global
 // Reason: This class is meant to be used in other projects
 
-// ReSharper disable InconsistentNaming
-// Reason: these are not test methods
-
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -16,13 +13,10 @@ namespace ArturRios.Common.Security;
 
 public class JwtToken
 {
-    public string Token { get; }
-    public string CreatedAt { get; } = string.Empty;
-    public string Expiration { get; } = string.Empty;
+    private readonly JwtSecurityTokenHandler _handler = new();
 
     private readonly byte[] _key;
     private readonly SecurityToken? _securityToken;
-    private readonly JwtSecurityTokenHandler _handler = new();
 
     public JwtToken(string token, string secret = "")
     {
@@ -56,11 +50,15 @@ public class JwtToken
             NotBefore = creationDate,
             Expires = expirationDate
         });
-        
+
         Token = handler.WriteToken(_securityToken);
         CreatedAt = creationDate.ToString("yyyy-MM-dd HH:mm:ss");
         Expiration = expirationDate.ToString("yyyy-MM-dd HH:mm:ss");
     }
+
+    public string Token { get; }
+    public string CreatedAt { get; } = string.Empty;
+    public string Expiration { get; } = string.Empty;
 
     public int? GetUserId()
     {

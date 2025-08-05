@@ -11,18 +11,18 @@ public class DataOutput<T>
     public DataOutput()
     {
     }
-    
+
     public DataOutput(T? data, string[] messages, bool success)
     {
         Data = data;
         Messages = messages;
         Success = success;
     }
-    
+
     public T? Data { get; set; }
     public string[] Messages { get; set; } = [];
     public bool Success { get; set; }
-    
+
     // ReSharper disable once UnusedMember.Global
     // Reason: This is a metadata field
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
