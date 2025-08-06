@@ -5,3 +5,5 @@ namespace ArturRios.Common.Pipelines.Commands.Interfaces;
 public interface ICommand<TOutput> where TOutput : CommandOutput;
 
 public interface ICommand<TInput, TOutput> where TInput : CommandInput where TOutput : CommandOutput;
+
+public interface ICommand<TInput, TOutput, T> where TInput : CommandInput where TOutput : CommandOutput<T>;
