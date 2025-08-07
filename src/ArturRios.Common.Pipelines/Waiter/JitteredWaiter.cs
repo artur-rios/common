@@ -2,15 +2,16 @@
 
 public class JitteredWaiter(int maxRetryCount)
 {
+    public int MaxRetryCount { get; set; } = maxRetryCount;
     private int Count { get; set; }
 
     private const int FixedWaitDelay = 500;
 
-    public bool CanRetry => Count < maxRetryCount;
+    public bool CanRetry => Count < MaxRetryCount;
 
     public async Task Wait()
     {
-        if (Count >= maxRetryCount)
+        if (Count >= MaxRetryCount)
         {
             throw new MaxRetriesReachedException();
         }

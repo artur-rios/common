@@ -4,7 +4,7 @@ public class PipelineOutput
 {
     public string[] Messages { get; set; } = [];
     public bool Success { get; set; }
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    public DateTime Timestamp { get; } = DateTime.UtcNow;
 }
 
 public class PipelineOutput<T>
