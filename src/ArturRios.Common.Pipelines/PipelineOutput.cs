@@ -2,6 +2,7 @@
 
 public class PipelineOutput
 {
+    // TODO: Messages could be a Exception object
     public string[] Messages { get; set; } = [];
     public bool Success { get; set; }
     public DateTime Timestamp { get; } = DateTime.UtcNow;

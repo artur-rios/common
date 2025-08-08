@@ -1,9 +1,9 @@
-﻿namespace ArturRios.Common.Pipelines.Events;
+﻿using ArturRios.Common.Data;
 
-public class DomainEventEntity
+namespace ArturRios.Common.Pipelines.Events;
+
+public class DomainEventEntity : Entity
 {
-    public int Id { get; set; }
-
     public List<DomainEvent>? DomainEvents { get; private set; }
 
     protected void AddDomainEvent(DomainEvent domainEvent)
