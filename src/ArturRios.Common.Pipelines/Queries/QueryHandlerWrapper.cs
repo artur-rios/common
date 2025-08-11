@@ -14,6 +14,6 @@ internal class QueryHandlerWrapper<TQuery, TResult> : QueryHandlerWrapper
     {
         var handler = serviceProvider.GetRequiredService<IQueryHandler<TQuery, TResult>>();
 
-        return await handler.Execute((TQuery)query);
+        return await handler.ExecuteAsync((TQuery)query);
     }
 }

@@ -17,7 +17,7 @@ internal class CommandHandlerWrapper<TCommand, TOutput> : CommandHandlerWrapper
     {
         var handler = serviceProvider.GetRequiredService<ICommandHandler<TCommand, TOutput>>();
 
-        return await handler.Handle((TCommand)command);
+        return await handler.HandleAsync((TCommand)command);
     }
 }
 
@@ -30,6 +30,6 @@ internal class CommandHandlerWrapper<TCommand, TInput, TOutput> : CommandHandler
     {
         var handler = serviceProvider.GetRequiredService<ICommandHandler<TCommand, TInput, TOutput>>();
 
-        return await handler.Handle((TCommand)command);
+        return await handler.HandleAsync((TCommand)command);
     }
 }

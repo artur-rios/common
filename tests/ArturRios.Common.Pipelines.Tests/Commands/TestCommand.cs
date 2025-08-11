@@ -14,7 +14,7 @@ public class TestCommand(ILogger<TestCommand> logger) : ICommandHandler<TestComm
         public string Message { get; set; } = string.Empty;
     }
 
-    public Task<CommandOutput> Handle(Input command)
+    public Task<CommandOutput> HandleAsync(Input command)
     {
         Condition.Create
             .IfNot(string.IsNullOrWhiteSpace(command.Message))

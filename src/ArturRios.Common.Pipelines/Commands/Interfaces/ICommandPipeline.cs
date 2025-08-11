@@ -4,6 +4,6 @@ namespace ArturRios.Common.Pipelines.Commands.Interfaces;
 
 public interface ICommandPipeline
 {
-    Task<CommandOutput> ExecuteCommand<TCommand>(TCommand command) where TCommand : ICommand<CommandOutput>;
-    Task<CommandOutput> ExecuteCommand(SerializedCommand commandInput);
+    Task<CommandOutput> ExecuteCommandAsync<TCommand>(TCommand command) where TCommand : ICommand<CommandOutput>;
+    Task<CommandOutput> ExecuteCommandAsync(SerializedCommand commandInput);
 }

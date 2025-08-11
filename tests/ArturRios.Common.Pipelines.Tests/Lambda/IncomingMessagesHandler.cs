@@ -22,7 +22,7 @@ public class IncomingMessagesHandler(IPipeline pipeline, ILogger<IncomingMessage
             logger.LogInformation("Executing command {CommandType} with Data: {CommandData}", command.GetType().Name,
                 command);
 
-            var result = await pipeline.ExecuteCommand(command);
+            var result = await pipeline.ExecuteCommandAsync(command);
 
             if (!result.Success)
             {

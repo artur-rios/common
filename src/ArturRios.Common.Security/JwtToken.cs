@@ -72,7 +72,7 @@ public class JwtToken
         return int.Parse(jwtToken!.Claims.First(x => x.Type == "id").Value);
     }
 
-    public async Task<bool> IsTokenValid()
+    public async Task<bool> IsTokenValidAsync()
     {
         var output = await _handler.ValidateTokenAsync(Token,
             new TokenValidationParameters

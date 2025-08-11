@@ -6,7 +6,7 @@ public interface ICommandHandler<in TCommand, TOutput>
     where TCommand : ICommand<TOutput>
     where TOutput : CommandOutput
 {
-    Task<TOutput> Handle(TCommand command);
+    Task<TOutput> HandleAsync(TCommand command);
 }
 
 public interface ICommandHandler<in TCommand, TInput, TOutput>
@@ -14,5 +14,5 @@ public interface ICommandHandler<in TCommand, TInput, TOutput>
     where TInput : CommandInput
     where TOutput : CommandOutput
 {
-    Task<TOutput> Handle(TCommand command);
+    Task<TOutput> HandleAsync(TCommand command);
 }

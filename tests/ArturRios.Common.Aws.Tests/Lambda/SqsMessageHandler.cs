@@ -24,7 +24,7 @@ public class SqsMessageHandler(ICommandPipeline pipeline, ILogger<SqsMessageHand
             logger.LogInformation("Executing command {CommandType} | Id: {CommandId}", commandInput.TypeFullName,
                 commandInput.CommandId);
 
-            var output = await pipeline.ExecuteCommand(commandInput);
+            var output = await pipeline.ExecuteCommandAsync(commandInput);
 
             if (output.Success)
             {

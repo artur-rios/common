@@ -47,7 +47,7 @@ public class SqsEntryPoint<THandler> where THandler : class, ISqsMessageHandler
         }
     }
 
-    private async Task<SQSBatchResponse.BatchItemFailure?> Handle(SQSEvent.SQSMessage message)
+    private async Task<SQSBatchResponse.BatchItemFailure?> HandleAsync(SQSEvent.SQSMessage message)
     {
         try
         {
@@ -96,7 +96,7 @@ public class SqsEntryPoint<THandler> where THandler : class, ISqsMessageHandler
 
         foreach (var record in sqsEvent.Records)
         {
-            tasks.Add(Handle(record));
+            tasks.Add(HandleAsync(record));
         }
 
         var results = await Task.WhenAll(tasks);

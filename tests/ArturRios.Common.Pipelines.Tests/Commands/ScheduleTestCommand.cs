@@ -14,7 +14,7 @@ public class ScheduleTestCommand(ICommandQueue commandQueue, ICrudRepository<Tes
         public DateTime ScheduledDate { get; set; } = scheduleDate;
     }
 
-    public Task<CommandOutput> Handle(Input command)
+    public Task<CommandOutput> HandleAsync(Input command)
     {
         var entity = repository.GetByFilter(new TestFilter { OperationId = command.OperationId }).FirstOrDefault();
 

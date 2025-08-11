@@ -13,7 +13,7 @@ public class ScheduledTestCommand(ICrudRepository<TestEntity> repository) : ICom
         public Guid OperationId { get; set; } = operationId;
     }
 
-    public Task<CommandOutput> Handle(Input command)
+    public Task<CommandOutput> HandleAsync(Input command)
     {
         var entity = repository.GetByFilter(new TestFilter { OperationId = command.OperationId }).FirstOrDefault();
 

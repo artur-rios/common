@@ -6,19 +6,19 @@ namespace ArturRios.Common.Pipelines.Interfaces;
 
 public interface IPipeline
 {
-    Task<PipelineOutput> ExecuteCommand(object command);
+    Task<PipelineOutput> ExecuteCommandAsync(object command);
 
-    Task<PipelineOutput> ExecuteCommand<TCommand, TOutput>(TCommand command)
+    Task<PipelineOutput> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
         where TCommand : ICommand<TOutput> where TOutput : CommandOutput;
 
-    Task<PipelineOutput<T>> ExecuteCommand<TCommand, TInput, TOutput, T>(TCommand command)
+    Task<PipelineOutput<T>> ExecuteCommandAsync<TCommand, TInput, TOutput, T>(TCommand command)
         where TCommand : ICommand<TInput, TOutput, T>
         where TInput : CommandInput
         where TOutput : CommandOutput<T>;
 
-    Task<TResult> ExecuteQuery<TQuery, TResult>(TQuery query)
+    Task<TResult> ExecuteQueryAsync<TQuery, TResult>(TQuery query)
         where TQuery : IQuery<TResult>
         where TResult : class;
 
-    Task<PipelineOutput> ExecuteQuery(object query);
+    Task<PipelineOutput> ExecuteQueryAsync(object query);
 }

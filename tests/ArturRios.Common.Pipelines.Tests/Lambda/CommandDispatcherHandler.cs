@@ -22,7 +22,7 @@ public class CommandDispatcherHandler(IPipeline pipeline, ILogger<CommandDispatc
             logger.LogInformation("Executing command {CommandName} with Id {CommandId} and Data: {CommandData}",
                 commandInput.TypeFullName, commandInput.CommandId, commandInput.Data);
 
-            var commandOutput = await pipeline.ExecuteCommand(commandInput);
+            var commandOutput = await pipeline.ExecuteCommandAsync(commandInput);
 
             if (!commandOutput.Success)
             {

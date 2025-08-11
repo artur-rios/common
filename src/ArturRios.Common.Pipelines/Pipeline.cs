@@ -33,7 +33,7 @@ public class Pipeline : IPipeline
         };
     }
 
-    public async Task<PipelineOutput> ExecuteCommand(object command)
+    public async Task<PipelineOutput> ExecuteCommandAsync(object command)
     {
         var logger = _serviceProvider.GetRequiredService<ILogger<Pipeline>>();
         var backoffWaiter = new JitteredWaiter(Math.Max(_configuration.MaxRetryCount, 0));
@@ -134,21 +134,21 @@ public class Pipeline : IPipeline
         }
     }
 
-    public async Task<PipelineOutput> ExecuteCommand<TCommand, TOutput>(TCommand command)
+    public async Task<PipelineOutput> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
         where TCommand : ICommand<TOutput>
         where TOutput : CommandOutput
     {
-        return await ExecuteCommand(command);
+        return await ExecuteCommandAsync(command);
     }
 
     // TODO
-    public Task<PipelineOutput<T>> ExecuteCommand<TCommand, TInput, TOutput, T>(TCommand command)
+    public Task<PipelineOutput<T>> ExecuteCommandAsync<TCommand, TInput, TOutput, T>(TCommand command)
         where TCommand : ICommand<TInput, TOutput, T>
         where TInput : CommandInput
         where TOutput : CommandOutput<T> =>
             throw new NotImplementedException();
 
-    public async Task<PipelineOutput> ExecuteQuery(object query)
+    public async Task<PipelineOutput> ExecuteQueryAsync(object query)
     {
         var logger = _serviceProvider.GetRequiredService<ILogger<Pipeline>>();
 
@@ -184,10 +184,10 @@ public class Pipeline : IPipeline
         };
     }
 
-    public async Task<TResult> ExecuteQuery<TQuery, TResult>(TQuery query)
+    public async Task<TResult> ExecuteQueryAsync<TQuery, TResult>(TQuery query)
         where TQuery : IQuery<TResult> where TResult : class
     {
-        var result = await ExecuteQuery(query);
+        var result = await ExecuteQueryAsync(query);
 
         if (!result.Success)
         {

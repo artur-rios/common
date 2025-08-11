@@ -27,71 +27,71 @@ public class WebApiTest<T> where T : class
         Client = _factory.CreateClient();
     }
 
-    public async Task<Authentication> Authenticate(Credentials credentials, string authRoute)
+    public async Task<Authentication> AuthenticateAsync(Credentials credentials, string authRoute)
     {
-        var output = await Post<Authentication>(authRoute, credentials);
+        var output = await PostAsync<Authentication>(authRoute, credentials);
 
         return output?.Data ?? throw new TestException("Could not authenticate");
     }
 
     public void Authorize(string authToken) => Client.DefaultRequestHeaders.Add("Authorization", $"Bearer {authToken}");
 
-    public async Task AuthenticateAndAuthorize(Credentials credentials, string authRoute)
+    public async Task AuthenticateAndAuthorizeAsync(Credentials credentials, string authRoute)
     {
-        var authentication = await Authenticate(credentials, authRoute);
+        var authentication = await AuthenticateAsync(credentials, authRoute);
 
         Authorize(authentication.Token!);
     }
 
-    public async Task<WebApiOutput<TO>?> Get<TO>(string route, HttpStatusCode? expectedHttpStatusCode = null)
+    public async Task<WebApiOutput<TO>?> GetAsync<TO>(string route, HttpStatusCode? expectedHttpStatusCode = null)
     {
         var response = await Client.GetAsync(route);
 
-        return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
     }
 
-    public async Task<WebApiOutput<TO>?> Patch<TO>(string route, object? payloadObject = null,
+    public async Task<WebApiOutput<TO>?> PatchAsync<TO>(string route, object? payloadObject = null,
         HttpStatusCode? expectedHttpStatusCode = null)
     {
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PatchAsync(route, payload);
 
-        return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
     }
 
-    public async Task<WebApiOutput<TO>?> Post<TO>(string route, object? payloadObject = null,
+    public async Task<WebApiOutput<TO>?> PostAsync<TO>(string route, object? payloadObject = null,
         HttpStatusCode? expectedHttpStatusCode = null)
     {
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PostAsync(route, payload);
 
-        return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
     }
 
-    public async Task<WebApiOutput<TO>?> Put<TO>(string route, object? payloadObject = null,
+    public async Task<WebApiOutput<TO>?> PutAsync<TO>(string route, object? payloadObject = null,
         HttpStatusCode? expectedHttpStatusCode = null)
     {
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PutAsync(route, payload);
 
-        return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
     }
 
-    public async Task<WebApiOutput<TO>?> Delete<TO>(string route, HttpStatusCode? expectedHttpStatusCode = null)
+    public async Task<WebApiOutput<TO>?> DeleteAsync<TO>(string route, HttpStatusCode? expectedHttpStatusCode = null)
     {
         var response = await Client.DeleteAsync(route);
 
-        return await TestHttpStatusCodeAndDeserialize<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
     }
 
-    private static async Task<WebApiOutput<TO>?> TestHttpStatusCodeAndDeserialize<TO>(HttpResponseMessage response,
+    private static async Task<WebApiOutput<TO>?> TestHttpStatusCodeAndDeserializeAsync<TO>(HttpResponseMessage response,
         HttpStatusCode? expectedHttpStatusCode = null)
     {
         var httpStatusCodeValid = TestHttpStatusCode(response.StatusCode, expectedHttpStatusCode);
-        var result = await Deserialize<TO>(response);
+        var result = await DeserializeAsync<TO>(response);
         List<string> errors = [];
 
         if (!httpStatusCodeValid)
@@ -123,7 +123,7 @@ public class WebApiTest<T> where T : class
         return received == expected;
     }
 
-    private static async Task<WebApiOutput<TO>?> Deserialize<TO>(HttpResponseMessage response)
+    private static async Task<WebApiOutput<TO>?> DeserializeAsync<TO>(HttpResponseMessage response)
     {
         var body = await response.Content.ReadAsStringAsync();
 
