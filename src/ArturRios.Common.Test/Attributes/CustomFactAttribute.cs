@@ -1,7 +1,7 @@
 ﻿// ReSharper disable VirtualMemberCallInConstructor
 // Reason: call needed
 
-using ArturRios.Common.Environment;
+using ArturRios.Common.Configuration;
 using Xunit;
 
 namespace ArturRios.Common.Test.Attributes;

@@ -6,7 +6,7 @@
 // Reason: This is a base test class, and the methods should be used on derived classes
 
 using System.Net;
-using ArturRios.Common.Environment;
+using ArturRios.Common.Configuration;
 using ArturRios.Common.Extensions;
 using ArturRios.Common.WebApi;
 using ArturRios.Common.WebApi.Security.Records;

@@ -31,7 +31,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\ArturRios.Common.Aws\ArturRios.Common.Aws.csproj" />
-      <ProjectReference Include="..\..\src\ArturRios.Common.Environment\ArturRios.Common.Environment.csproj" />
+      <ProjectReference Include="..\..\src\ArturRios.Common.Configuration\ArturRios.Common.Configuration.csproj" />
       <ProjectReference Include="..\..\src\ArturRios.Common.Pipelines\ArturRios.Common.Pipelines.csproj" />
       <ProjectReference Include="..\..\src\ArturRios.Common.WebApi\ArturRios.Common.WebApi.csproj" />
     </ItemGroup>

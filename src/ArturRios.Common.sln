@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Extensions
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Test", "ArturRios.Common.Test\ArturRios.Common.Test.csproj", "{CDA573E6-7565-4639-8AF8-F8A794E2A99E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Environment", "ArturRios.Common.Environment\ArturRios.Common.Environment.csproj", "{454FE37F-9E0C-48ED-AE06-A8284DF5FD33}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Configuration", "ArturRios.Common.Configuration\ArturRios.Common.Configuration.csproj", "{454FE37F-9E0C-48ED-AE06-A8284DF5FD33}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Util", "ArturRios.Common.Util\ArturRios.Common.Util.csproj", "{57AAD716-EABB-4517-B2D9-C62943E45A04}"
 EndProject

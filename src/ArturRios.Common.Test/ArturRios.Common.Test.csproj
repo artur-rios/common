@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ArturRios.Common.Data\ArturRios.Common.Data.csproj" />
-    <ProjectReference Include="..\ArturRios.Common.Environment\ArturRios.Common.Environment.csproj"/>
+    <ProjectReference Include="..\ArturRios.Common.Configuration\ArturRios.Common.Configuration.csproj" />
     <ProjectReference Include="..\ArturRios.Common.Pipelines\ArturRios.Common.Pipelines.csproj" />
     <ProjectReference Include="..\ArturRios.Common.WebApi\ArturRios.Common.WebApi.csproj"/>
   </ItemGroup>
