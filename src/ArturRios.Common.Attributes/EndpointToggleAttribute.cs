@@ -7,31 +7,50 @@ using Microsoft.Extensions.Configuration;
 
 namespace ArturRios.Common.Attributes;
 
-public class EndpointToggleAttribute(
-    HttpStatusCode statusCode = HttpStatusCode.OK,
-    bool? enable = null,
-    ConfigurationSource? configurationSource = null,
-    string? key = null)
-    : ActionFilterAttribute
+public class EndpointToggleAttribute : ActionFilterAttribute
 {
+    public bool Enable { get; set; }
+    public ConfigurationSourceType ConfigurationSource { get; set; }
+    public string Key { get; set; } = string.Empty;
+    public string DisabledMessage { get; set; } = "This endpoint is currently disabled";
+
+    private readonly HttpStatusCode _disabledStatusCode;
+    private readonly bool _useConfigurationFile;
+
+    public EndpointToggleAttribute(bool enable, HttpStatusCode disabledStatusCode = HttpStatusCode.OK)
+    {
+        Enable = enable;
+        _disabledStatusCode = disabledStatusCode;
+        _useConfigurationFile = false;
+    }
+
+    public EndpointToggleAttribute(ConfigurationSourceType configurationSource = ConfigurationSourceType.EnvFile,
+        string key = "", HttpStatusCode disabledStatusCode = HttpStatusCode.OK)
+    {
+        ConfigurationSource = configurationSource;
+        Key = key;
+        _disabledStatusCode = disabledStatusCode;
+        _useConfigurationFile = true;
+    }
+
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         bool enabled;
 
-        if (enable.HasValue)
+        if (!_useConfigurationFile)
         {
-            enabled = enable.Value;
+            enabled = Enable;
         }
         else
         {
-            var toggleKey = key ?? GetDefaultKey(context);
-
-            enabled = configurationSource switch
+            var toggleKey = string.IsNullOrWhiteSpace(Key) ? GetDefaultKey(context) : Key;
+            enabled = ConfigurationSource switch
             {
-                ConfigurationSource.AppSettings => GetToggleFromAppSettings(context, toggleKey) ?? true,
-                ConfigurationSource.EnvFile or ConfigurationSource.EnvironmentVariables =>
+                ConfigurationSourceType.AppSettings => GetToggleFromAppSettings(context, toggleKey) ?? true,
+                ConfigurationSourceType.EnvFile or ConfigurationSourceType.EnvironmentVariables =>
                     GetToggleFromEnvironmentVariables(toggleKey) ?? true,
-                _ => GetToggleFromAppSettings(context, toggleKey) ?? GetToggleFromEnvironmentVariables(toggleKey) ?? true
+                _ => GetToggleFromAppSettings(context, toggleKey) ??
+                     GetToggleFromEnvironmentVariables(toggleKey) ?? true
             };
         }
 
@@ -39,9 +58,9 @@ public class EndpointToggleAttribute(
         {
             context.Result = new WebApiOutput<object>(
                 null,
-                ["Endpoint is disabled"],
-                false,
-                (int)statusCode
+                [DisabledMessage],
+                true,
+                (int)_disabledStatusCode
             ).ToObjectResult();
         }
     }

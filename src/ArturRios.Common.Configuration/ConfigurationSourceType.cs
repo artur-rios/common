@@ -1,6 +1,6 @@
 ﻿namespace ArturRios.Common.Configuration;
 
-public enum ConfigurationSource
+public enum ConfigurationSourceType
 {
     EnvFile = 0,
     AppSettings,
