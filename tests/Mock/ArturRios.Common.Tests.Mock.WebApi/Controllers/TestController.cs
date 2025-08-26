@@ -11,7 +11,7 @@ public class TestController : BaseController
 {
     [HttpGet]
     [Route("HelloWorld")]
-    [EndpointToggle(true)]
+    [EndpointToggle]
     public ActionResult<WebApiOutput<string>> HelloWorld()
     {
         WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
@@ -31,7 +31,7 @@ public class TestController : BaseController
 
     [HttpGet]
     [Route("DisabledByAppSettings")]
-    [EndpointToggle(ConfigurationSource = ConfigurationSourceType.AppSettings)]
+    [EndpointToggle(ConfigurationSourceType.AppSettings)]
     public ActionResult<WebApiOutput<string>> DisabledViaAppSettingsHelloWorld()
     {
         WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
