@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using ArturRios.Common.Configuration;
+using ArturRios.Common.Output;
 using ArturRios.Common.WebApi;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -16,14 +17,22 @@ public class EndpointToggleAttribute : ActionFilterAttribute
     private readonly string _disabledMessage;
     private readonly bool _useConfigurationFile;
     private readonly ConfigurationSourceType _configurationSource;
+    private readonly string _keyPrefix = string.Empty;
+    private readonly string _keySuffix = string.Empty;
+    private readonly string _keySeparator = string.Empty;
     private readonly string _key = string.Empty;
     private readonly HttpStatusCode _disabledStatusCode;
 
     private ActionExecutingContext _context = null!;
+    private const string DefaultAppSettingsKeyPrefix = "Endpoints:[Controller]";
+    private const string DefaultEnvFileKeyPrefix = "Endpoints_[Controller]";
+
+    public static HttpStatusCode DefaultDisabledStatusCode => HttpStatusCode.NotFound;
+    public static string DefaultDisabledMessage => "This endpoint is currently disabled";
 
     public EndpointToggleAttribute(
         bool isEnabled = true,
-        HttpStatusCode disabledStatusCode = HttpStatusCode.OK,
+        HttpStatusCode disabledStatusCode = HttpStatusCode.NotFound,
         ReturnType disabledReturnType = ReturnType.Object,
         string disabledMessage = "This endpoint is currently disabled"
     )
@@ -38,7 +47,9 @@ public class EndpointToggleAttribute : ActionFilterAttribute
     public EndpointToggleAttribute(
         ConfigurationSourceType configurationSource,
         string key = "",
-        HttpStatusCode disabledStatusCode = HttpStatusCode.OK,
+        string keyPrefix = "",
+        string keySuffix = "",
+        HttpStatusCode disabledStatusCode = HttpStatusCode.NotFound,
         ReturnType disabledReturnType = ReturnType.Object,
         string disabledMessage = "This endpoint is currently disabled"
     )
@@ -49,6 +60,19 @@ public class EndpointToggleAttribute : ActionFilterAttribute
         _disabledMessage = disabledMessage;
         _disabledReturnType = disabledReturnType;
         _useConfigurationFile = true;
+        _keySuffix = keySuffix;
+        _keySeparator = configurationSource == ConfigurationSourceType.AppSettings ? ":" : "_";
+
+        if (string.IsNullOrWhiteSpace(keyPrefix))
+        {
+            _keyPrefix = configurationSource == ConfigurationSourceType.AppSettings
+                ? DefaultAppSettingsKeyPrefix
+                : DefaultEnvFileKeyPrefix;
+        }
+        else
+        {
+            _keyPrefix = keyPrefix;
+        }
     }
 
     public override void OnActionExecuting(ActionExecutingContext context)
@@ -74,7 +98,7 @@ public class EndpointToggleAttribute : ActionFilterAttribute
                 ReturnObject();
                 break;
             case ReturnType.Exception:
-                throw new InvalidOperationException("This endpoint is currently disabled");
+                throw new EndpointDisabledException(null, DefaultDisabledMessage);
             default:
                 ReturnObject();
                 break;
@@ -98,14 +122,14 @@ public class EndpointToggleAttribute : ActionFilterAttribute
 
         if (returnType == null || returnType == typeof(void))
         {
-            _context.Result = new NoContentResult();
+            _context.Result = new StatusCodeResult((int)DefaultDisabledStatusCode);
 
             return;
         }
 
         var defaultObj = returnType.IsValueType ? Activator.CreateInstance(returnType) : null;
 
-        _context.Result = new OkObjectResult(defaultObj);
+        _context.Result = new ObjectResult(defaultObj) { StatusCode = (int)DefaultDisabledStatusCode };
     }
 
     private bool GetToggleFromFile()
@@ -159,6 +183,34 @@ public class EndpointToggleAttribute : ActionFilterAttribute
         var methodInfo = (_context.ActionDescriptor as ControllerActionDescriptor)?.MethodInfo;
         var methodName = methodInfo?.Name;
 
-        return methodInfo is not null ? $"{methodName}Enabled" : null;
+        var keyPrefix = GetKeyPrefix(_key);
+
+        return methodInfo is not null ? AddKeySuffix($"{keyPrefix}{_keySeparator}{methodName}") : null;
     }
+
+    private string? GetControllerName()
+    {
+        var controllerActionDescriptor = _context.ActionDescriptor as ControllerActionDescriptor;
+        return controllerActionDescriptor?.ControllerName;
+    }
+
+    private string GetKeyPrefix(string key)
+    {
+        if (string.IsNullOrWhiteSpace(_keyPrefix))
+        {
+            return key;
+        }
+
+        var controllerName = GetControllerName();
+
+        return controllerName is null
+            ? _keyPrefix.Replace($"{_keySeparator}[Controller]", string.Empty)
+            : _keyPrefix.Replace("[Controller]", GetControllerName());
+    }
+
+    private string AddKeySuffix(string key) =>
+        string.IsNullOrWhiteSpace(_keySuffix) ? key : $"{key}{_keySeparator}{_keySuffix}";
 }
+
+public class EndpointDisabledException(string[]? messages, string message)
+    : CustomException(messages ?? [message], message);

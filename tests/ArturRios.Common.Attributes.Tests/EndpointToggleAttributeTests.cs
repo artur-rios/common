@@ -8,7 +8,6 @@ namespace ArturRios.Common.Attributes.Tests;
 public class EndpointToggleAttributeTests(EnvironmentType environment = EnvironmentType.Local) : WebApiTest<Program>(environment)
 {
     private const string TestRoute = "/EndpointToggleTest";
-    private const string DefaultDisabledMessage = "This endpoint is currently disabled";
 
     [Fact]
     public async Task EndpointShouldBe_Enabled()
@@ -23,20 +22,20 @@ public class EndpointToggleAttributeTests(EnvironmentType environment = Environm
     [Fact]
     public async Task EndpointShouldBe_Disabled()
     {
-        var output = await GetAsync<string>($"{TestRoute}/Disabled", HttpStatusCode.OK);
+        var output = await GetAsync<string>($"{TestRoute}/Disabled", EndpointToggleAttribute.DefaultDisabledStatusCode);
 
         Assert.NotNull(output);
         Assert.Null(output.Data);
-        Assert.Equal(DefaultDisabledMessage, output.Messages.First());
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Messages.First());
     }
 
     [Fact]
     public async Task EndpointShouldBe_DisabledByAppSettings()
     {
-        var output = await GetAsync<string>($"{TestRoute}/DisabledByAppSettings", HttpStatusCode.OK);
+        var output = await GetAsync<string>($"{TestRoute}/DisabledByAppSettings", EndpointToggleAttribute.DefaultDisabledStatusCode);
 
         Assert.NotNull(output);
         Assert.Null(output.Data);
-        Assert.Equal(DefaultDisabledMessage, output.Messages.First());
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Messages.First());
     }
 }
