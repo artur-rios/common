@@ -7,12 +7,12 @@ namespace ArturRios.Common.Tests.Mock.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TestController : BaseController
+public class EndpointToggleTestController : BaseController
 {
     [HttpGet]
-    [Route("HelloWorld")]
+    [Route("Enabled")]
     [EndpointToggle]
-    public ActionResult<WebApiOutput<string>> HelloWorld()
+    public ActionResult<WebApiOutput<string>> Enabled()
     {
         WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
 
@@ -21,8 +21,8 @@ public class TestController : BaseController
 
     [HttpGet]
     [Route("Disabled")]
-    [EndpointToggle(false)]
-    public ActionResult<WebApiOutput<string>> DisabledHelloWorld()
+    [EndpointToggle(isEnabled: false)]
+    public ActionResult<WebApiOutput<string>> Disabled()
     {
         WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
 
@@ -31,8 +31,8 @@ public class TestController : BaseController
 
     [HttpGet]
     [Route("DisabledByAppSettings")]
-    [EndpointToggle(ConfigurationSourceType.AppSettings)]
-    public ActionResult<WebApiOutput<string>> DisabledViaAppSettingsHelloWorld()
+    [EndpointToggle(configurationSource: ConfigurationSourceType.AppSettings)]
+    public ActionResult<WebApiOutput<string>> DisabledByAppSettings()
     {
         WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
 
