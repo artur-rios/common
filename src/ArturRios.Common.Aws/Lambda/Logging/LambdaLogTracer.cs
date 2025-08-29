@@ -15,16 +15,16 @@ public class LambdaLogTracer : ILambdaLogTracer
     private readonly string _region;
     private readonly int _currentTrace;
     private readonly Dictionary<string, string> _traceParams;
-    private static int _traceCounter;
+    private static int s_traceCounter;
 
     internal LambdaLogTracer()
     {
-        _traceCounter++;
-        _currentTrace = _traceCounter;
+        s_traceCounter++;
+        _currentTrace = s_traceCounter;
 
-        _logGroup = System.Environment.GetEnvironmentVariable("AWS_LAMBDA_LOG_GROUP_NAME") ?? "NotSet";
-        _logStream = System.Environment.GetEnvironmentVariable("AWS_LAMBDA_LOG_STREAM_NAME") ?? "NotSet";
-        _region = System.Environment.GetEnvironmentVariable("AWS_REGION") ?? "NotSet";
+        _logGroup = Environment.GetEnvironmentVariable("AWS_LAMBDA_LOG_GROUP_NAME") ?? "NotSet";
+        _logStream = Environment.GetEnvironmentVariable("AWS_LAMBDA_LOG_STREAM_NAME") ?? "NotSet";
+        _region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "NotSet";
 
         _traceParams = [];
 

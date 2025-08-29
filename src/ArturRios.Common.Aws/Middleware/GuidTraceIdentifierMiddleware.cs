@@ -12,7 +12,7 @@ public class GuidTraceIdentifierMiddleware(RequestDelegate next, ILogger<GuidTra
         var bodyString = "<payload not available>";
         var lambdaContext = context.Items[AbstractAspNetCoreFunction.LAMBDA_CONTEXT] as ILambdaContext;
 
-        if (System.Environment.GetEnvironmentVariable("DISABLE_API_REQUEST_LOG") is null)
+        if (Environment.GetEnvironmentVariable("DISABLE_API_REQUEST_LOG") is null)
         {
             try
             {

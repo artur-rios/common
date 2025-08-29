@@ -63,7 +63,7 @@ public abstract class ClientDbContextFactory<TDbContext> : IDbContextFactory<TDb
 
         DotNetEnv.Env.Load(envFile);
 
-        var connectionString = System.Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+        var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
 
         if (string.IsNullOrEmpty(connectionString))
         {

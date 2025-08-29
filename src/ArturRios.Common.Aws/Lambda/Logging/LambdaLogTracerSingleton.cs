@@ -42,9 +42,9 @@ public class LambdaLogTracerSingleton : ILambdaLogTracerSingleton
 
     public string GetLogStream(int? currentTrace = null, Dictionary<string, string>? traceParams = null)
     {
-        var logGroup = System.Environment.GetEnvironmentVariable("AWS_LAMBDA_LOG_GROUP_NAME") ?? "NotSet";
-        var logStream = System.Environment.GetEnvironmentVariable("AWS_LAMBDA_LOG_STREAM_NAME") ?? "NotSet";
-        var region = System.Environment.GetEnvironmentVariable("AWS_REGION") ?? "NotSet";
+        var logGroup = Environment.GetEnvironmentVariable("AWS_LAMBDA_LOG_GROUP_NAME") ?? "NotSet";
+        var logStream = Environment.GetEnvironmentVariable("AWS_LAMBDA_LOG_STREAM_NAME") ?? "NotSet";
+        var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "NotSet";
 
         return
             $"https://{region}.console.aws.amazon.com/cloudwatch/home?region={region}#logsV2:log-groups/log-group/{HttpUtility.UrlEncode(logGroup)}/log-events/{HttpUtility.UrlEncode(logStream)}$FilterPattern$3D$2522{HttpUtility.UrlEncode(GetTraceParams(currentTrace, traceParams ?? []))}$2522";
@@ -52,7 +52,7 @@ public class LambdaLogTracerSingleton : ILambdaLogTracerSingleton
 
     public string GetBucketKeyPath(string bucketName, string bucketKey)
     {
-        var region = System.Environment.GetEnvironmentVariable("AWS_REGION") ?? "NotSet";
+        var region = Environment.GetEnvironmentVariable("AWS_REGION") ?? "NotSet";
 
         return $"https://s3.console.aws.amazon.com/s3/object/{bucketName}?region={region}&prefix={bucketKey}";
     }

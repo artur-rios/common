@@ -17,7 +17,7 @@ public class CustomTheoryAttribute : TheoryAttribute
             return;
         }
 
-        var currentEnvironment = System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+        var currentEnvironment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
         var hasEnvironment =
             Environments?.Any(x => x.ToString().Equals(currentEnvironment, StringComparison.OrdinalIgnoreCase)) ?? true;

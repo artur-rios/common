@@ -12,7 +12,7 @@ namespace ArturRios.Common.Aws.Tests.WebApi;
 
 public class Startup(IConfiguration configuration)
 {
-    public static bool EnableApiDocs => System.Environment.GetEnvironmentVariable("ENABLE_API_DOCS")?.ToLower() == "true";
+    public static bool EnableApiDocs => Environment.GetEnvironmentVariable("ENABLE_API_DOCS")?.ToLower() == "true";
 
     public IConfiguration Configuration { get; } = configuration;
 

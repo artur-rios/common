@@ -22,7 +22,7 @@ public class WebApiTest<T> where T : class
 
     public WebApiTest(EnvironmentType environment)
     {
-        System.Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", environment.ToString().ToLower());
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", environment.ToString().ToLower());
 
         Client = _factory.CreateClient();
     }
