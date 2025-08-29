@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Configuration;
 
-namespace ArturRios.Common.Attributes;
+namespace ArturRios.Common.Attributes.EndpointToggle;
 
 [AttributeUsage(AttributeTargets.Method)]
 public class EndpointToggleAttribute : ActionFilterAttribute
@@ -211,6 +211,3 @@ public class EndpointToggleAttribute : ActionFilterAttribute
     private string AddKeySuffix(string key) =>
         string.IsNullOrWhiteSpace(_keySuffix) ? key : $"{key}{_keySeparator}{_keySuffix}";
 }
-
-public class EndpointDisabledException(string[]? messages, string message)
-    : CustomException(messages ?? [message], message);

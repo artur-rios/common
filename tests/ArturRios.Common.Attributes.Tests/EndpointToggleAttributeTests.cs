@@ -1,4 +1,5 @@
 using System.Net;
+using ArturRios.Common.Attributes.EndpointToggle;
 using ArturRios.Common.Configuration;
 using ArturRios.Common.Test;
 using ArturRios.Common.Tests.Mock.WebApi;
