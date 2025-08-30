@@ -22,4 +22,14 @@ public static class StringExtensions
 
     public static string TrimChar(this string input, char charToTrim) =>
         string.IsNullOrEmpty(input) ? input : input.Trim().Trim(charToTrim);
+
+    public static bool ParseOrDefault(this string @string, bool defaultValue = false)
+    {
+        return bool.TryParse(@string, out var result) ? result : defaultValue;
+    }
+
+    public static bool IsValidEnumValue<TEnum>(this string @string, bool ignoreCase = true) where TEnum : Enum
+    {
+        return Enum.TryParse(typeof(TEnum), @string, ignoreCase, out _);
+    }
 }
