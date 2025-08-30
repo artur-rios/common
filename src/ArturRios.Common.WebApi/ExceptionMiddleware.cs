@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace ArturRios.Common.WebApi;
 
-public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFactory)
+public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFactory) : WebApiMiddleware
 {
     private readonly ILogger _logger = loggerFactory.CreateLogger(typeof(ExceptionMiddleware));
 

@@ -12,4 +12,8 @@
       <ProjectReference Include="..\ArturRios.Common.Tests.Mock.Classes\ArturRios.Common.Tests.Mock.Classes.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.4" />
+    </ItemGroup>
+
 </Project>

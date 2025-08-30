@@ -8,6 +8,7 @@ public class WebApiParameters
     public string EnvironmentName { get; set; } = string.Empty;
     public bool UseAppSettings { get; set; } = true;
     public bool UseEnvFile { get; set; } = true;
+    public bool EnableSwaggerDocs { get; set; } = true;
     public string[] SwaggerEnvironments { get; set; } = [];
 
     private readonly string[] _defaultSwaggerEnvironments =
@@ -36,6 +37,9 @@ public class WebApiParameters
             {
                 case "Environment":
                     EnvironmentName = value.IsValidEnumValue<EnvironmentType>() ? value : string.Empty;
+                    break;
+                case "EnableSwaggerDocs":
+                    EnableSwaggerDocs = value.ParseOrDefault(true);
                     break;
                 case "UseAppSetting":
                     UseAppSettings = value.ParseOrDefault(true);

@@ -17,7 +17,7 @@ public class EndpointToggleAttributeTests(EnvironmentType environment = Environm
 
         Assert.NotNull(output);
         Assert.Equal("Hello world!", output.Data);
-        Assert.Equal("Test controller is on...", output.Messages.First());
+        Assert.Equal("Endpoint test controller is on...", output.Messages.First());
     }
 
     [Fact]

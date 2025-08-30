@@ -15,7 +15,7 @@ public class EndpointToggleTestController : BaseController
     [EndpointToggle]
     public ActionResult<WebApiOutput<string>> Enabled()
     {
-        WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
+        WebApiOutput<string> result = new("Hello world!", ["Endpoint test controller is on..."], true, HttpStatusCodes.Ok);
 
         return Resolve(result);
     }
@@ -25,7 +25,7 @@ public class EndpointToggleTestController : BaseController
     [EndpointToggle(isEnabled: false)]
     public ActionResult<WebApiOutput<string>> Disabled()
     {
-        WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
+        WebApiOutput<string> result = new("Hello world!", ["Endpoint test controller is on..."], true, HttpStatusCodes.Ok);
 
         return Resolve(result);
     }
@@ -35,7 +35,7 @@ public class EndpointToggleTestController : BaseController
     [EndpointToggle(configurationSource: ConfigurationSourceType.AppSettings)]
     public ActionResult<WebApiOutput<string>> DisabledByAppSettings()
     {
-        WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
+        WebApiOutput<string> result = new("Hello world!", ["Endpoint test controller is on..."], true, HttpStatusCodes.Ok);
 
         return Resolve(result);
     }

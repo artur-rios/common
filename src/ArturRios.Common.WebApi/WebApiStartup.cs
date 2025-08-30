@@ -2,6 +2,7 @@
 using ArturRios.Common.Extensions;
 using ArturRios.Common.Output;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace ArturRios.Common.WebApi;
 
@@ -28,11 +29,17 @@ public abstract class WebApiStartup(string[] args)
         Run();
     }
 
-    public abstract void ConfigureServices(IServiceCollection services);
+    public void BuildApp()
+    {
+        App = Builder.Build();
+    }
+
+    public abstract void ConfigureServices();
     public abstract void ConfigureApp();
-    public virtual void ConfigureCors(IApplicationBuilder appBuilder) { }
-    public virtual void ConfigureSecurity(IApplicationBuilder appBuilder) { }
-    public virtual void StartServices(IServiceProvider serviceProvider) { }
+    public virtual void AddLogging() { }
+    public virtual void ConfigureCors() { }
+    public virtual void ConfigureSecurity() { }
+    public virtual void StartServices() { }
 
     public void LoadConfiguration()
     {
@@ -49,7 +56,18 @@ public abstract class WebApiStartup(string[] args)
         }
     }
 
-    public void ConfigureCustomModelStateResponse(IServiceCollection services)
+    public void AddMiddlewares(Type[] middlewares)
+    {
+        foreach (var middleware in middlewares)
+        {
+            if (middleware.IsSubclassOf(typeof(WebApiMiddleware)))
+            {
+                App.UseMiddleware(middleware);
+            }
+        }
+    }
+
+    public void AddCustomInvalidModelStateResponse(IServiceCollection services)
     {
         services.Configure<ApiBehaviorOptions>(options =>
         {
@@ -74,7 +92,8 @@ public abstract class WebApiStartup(string[] args)
 
         if (allowedEnvironments.IsNotEmpty())
         {
-            useSwagger = allowedEnvironments!.Any(env => env.ToString().Equals(currentEnv, StringComparison.OrdinalIgnoreCase));
+            useSwagger = allowedEnvironments!.Any(env =>
+                env.ToString().Equals(currentEnv, StringComparison.OrdinalIgnoreCase));
         }
         else if (swaggerEnvs.IsNotEmpty())
         {
@@ -88,5 +107,37 @@ public abstract class WebApiStartup(string[] args)
 
         App.UseSwagger();
         App.UseSwaggerUI();
+    }
+
+    public void UseSwaggerDocs(EnvironmentType[]? allowedEnvironments = null,
+        Action<SwaggerGenOptions>? swaggerGenOptions = null)
+    {
+        var useSwaggerDocs = false;
+        var currentEnv = Builder.Environment.EnvironmentName;
+        var swaggerEnvs = Parameters.GetSwaggerEnvironments();
+
+        if (allowedEnvironments.IsNotEmpty())
+        {
+            useSwaggerDocs = allowedEnvironments!.Any(env =>
+                env.ToString().Equals(currentEnv, StringComparison.OrdinalIgnoreCase));
+        }
+        else if (swaggerEnvs.IsNotEmpty())
+        {
+            useSwaggerDocs = swaggerEnvs.Contains(currentEnv, StringComparer.OrdinalIgnoreCase);
+        }
+
+        if (!useSwaggerDocs)
+        {
+            return;
+        }
+
+        if (swaggerGenOptions is null)
+        {
+            Builder.Services.AddSwaggerGen();
+        }
+        else
+        {
+            Builder.Services.AddSwaggerGen(swaggerGenOptions);
+        }
     }
 }

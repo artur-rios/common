@@ -1,4 +1,5 @@
 ﻿using ArturRios.Common.WebApi;
+using Microsoft.OpenApi.Models;
 
 namespace ArturRios.Common.Tests.Mock.WebApi;
 
@@ -7,19 +8,25 @@ public class Startup(string[] args) : WebApiStartup(args)
     public override void Build()
     {
         LoadConfiguration();
-        ConfigureServices(Builder.Services);
+        ConfigureServices();
+        UseSwaggerDocs(swaggerGenOptions: options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo { Title = "Test Web API", Version = "v1" });
 
-        App = Builder.Build();
+            options.EnableAnnotations();
+        });
 
+        BuildApp();
+
+        AddMiddlewares([typeof(ExceptionMiddleware)]);
         ConfigureApp();
         UseSwagger();
     }
 
-    public override void ConfigureServices(IServiceCollection services)
+    public override void ConfigureServices()
     {
-        services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-        services.AddControllers();
+        Builder.Services.AddEndpointsApiExplorer();
+        Builder.Services.AddControllers();
     }
 
     public override void ConfigureApp()
