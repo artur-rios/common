@@ -1,5 +1,4 @@
-﻿using ArturRios.Common.Configuration;
-using ArturRios.Common.Configuration.Enums;
+﻿using ArturRios.Common.Configuration.Enums;
 using ArturRios.Common.Configuration.Loaders;
 using ArturRios.Common.Configuration.Providers;
 using ArturRios.Common.Extensions;
@@ -51,6 +50,8 @@ public abstract class WebApiStartup(string[] args)
     public void LoadConfiguration()
     {
         var configurationLoader = new ConfigurationLoader(Builder.Configuration, Builder.Environment.EnvironmentName);
+
+        SetSwaggerConfigFromParameters();
 
         _settings = new SettingsProvider(Builder.Configuration);
 
@@ -114,7 +115,7 @@ public abstract class WebApiStartup(string[] args)
         }
         else
         {
-            useSwagger = _settings.GetBool("Swagger:Enabled") ?? false;
+            useSwagger = _settings.GetBool(AppSettingsKeys.SwaggerEnabled) ?? false;
         }
 
         if (!useSwagger)
@@ -156,5 +157,22 @@ public abstract class WebApiStartup(string[] args)
         {
             Builder.Services.AddSwaggerGen(swaggerGenOptions);
         }
+    }
+
+    private void SetSwaggerConfigFromParameters()
+    {
+        var currentEnv = Builder.Environment.EnvironmentName;
+
+        if (!Parameters.SwaggerEnvironments.Contains(currentEnv, StringComparer.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var configValues = new Dictionary<string, string?>
+        {
+            [AppSettingsKeys.SwaggerEnabled] = "true"
+        };
+
+        Builder.Configuration.AddInMemoryCollection(configValues);
     }
 }

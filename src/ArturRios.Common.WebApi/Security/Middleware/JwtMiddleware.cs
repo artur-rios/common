@@ -45,6 +45,6 @@ public class JwtMiddleware(RequestDelegate next, SettingsProvider settings) : We
 
     private bool SkipRoute(string path)
     {
-        return settings.GetBool("Swagger:Enabled") is true && path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase);
+        return settings.GetBool(AppSettingsKeys.SwaggerEnabled) is true && path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase);
     }
 }
