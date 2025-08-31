@@ -8,7 +8,7 @@ public class ConfigurationLoader(IConfigurationBuilder configurationBuilder, str
     private readonly string _basePath =
         string.IsNullOrEmpty(basePath) ? AppDomain.CurrentDomain.BaseDirectory : basePath;
 
-    private EnvironmentType _defaultEnvironment = EnvironmentType.Local;
+    private readonly EnvironmentType _defaultEnvironment = EnvironmentType.Local;
     private const string DefaultEnvFileFolder = "Environments";
     private const string DefaultAppSettingsFolder = "Settings";
 
@@ -16,7 +16,7 @@ public class ConfigurationLoader(IConfigurationBuilder configurationBuilder, str
     {
         var envFolder = Path.Combine(_basePath, DefaultEnvFileFolder);
         var envFile = Path.Combine(envFolder, $".env.{environmentName}");
-        var defaultEnvFile = Path.Combine(envFolder, $".env.{nameof(_defaultEnvironment).ToLower()}");
+        var defaultEnvFile = Path.Combine(envFolder, $".env.{_defaultEnvironment.ToString().ToLower()}");
 
         if (File.Exists(envFile))
         {
