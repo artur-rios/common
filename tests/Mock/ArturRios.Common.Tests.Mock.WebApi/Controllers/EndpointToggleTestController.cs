@@ -1,6 +1,6 @@
 ﻿using ArturRios.Common.Attributes;
 using ArturRios.Common.Attributes.EndpointToggle;
-using ArturRios.Common.Configuration;
+using ArturRios.Common.Configuration.Enums;
 using ArturRios.Common.WebApi;
 using Microsoft.AspNetCore.Mvc;
 

@@ -2,6 +2,7 @@
 // ReSharper disable UnusedType.Global
 // Reason: This class is meant to be used in other projects
 
+using System.Text.Json;
 using ArturRios.Common.Util.RegularExpressions;
 
 namespace ArturRios.Common.Extensions;
@@ -23,13 +24,40 @@ public static class StringExtensions
     public static string TrimChar(this string input, char charToTrim) =>
         string.IsNullOrEmpty(input) ? input : input.Trim().Trim(charToTrim);
 
-    public static bool ParseOrDefault(this string @string, bool defaultValue = false)
+    public static bool ParseToBoolOrDefault(this string? @string, bool defaultValue = false)
     {
         return bool.TryParse(@string, out var result) ? result : defaultValue;
+    }
+
+    public static int ParseToIntOrDefault(this string? @string, int defaultValue = 0)
+    {
+        return int.TryParse(@string, out var result) ? result : defaultValue;
+    }
+
+    public static T? ParseToObjectOrDefault<T>(this string? @string) where T : class
+    {
+        if (string.IsNullOrEmpty(@string))
+        {
+            return null;
+        }
+
+        try
+        {
+            return JsonSerializer.Deserialize<T>(@string);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     public static bool IsValidEnumValue<TEnum>(this string @string, bool ignoreCase = true) where TEnum : Enum
     {
         return Enum.TryParse(typeof(TEnum), @string, ignoreCase, out _);
+    }
+
+    public static string? ValueOrDefault(this string? @string, string? defaultValue = null)
+    {
+        return string.IsNullOrEmpty(@string) ? defaultValue : @string;
     }
 }

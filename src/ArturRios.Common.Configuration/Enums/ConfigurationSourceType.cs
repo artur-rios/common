@@ -1,4 +1,4 @@
-﻿namespace ArturRios.Common.Configuration;
+﻿namespace ArturRios.Common.Configuration.Enums;
 
 public enum ConfigurationSourceType
 {

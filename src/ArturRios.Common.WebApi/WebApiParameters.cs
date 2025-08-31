@@ -1,4 +1,4 @@
-﻿using ArturRios.Common.Configuration;
+﻿using ArturRios.Common.Configuration.Enums;
 using ArturRios.Common.Extensions;
 
 namespace ArturRios.Common.WebApi;
@@ -39,13 +39,13 @@ public class WebApiParameters
                     EnvironmentName = value.IsValidEnumValue<EnvironmentType>() ? value : string.Empty;
                     break;
                 case "EnableSwaggerDocs":
-                    EnableSwaggerDocs = value.ParseOrDefault(true);
+                    EnableSwaggerDocs = value.ParseToBoolOrDefault(true);
                     break;
                 case "UseAppSetting":
-                    UseAppSettings = value.ParseOrDefault(true);
+                    UseAppSettings = value.ParseToBoolOrDefault(true);
                     break;
                 case "UseEnvFile":
-                    UseEnvFile = value.ParseOrDefault(true);
+                    UseEnvFile = value.ParseToBoolOrDefault(true);
                     break;
                 case "SwaggerEnvironments":
                     if (value.StartsWith('[') && value.EndsWith(']'))

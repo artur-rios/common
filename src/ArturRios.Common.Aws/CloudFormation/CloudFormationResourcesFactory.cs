@@ -1,7 +1,7 @@
 ﻿using Amazon.CDK;
 using Amazon.CDK.AWS.Lambda;
 using ArturRios.Common.Aws.Lambda;
-using ArturRios.Common.Configuration;
+using ArturRios.Common.Configuration.Enums;
 using Constructs;
 
 namespace ArturRios.Common.Aws.CloudFormation;

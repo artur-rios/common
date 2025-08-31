@@ -1,4 +1,7 @@
 ﻿using ArturRios.Common.Configuration;
+using ArturRios.Common.Configuration.Enums;
+using ArturRios.Common.Configuration.Loaders;
+using ArturRios.Common.Configuration.Providers;
 using ArturRios.Common.Extensions;
 using ArturRios.Common.Output;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +16,8 @@ public abstract class WebApiStartup(string[] args)
     // ReSharper disable once MemberCanBePrivate.Global
     // Reason: this field needs to be visible if inheritor wants to access parameters
     protected readonly WebApiParameters Parameters = new(args);
+
+    private SettingsProvider _settings = null!;
 
     // ReSharper disable MemberCanBeProtected.Global
     // Reason: this method needs to be public if caller wants to build only
@@ -45,16 +50,22 @@ public abstract class WebApiStartup(string[] args)
 
     public void LoadConfiguration()
     {
-        var configurationLoader = new ConfigurationLoader(Builder);
+        var configurationLoader = new ConfigurationLoader(Builder.Configuration, Builder.Environment.EnvironmentName);
+
+        _settings = new SettingsProvider(Builder.Configuration);
 
         if (Parameters.UseAppSettings)
         {
             configurationLoader.LoadAppSettings();
+
+            Builder.Services.AddSingleton<SettingsProvider>();
         }
 
         if (Parameters.UseEnvFile)
         {
             configurationLoader.LoadEnvironment();
+
+            Builder.Services.AddSingleton<EnvironmentProvider>();
         }
     }
 
@@ -88,7 +99,7 @@ public abstract class WebApiStartup(string[] args)
 
     public void UseSwagger(EnvironmentType[]? allowedEnvironments = null)
     {
-        var useSwagger = false;
+        bool useSwagger;
         var currentEnv = Builder.Environment.EnvironmentName;
         var swaggerEnvs = Parameters.GetSwaggerEnvironments();
 
@@ -100,6 +111,10 @@ public abstract class WebApiStartup(string[] args)
         else if (swaggerEnvs.IsNotEmpty())
         {
             useSwagger = swaggerEnvs.Contains(currentEnv, StringComparer.OrdinalIgnoreCase);
+        }
+        else
+        {
+            useSwagger = _settings.GetBool("Swagger:Enabled") ?? false;
         }
 
         if (!useSwagger)

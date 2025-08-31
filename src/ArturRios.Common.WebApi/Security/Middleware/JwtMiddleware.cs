@@ -2,40 +2,49 @@
 // ReSharper disable UnusedType.Global
 // Reason: this middleware is meant to be used in other projects
 
+using ArturRios.Common.Configuration.Providers;
 using ArturRios.Common.WebApi.Security.Attributes;
 using ArturRios.Common.WebApi.Security.Interfaces;
 using Newtonsoft.Json;
 
 namespace ArturRios.Common.WebApi.Security.Middleware;
 
-public class JwtMiddleware(RequestDelegate next) : WebApiMiddleware
+public class JwtMiddleware(RequestDelegate next, SettingsProvider settings) : WebApiMiddleware
 {
     public async Task Invoke(HttpContext context, IAuthenticationService authService)
     {
         var endpoint = context.GetEndpoint();
 
-        if (endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>() is null)
+        if (!SkipRoute(context.Request.Path.Value ?? string.Empty))
         {
-            var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last() ?? "";
-            var validationOutput = authService.ValidateTokenAndGetUser(token);
-
-            if (validationOutput.Success)
+            if (endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>() is null)
             {
-                context.Items["User"] = validationOutput.Data;
-            }
-            else
-            {
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                context.Response.ContentType = "application/json";
+                var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last() ?? "";
+                var validationOutput = authService.ValidateTokenAndGetUser(token);
 
-                var payload = JsonConvert.SerializeObject(validationOutput);
+                if (validationOutput.Success)
+                {
+                    context.Items["User"] = validationOutput.Data;
+                }
+                else
+                {
+                    context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                    context.Response.ContentType = "application/json";
 
-                await context.Response.WriteAsync(payload);
+                    var payload = JsonConvert.SerializeObject(validationOutput);
 
-                return;
+                    await context.Response.WriteAsync(payload);
+
+                    return;
+                }
             }
         }
 
         await next(context);
+    }
+
+    private bool SkipRoute(string path)
+    {
+        return settings.GetBool("Swagger:Enabled") is true && path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using ArturRios.Common.Configuration;
+using ArturRios.Common.Configuration.Enums;
 using ArturRios.Common.Output;
 using ArturRios.Common.WebApi;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +13,7 @@ namespace ArturRios.Common.Attributes.EndpointToggle;
 public class EndpointToggleAttribute : ActionFilterAttribute
 {
     private readonly bool _isEnabled;
-    private readonly ReturnType _disabledReturnType;
+    private readonly OutputType _disabledOutputType;
     private readonly string _disabledMessage;
     private readonly bool _useConfigurationFile;
     private readonly ConfigurationSourceType _configurationSource;
@@ -33,14 +33,14 @@ public class EndpointToggleAttribute : ActionFilterAttribute
     public EndpointToggleAttribute(
         bool isEnabled = true,
         HttpStatusCode disabledStatusCode = HttpStatusCode.NotFound,
-        ReturnType disabledReturnType = ReturnType.Object,
+        OutputType disabledOutputType = OutputType.Object,
         string disabledMessage = "This endpoint is currently disabled"
     )
     {
         _isEnabled = isEnabled;
         _disabledStatusCode = disabledStatusCode;
         _disabledMessage = disabledMessage;
-        _disabledReturnType = disabledReturnType;
+        _disabledOutputType = disabledOutputType;
         _useConfigurationFile = false;
     }
 
@@ -50,7 +50,7 @@ public class EndpointToggleAttribute : ActionFilterAttribute
         string keyPrefix = "",
         string keySuffix = "",
         HttpStatusCode disabledStatusCode = HttpStatusCode.NotFound,
-        ReturnType disabledReturnType = ReturnType.Object,
+        OutputType disabledOutputType = OutputType.Object,
         string disabledMessage = "This endpoint is currently disabled"
     )
     {
@@ -58,7 +58,7 @@ public class EndpointToggleAttribute : ActionFilterAttribute
         _key = key;
         _disabledStatusCode = disabledStatusCode;
         _disabledMessage = disabledMessage;
-        _disabledReturnType = disabledReturnType;
+        _disabledOutputType = disabledOutputType;
         _useConfigurationFile = true;
         _keySuffix = keySuffix;
         _keySeparator = configurationSource == ConfigurationSourceType.AppSettings ? ":" : "_";
@@ -86,18 +86,18 @@ public class EndpointToggleAttribute : ActionFilterAttribute
             return;
         }
 
-        switch (_disabledReturnType)
+        switch (_disabledOutputType)
         {
-            case ReturnType.Void:
+            case OutputType.Void:
                 _context.Result = new StatusCodeResult((int)_disabledStatusCode);
                 break;
-            case ReturnType.Default:
+            case OutputType.Default:
                 ReturnDefault();
                 break;
-            case ReturnType.Object:
+            case OutputType.Object:
                 ReturnObject();
                 break;
-            case ReturnType.Exception:
+            case OutputType.Exception:
                 throw new EndpointDisabledException(null, DefaultDisabledMessage);
             default:
                 ReturnObject();
