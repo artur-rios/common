@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace ArturRios.Common.WebApi.Security.Middleware;
 
-public class JwtMiddleware(RequestDelegate next)
+public class JwtMiddleware(RequestDelegate next) : WebApiMiddleware
 {
     public async Task Invoke(HttpContext context, IAuthenticationService authService)
     {

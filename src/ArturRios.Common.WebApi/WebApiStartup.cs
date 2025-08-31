@@ -10,6 +10,8 @@ public abstract class WebApiStartup(string[] args)
 {
     protected WebApplication App = null!;
     protected readonly WebApplicationBuilder Builder = WebApplication.CreateBuilder(args);
+    // ReSharper disable once MemberCanBePrivate.Global
+    // Reason: this field needs to be visible if inheritor wants to access parameters
     protected readonly WebApiParameters Parameters = new(args);
 
     // ReSharper disable MemberCanBeProtected.Global
@@ -67,9 +69,9 @@ public abstract class WebApiStartup(string[] args)
         }
     }
 
-    public void AddCustomInvalidModelStateResponse(IServiceCollection services)
+    public void AddCustomInvalidModelStateResponse()
     {
-        services.Configure<ApiBehaviorOptions>(options =>
+        Builder.Services.Configure<ApiBehaviorOptions>(options =>
         {
             options.InvalidModelStateResponseFactory = context =>
             {
