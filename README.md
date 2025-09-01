@@ -1,6 +1,6 @@
 # Common
 
-A library with utilities for to be shared with .Net projects.
+A library with utilities to be shared with .Net projects.
 I work on it in my free time, so if you want to contribute, please feel free to do so.
 Developed this as a way to share code between different projects, as a submodule. Everything is divided into projects so you can reference only what you need on your solution.
 I also like to get creative here, so I test a lot of ideas and patterns. Expect some experimental features and overengineering.
