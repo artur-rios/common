@@ -9,7 +9,7 @@ public class Startup(string[] args) : WebApiStartup(args)
     {
         LoadConfiguration();
         ConfigureServices();
-        UseSwaggerDocs(swaggerGenOptions: options =>
+        UseSwaggerGen(swaggerGenOptions: options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "Test Web API", Version = "v1" });
 
