@@ -1,10 +1,11 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using ArturRios.Common.Output;
+using Microsoft.Extensions.Logging;
 
 namespace ArturRios.Common.Messaging;
 
-public class MailgunEmailService : IEmailService
+public class MailgunEmailService(ILogger<MailgunEmailService> logger) : IEmailService
 {
     private readonly HttpClient _httpClient = new();
     private const string MailgunApiBaseUrl = "https://api.mailgun.net";
@@ -27,10 +28,12 @@ public class MailgunEmailService : IEmailService
             new KeyValuePair<string, string>("text", body)
         ]);
 
+        logger.LogInformation("Testing Mailgun email service...");
+
         var response = await _httpClient.PostAsync($"{MailgunApiBaseUrl}/{MailgunApiVersion}/{domain}/{MailgunMessagesEndpoint}", content);
         var responseContent = await response.Content.ReadAsStringAsync();
 
-        Console.WriteLine($"Mailgun response: {responseContent}");
+        logger.LogInformation("Mailgun response: {ResponseContent}", responseContent);
 
         return response.IsSuccessStatusCode ? new ProcessOutput() : new ProcessOutput([responseContent]);
     }
