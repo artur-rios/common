@@ -1,4 +1,5 @@
 ﻿using ArturRios.Common.Data;
+using ArturRios.Common.Data.Interfaces;
 
 namespace ArturRios.Common.Test.Mock;
 

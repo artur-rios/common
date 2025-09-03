@@ -2,7 +2,7 @@
 // ReSharper disable UnusedType.Global
 // Reason: This class is meant to be used in other projects
 
-namespace ArturRios.Common.Data;
+namespace ArturRios.Common.Data.Interfaces;
 
 public interface ICrudRepository<T> where T : Entity
 {

@@ -1,4 +1,5 @@
 ﻿using ArturRios.Common.Data;
+using ArturRios.Common.Data.Interfaces;
 using ArturRios.Common.Pipelines.Commands.Interfaces;
 using ArturRios.Common.Pipelines.Commands.IO;
 using ArturRios.Common.Pipelines.Tests.Entities;

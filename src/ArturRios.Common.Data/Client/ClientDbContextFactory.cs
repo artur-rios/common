@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace ArturRios.Common.Client;
+namespace ArturRios.Common.Data.Client;
 
 public abstract class ClientDbContextFactory<TDbContext> : IDbContextFactory<TDbContext> where TDbContext : DbContext
 {

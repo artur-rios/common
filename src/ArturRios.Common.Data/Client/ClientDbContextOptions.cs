@@ -1,4 +1,4 @@
-﻿namespace ArturRios.Common.Client;
+﻿namespace ArturRios.Common.Data.Client;
 
 public class ClientDbContextOptions
 {

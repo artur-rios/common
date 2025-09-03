@@ -1,7 +1,7 @@
 ﻿using ArturRios.Common.Configuration.Enums;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArturRios.Common.Client;
+namespace ArturRios.Common.Data.Client;
 
 public abstract class DataClient<TDbContext> where TDbContext : DbContext
 {

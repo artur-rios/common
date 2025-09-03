@@ -1,4 +1,4 @@
-﻿namespace ArturRios.Common.Data;
+﻿namespace ArturRios.Common.Data.Interfaces;
 
 public interface IMultiRepository<out T> where T : Entity
 {
