@@ -18,9 +18,9 @@ namespace ArturRios.Common.Test;
 public class WebApiTest<T> where T : class
 {
     private readonly WebApplicationFactory<T> _factory = new();
-    public readonly HttpClient Client;
+    protected readonly HttpClient Client;
 
-    public WebApiTest(EnvironmentType environment)
+    protected WebApiTest(EnvironmentType environment)
     {
         Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", environment.ToString().ToLower());
 
@@ -43,55 +43,55 @@ public class WebApiTest<T> where T : class
         Authorize(authentication.Token!);
     }
 
-    public async Task<WebApiOutput<TO>?> GetAsync<TO>(string route, HttpStatusCode? expectedHttpStatusCode = null)
+    public async Task<WebApiOutput<To>?> GetAsync<To>(string route, HttpStatusCode? expectedHttpStatusCode = null)
     {
         var response = await Client.GetAsync(route);
 
-        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<To>(response, expectedHttpStatusCode);
     }
 
-    public async Task<WebApiOutput<TO>?> PatchAsync<TO>(string route, object? payloadObject = null,
+    public async Task<WebApiOutput<To>?> PatchAsync<To>(string route, object? payloadObject = null,
         HttpStatusCode? expectedHttpStatusCode = null)
     {
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PatchAsync(route, payload);
 
-        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<To>(response, expectedHttpStatusCode);
     }
 
-    public async Task<WebApiOutput<TO>?> PostAsync<TO>(string route, object? payloadObject = null,
+    public async Task<WebApiOutput<To>?> PostAsync<To>(string route, object? payloadObject = null,
         HttpStatusCode? expectedHttpStatusCode = null)
     {
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PostAsync(route, payload);
 
-        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<To>(response, expectedHttpStatusCode);
     }
 
-    public async Task<WebApiOutput<TO>?> PutAsync<TO>(string route, object? payloadObject = null,
+    public async Task<WebApiOutput<To>?> PutAsync<To>(string route, object? payloadObject = null,
         HttpStatusCode? expectedHttpStatusCode = null)
     {
         var payload = payloadObject?.ToJsonStringContent();
 
         var response = await Client.PutAsync(route, payload);
 
-        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<To>(response, expectedHttpStatusCode);
     }
 
-    public async Task<WebApiOutput<TO>?> DeleteAsync<TO>(string route, HttpStatusCode? expectedHttpStatusCode = null)
+    public async Task<WebApiOutput<To>?> DeleteAsync<To>(string route, HttpStatusCode? expectedHttpStatusCode = null)
     {
         var response = await Client.DeleteAsync(route);
 
-        return await TestHttpStatusCodeAndDeserializeAsync<TO>(response, expectedHttpStatusCode);
+        return await TestHttpStatusCodeAndDeserializeAsync<To>(response, expectedHttpStatusCode);
     }
 
-    private static async Task<WebApiOutput<TO>?> TestHttpStatusCodeAndDeserializeAsync<TO>(HttpResponseMessage response,
+    private static async Task<WebApiOutput<To>?> TestHttpStatusCodeAndDeserializeAsync<To>(HttpResponseMessage response,
         HttpStatusCode? expectedHttpStatusCode = null)
     {
         var httpStatusCodeValid = TestHttpStatusCode(response.StatusCode, expectedHttpStatusCode);
-        var result = await DeserializeAsync<TO>(response);
+        var result = await DeserializeAsync<To>(response);
         List<string> errors = [];
 
         if (!httpStatusCodeValid)
@@ -123,11 +123,11 @@ public class WebApiTest<T> where T : class
         return received == expected;
     }
 
-    private static async Task<WebApiOutput<TO>?> DeserializeAsync<TO>(HttpResponseMessage response)
+    private static async Task<WebApiOutput<To>?> DeserializeAsync<To>(HttpResponseMessage response)
     {
         var body = await response.Content.ReadAsStringAsync();
 
-        var output = JsonConvert.DeserializeObject<WebApiOutput<TO>>(body);
+        var output = JsonConvert.DeserializeObject<WebApiOutput<To>>(body);
 
         return output;
     }
