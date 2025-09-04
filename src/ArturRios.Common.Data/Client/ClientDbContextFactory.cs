@@ -1,4 +1,5 @@
 ﻿using ArturRios.Common.Configuration.Enums;
+using ArturRios.Common.Configuration.Loaders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -12,11 +13,11 @@ public abstract class ClientDbContextFactory<TDbContext> : IDbContextFactory<TDb
     {
         switch (connectionStringStrategy)
         {
-            case ConnectionStringStrategy.EnvironmentFile:
-                SetConnectionStringFromEnvFile(environment.ToString());
+            case ConnectionStringStrategy.Environment:
+                GetConnectionStringFromEnvironment(environment.ToString());
                 break;
             case ConnectionStringStrategy.AwsSecretsManager:
-                SetConnectionStringFromAwsSecretsManager();
+                GetConnectionStringFromAwsSecretsManager();
                 break;
             default:
                 throw new ArgumentException($"Connection string strategy {connectionStringStrategy} is not supported yet");
@@ -42,38 +43,25 @@ public abstract class ClientDbContextFactory<TDbContext> : IDbContextFactory<TDb
         var dbContextInstance =
             (TDbContext)Activator.CreateInstance(typeof(TDbContext), loggerFactory, dbContextOptions)!;
 
-        if (dbContextInstance is null)
-        {
-            throw new ArgumentException($"Could not instantiate DbContext with type {typeof(TDbContext).Name}");
-        }
-
-        return dbContextInstance;
+        return dbContextInstance ?? throw new ArgumentException($"Could not instantiate DbContext with type {typeof(TDbContext).Name}");
     }
 
-    private void SetConnectionStringFromEnvFile(string environment)
+    private void GetConnectionStringFromEnvironment(string environment)
     {
-        var basePath = AppDomain.CurrentDomain.BaseDirectory;
-        var envFolder = Path.Combine(basePath, "Environments");
-        var envFile = Path.Combine(envFolder, $".env.{environment.ToLower()}");
-
-        if (!File.Exists(envFile))
-        {
-            throw new FileNotFoundException($".env file not found at expected location: {envFile}");
-        }
-
-        DotNetEnv.Env.Load(envFile);
+        var configurationLoader = new ConfigurationLoader(environment);
+        configurationLoader.LoadEnvironment();
 
         var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
 
         if (string.IsNullOrEmpty(connectionString))
         {
-            throw new ArgumentException("Database connection string is not configured in the .env file");
+            throw new ArgumentException("Database connection string is not configured in the environment variables");
         }
 
         _connectionString = connectionString;
     }
 
-    private void SetConnectionStringFromAwsSecretsManager()
+    private void GetConnectionStringFromAwsSecretsManager()
     {
         // TODO
         throw new NotImplementedException($"Connection string strategy {ConnectionStringStrategy.AwsSecretsManager} is not implemented yet");

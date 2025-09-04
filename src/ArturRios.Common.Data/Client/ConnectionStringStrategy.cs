@@ -2,6 +2,6 @@
 
 public enum ConnectionStringStrategy
 {
-    EnvironmentFile,
+    Environment,
     AwsSecretsManager
 }
