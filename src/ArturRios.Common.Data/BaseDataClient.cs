@@ -2,7 +2,6 @@
 // Reason: This is intentional to allow derived classes to set up repositories during construction
 using ArturRios.Common.Configuration.Enums;
 using ArturRios.Common.Configuration.Loaders;
-using Microsoft.EntityFrameworkCore;
 
 namespace ArturRios.Common.Data;
 
@@ -23,5 +22,5 @@ public abstract class BaseDataClient
         SetRepositories();
     }
 
-    protected abstract DbContext SetRepositories();
+    protected abstract void SetRepositories();
 }
