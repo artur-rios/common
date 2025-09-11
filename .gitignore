@@ -473,3 +473,7 @@ $RECYCLE.BIN/
 
 # AWS Serverless Template tests
 tests/ArturRios.Common.Aws.Tests/output
+
+# Doc generation
+Doxygen/
+*.asta.lock

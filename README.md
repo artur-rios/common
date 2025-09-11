@@ -38,13 +38,54 @@ The library is split into multiple projects, each targeting a specific set of ut
 2. Add the projects you need as references to your existing projects, by browsing to the submodule folder (e.g., libs/common) and select the specific .csproj files you want to include
 3. Build and you're good to go!
 
-## This documentation is under construction
-
 ## Features
 
 ### Data Utilities
 
-- [Entity](./docs/Entity.md)
-- [ICrudRepository](./docs/ICrudRepository.md)
-- [DataFilter](./docs/DataFilter.md)
+- [Entity](./docs/data/Entity.md)
+- [ICrudRepository](./docs/data/ICrudRepository.md)
+- [DataFilter](./docs/data/DataFilter.md)
 
+#### Class diagram
+
+<!--
+
+@startuml
+class Entity{
+  +Id : int
+}
+interface ICrudRepository-1{
+  +Create(,) : int
+  +GetByFilter(,, ,) :
+  +GetById(,, ,) : T?
+  +Update(,) : void
+  +Delete(,) : void
+}
+interface IMultiRepository-1{
+  +GetByMultiFilter(,, ,) :
+  +MultiDelete(,) :
+}
+class DataFilter
+class BaseDbContextOptions{
+  +ConnectionString : string
+}
+class ValueConverterCollection{
+  +EnumIntToString< T >() :
+}
+class DomainEventEntity{
+  +DomainEvents :
+  #AddDomainEvent(,) : void
+  #RemoveDomainEvent(,) : void
+  +Equals(,) : bool
+  +GetHashCode() : int
+  +operator==(,, ,) : bool
+  +operator!=(,, ,) : bool
+}
+DomainEventEntity --|> Entity
+@enduml
+
+-->
+
+![data-class-diagram](/docs/diagrams/data-class-diagram.svg)
+
+*Documentation under construction*
