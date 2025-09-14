@@ -1,0 +1,33 @@
+@startuml
+class Entity{
+  +Id : int
+}
+interface ICrudRepository{
+  +Create(,) : int
+  +GetByFilter(,, ,) :
+  +GetById(,, ,) : T?
+  +Update(,) : void
+  +Delete(,) : void
+}
+interface IMultiRepository{
+  +GetByMultiFilter(,, ,) :
+  +MultiDelete(,) :
+}
+class DataFilter
+class BaseDbContextOptions{
+  +ConnectionString : string
+}
+class ValueConverterCollection{
+  +EnumIntToString< T >() :
+}
+class DomainEventEntity{
+  +DomainEvents :
+  #AddDomainEvent(,) : void
+  #RemoveDomainEvent(,) : void
+  +Equals(,) : bool
+  +GetHashCode() : int
+  +operator==(,, ,) : bool
+  +operator!=(,, ,) : bool
+}
+DomainEventEntity --|> Entity
+@enduml

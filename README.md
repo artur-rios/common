@@ -48,44 +48,6 @@ The library is split into multiple projects, each targeting a specific set of ut
 
 #### Class diagram
 
-<!--
-
-@startuml
-class Entity{
-  +Id : int
-}
-interface ICrudRepository-1{
-  +Create(,) : int
-  +GetByFilter(,, ,) :
-  +GetById(,, ,) : T?
-  +Update(,) : void
-  +Delete(,) : void
-}
-interface IMultiRepository-1{
-  +GetByMultiFilter(,, ,) :
-  +MultiDelete(,) :
-}
-class DataFilter
-class BaseDbContextOptions{
-  +ConnectionString : string
-}
-class ValueConverterCollection{
-  +EnumIntToString< T >() :
-}
-class DomainEventEntity{
-  +DomainEvents :
-  #AddDomainEvent(,) : void
-  #RemoveDomainEvent(,) : void
-  +Equals(,) : bool
-  +GetHashCode() : int
-  +operator==(,, ,) : bool
-  +operator!=(,, ,) : bool
-}
-DomainEventEntity --|> Entity
-@enduml
-
--->
-
 ![data-class-diagram](/docs/diagrams/data-class-diagram.svg)
 
 *Documentation under construction*
