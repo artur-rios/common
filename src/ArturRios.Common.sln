@@ -53,6 +53,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Tests.Mock
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.WebApi.Tests", "..\tests\ArturRios.Common.WebApi.Tests\ArturRios.Common.WebApi.Tests.csproj", "{B0780433-6245-4366-B611-1BD50C82F3CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.ProtoBuf", "ArturRios.Common.ProtoBuf\ArturRios.Common.ProtoBuf.csproj", "{0D253436-0697-452C-8E9B-B030E83C439C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.ProtoBuf.Tests", "..\tests\ArturRios.Common.ProtoBuf.Tests\ArturRios.Common.ProtoBuf.Tests.csproj", "{C162C268-15E0-45CE-B395-D8BB5DE19418}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -159,6 +163,14 @@ Global
 		{B0780433-6245-4366-B611-1BD50C82F3CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0780433-6245-4366-B611-1BD50C82F3CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0780433-6245-4366-B611-1BD50C82F3CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D253436-0697-452C-8E9B-B030E83C439C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D253436-0697-452C-8E9B-B030E83C439C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D253436-0697-452C-8E9B-B030E83C439C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D253436-0697-452C-8E9B-B030E83C439C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C162C268-15E0-45CE-B395-D8BB5DE19418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C162C268-15E0-45CE-B395-D8BB5DE19418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C162C268-15E0-45CE-B395-D8BB5DE19418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C162C268-15E0-45CE-B395-D8BB5DE19418}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D6365923-C461-40A3-B2FF-E9CBE61BC960} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
@@ -173,5 +185,6 @@ Global
 		{C7570117-66C9-4F32-B55F-181E7E17A772} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
 		{8C42ABC1-50EE-4086-BE22-E10835BE4C92} = {33B81EB5-9A47-44C2-B215-F86336EDE66F}
 		{B0780433-6245-4366-B611-1BD50C82F3CF} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
+		{C162C268-15E0-45CE-B395-D8BB5DE19418} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
 	EndGlobalSection
 EndGlobal
