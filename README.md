@@ -40,14 +40,6 @@ The library is split into multiple projects, each targeting a specific set of ut
 
 ## Features
 
-### Data Utilities
-
-- [Entity](./docs/data/Entity.md)
-- [ICrudRepository](./docs/data/ICrudRepository.md)
-- [DataFilter](./docs/data/DataFilter.md)
-
-#### Class diagram
-
-![data-class-diagram](/docs/diagrams/data-class-diagram.svg)
+- [Data access utilities](docs/data.md)
 
 *Documentation under construction*
