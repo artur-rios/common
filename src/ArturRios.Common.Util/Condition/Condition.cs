@@ -19,14 +19,14 @@ public class Condition
 
     public bool IsSatisfied => _failedConditions.Count == 0;
 
-    public Condition If(bool expression)
+    public Condition True(bool expression)
     {
         _expression = expression;
 
         return this;
     }
 
-    public Condition IfNot(bool expression)
+    public Condition False(bool expression)
     {
         _expression = !expression;
 

@@ -16,7 +16,7 @@ public class TestEntity : DomainEventEntity
     private void CanDoSomething()
     {
         Condition.Create
-            .IfNot(!string.IsNullOrWhiteSpace(Data))
+            .False(!string.IsNullOrWhiteSpace(Data))
             .FailsWith("Data cannot be empty")
             .ThrowIfNotSatisfied();
     }
@@ -31,9 +31,9 @@ public class TestEntity : DomainEventEntity
     public void CanSchedule(DateTime scheduleDate)
     {
         Condition.Create
-            .If(scheduleDate > DateTime.UtcNow)
+            .True(scheduleDate > DateTime.UtcNow)
             .FailsWith("Schedule date must be in the future")
-            .If(scheduleDate > CreatedAt)
+            .True(scheduleDate > CreatedAt)
             .FailsWith("Schedule date must be after entity creation date")
             .ThrowIfNotSatisfied();
     }
@@ -48,7 +48,7 @@ public class TestEntity : DomainEventEntity
     private void CanComplete()
     {
         Condition.Create
-            .If(Scheduled)
+            .True(Scheduled)
             .FailsWith("Entity must be scheduled before completing")
             .ThrowIfNotSatisfied();
     }
