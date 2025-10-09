@@ -1,15 +1,6 @@
 ﻿namespace ArturRios.Common.Output;
 
-public abstract class CustomException : Exception
+public abstract class CustomException(string[] messages) : Exception(string.Join(", ", messages))
 {
-    public string[] Messages { get; } = [];
-
-    protected CustomException(string[] messages) : base(string.Join(", ", messages))
-    {
-    }
-
-    protected CustomException(string[] messages, string message) : base(message)
-    {
-        Messages = messages;
-    }
+    public string[] Messages { get; } = messages;
 }

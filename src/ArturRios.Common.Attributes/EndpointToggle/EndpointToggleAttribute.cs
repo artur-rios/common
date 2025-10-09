@@ -98,7 +98,7 @@ public class EndpointToggleAttribute : ActionFilterAttribute
                 ReturnObject();
                 break;
             case OutputType.Exception:
-                throw new EndpointDisabledException(null, DefaultDisabledMessage);
+                throw new EndpointDisabledException([DefaultDisabledMessage]);
             default:
                 ReturnObject();
                 break;

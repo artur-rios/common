@@ -2,5 +2,4 @@
 
 namespace ArturRios.Common.Attributes.EndpointToggle;
 
-public class EndpointDisabledException(string[]? messages, string message)
-    : CustomException(messages ?? [message], message);
+public class EndpointDisabledException(string[] messages) : CustomException(messages);
