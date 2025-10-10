@@ -1,17 +1,14 @@
-﻿using ArturRios.Common.Pipelines.Commands.IO;
+﻿namespace ArturRios.Common.Pipelines.Commands.Interfaces;
 
-namespace ArturRios.Common.Pipelines.Commands.Interfaces;
-
-public interface ICommandHandler<in TCommand, TOutput>
-    where TCommand : ICommand<TOutput>
+public interface ICommandHandler<in TCommand, out TOutput>
+    where TCommand : ICommand
     where TOutput : CommandOutput
 {
-    Task<TOutput> HandleAsync(TCommand command);
+    TOutput Handle(TCommand command);
 }
 
-public interface ICommandHandler<in TCommand, TInput, TOutput>
-    where TCommand : ICommand<TInput, TOutput>
-    where TInput : CommandInput
+public interface ICommandHandlerAsync<in TCommand, TOutput>
+    where TCommand : ICommand
     where TOutput : CommandOutput
 {
     Task<TOutput> HandleAsync(TCommand command);

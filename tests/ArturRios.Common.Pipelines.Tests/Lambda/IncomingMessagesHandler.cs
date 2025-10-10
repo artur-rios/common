@@ -17,7 +17,7 @@ public class IncomingMessagesHandler(IPipeline pipeline, ILogger<IncomingMessage
             logger.LogDebug("Processing incoming SQS message with Id {MessageId} and Body {MessageBody}",
                 message.MessageId, message.Body);
 
-            var command = new TestCommand.Input { Message = message.Body };
+            var command = new TestCommand { Message = message.Body };
 
             logger.LogInformation("Executing command {CommandType} with Data: {CommandData}", command.GetType().Name,
                 command);

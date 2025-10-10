@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
+using System.Reflection;
 using ArturRios.Common.Pipelines.Commands;
 using ArturRios.Common.Pipelines.Commands.Interfaces;
-using ArturRios.Common.Pipelines.Commands.IO;
 using ArturRios.Common.Pipelines.Events;
 using ArturRios.Common.Pipelines.Events.Interfaces;
 using ArturRios.Common.Pipelines.Interfaces;
@@ -33,6 +33,108 @@ public class Pipeline : IPipeline
         };
     }
 
+    public PipelineOutput ExecuteCommand(object command)
+    {
+        var logger = _serviceProvider.GetRequiredService<ILogger<Pipeline>>();
+        var backoffWaiter = new JitteredWaiter(Math.Max(_configuration.MaxRetryCount, 0));
+
+        while (true)
+        {
+            using var scope = _serviceProvider.CreateScope();
+
+            var dbContextFactory = scope.ServiceProvider.GetRequiredService<IPipelineContextFactory>();
+
+            var dbContext = dbContextFactory.GetContext();
+            var transaction = dbContext.Database.BeginTransaction();
+
+            var domainEventBus = scope.ServiceProvider.GetRequiredService<IDomainEventBus>();
+
+            var commandHandler = s_commandHandlerWrappers.GetOrAdd(command.GetType(), static commandType =>
+            {
+                var returnType = ResolveCommandOutputType(commandType);
+
+                var wrapperType = typeof(CommandHandlerWrapper<,>).MakeGenericType(commandType, returnType);
+
+                var wrapperInstance = Activator.CreateInstance(wrapperType) ??
+                                      throw new InvalidOperationException(
+                                          $"Unable to create {nameof(CommandHandlerWrapper<ICommand, CommandOutput>)}<{commandType.Name}, {returnType.Name}> instance");
+
+                return (CommandHandlerWrapper)wrapperInstance;
+            });
+
+            object? result;
+
+            try
+            {
+                logger.LogDebug("Executing command: {CommandType}", command.GetType().Name);
+
+                result = commandHandler.Handle(command, scope.ServiceProvider);
+
+                logger.LogDebug("Executed command: {CommandType}", command.GetType().Name);
+                logger.LogDebug("Committing database transaction for command: {CommandType}", command.GetType().Name);
+
+                domainEventBus.Dispatch(dbContext);
+                dbContext.SaveChanges();
+                transaction.Commit();
+            }
+            catch (Exception ex) when (IsRetryableException(ex))
+            {
+                if (backoffWaiter.CanRetry)
+                {
+                    logger.LogWarning(ex,
+                        "Retryable exception occurred while executing command: {CommandType}. Retrying...",
+                        command.GetType().Name);
+                    transaction.Rollback();
+                    backoffWaiter.Wait();
+                    continue;
+                }
+
+                logger.LogError(ex,
+                    "A retryable exception was thrown but the maximum retry count of {MaxRetryCount} was reached for the command {CommandType}",
+                    backoffWaiter.MaxRetryCount, command.GetType().Name);
+
+                return new PipelineOutput
+                {
+                    Success = false,
+                    Messages = ["A retryable exception was thrown but the maximum retry count was reached."]
+                };
+            }
+            catch (Exception ex)
+            {
+                return new PipelineOutput { Success = false, Messages = [ex.Message] };
+            }
+
+            foreach (var domainEvent in domainEventBus.DomainEvents)
+            {
+                var eventHandler = s_eventHandlerWrappers.GetOrAdd(domainEvent.GetType(), static eventType =>
+                {
+                    var wrapperType = typeof(EventHandlerWrapper<>).MakeGenericType(eventType);
+                    var wrapperInstance = Activator.CreateInstance(wrapperType) ??
+                                          throw new InvalidOperationException(
+                                              $"Unable to create {nameof(EventHandlerWrapper<object>)} instance for {eventType.Name}");
+
+                    return (EventHandlerWrapper)wrapperInstance;
+                });
+
+                logger.LogDebug("Processing event: {EventType}: {DomainEventData}", domainEvent.GetType().FullName,
+                    domainEvent);
+
+                eventHandler.Handle(domainEvent, scope.ServiceProvider);
+            }
+
+            var commandQueue = scope.ServiceProvider.GetRequiredService<ICommandQueue>();
+
+            commandQueue.Flush();
+
+            return new PipelineOutput { Success = true, Messages = ["Command executed successfully."] };
+        }
+    }
+
+    public PipelineOutput ExecuteCommand(ICommand command)
+    {
+        return ExecuteCommand((object)command);
+    }
+
     public async Task<PipelineOutput> ExecuteCommandAsync(object command)
     {
         var logger = _serviceProvider.GetRequiredService<ILogger<Pipeline>>();
@@ -51,28 +153,24 @@ public class Pipeline : IPipeline
 
             var commandHandler = s_commandHandlerWrappers.GetOrAdd(command.GetType(), static commandType =>
             {
-                var commandInterface = commandType.GetInterfaces().First(i =>
-                    i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICommand<>));
-
-                var returnType = commandInterface.GetGenericArguments()[0];
+                var returnType = ResolveCommandOutputType(commandType);
 
                 var wrapperType = typeof(CommandHandlerWrapper<,>).MakeGenericType(commandType, returnType);
 
                 var wrapperInstance = Activator.CreateInstance(wrapperType) ??
                                       throw new InvalidOperationException(
-                                          $"Unable to create {nameof(CommandHandlerWrapper<ICommand<CommandOutput>, CommandOutput>)}<{commandType.Name}, {returnType.Name}> instance");
+                                          $"Unable to create {nameof(CommandHandlerWrapper<ICommand, CommandOutput>)}<{commandType.Name}, {returnType.Name}> instance");
 
                 return (CommandHandlerWrapper)wrapperInstance;
             });
 
-            // TODO: return result on PipelineOutput
             object? result;
 
             try
             {
                 logger.LogDebug("Executing command: {CommandType}", command.GetType().Name);
 
-                result = await commandHandler.ExecuteAsync(command, scope.ServiceProvider);
+                result = await commandHandler.HandleAsync(command, scope.ServiceProvider);
 
                 logger.LogDebug("Executed command: {CommandType}", command.GetType().Name);
                 logger.LogDebug("Committing database transaction for command: {CommandType}", command.GetType().Name);
@@ -134,19 +232,10 @@ public class Pipeline : IPipeline
         }
     }
 
-    public async Task<PipelineOutput> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
-        where TCommand : ICommand<TOutput>
-        where TOutput : CommandOutput
+    public async Task<PipelineOutput> ExecuteCommandAsync(ICommand command)
     {
-        return await ExecuteCommandAsync(command);
+        return await ExecuteCommandAsync((object)command);
     }
-
-    // TODO
-    public Task<PipelineOutput<T>> ExecuteCommandAsync<TCommand, TInput, TOutput, T>(TCommand command)
-        where TCommand : ICommand<TInput, TOutput, T>
-        where TInput : CommandInput
-        where TOutput : CommandOutput<T> =>
-            throw new NotImplementedException();
 
     public async Task<PipelineOutput> ExecuteQueryAsync(object query)
     {
@@ -170,11 +259,11 @@ public class Pipeline : IPipeline
             return (QueryHandlerWrapper)wrapperInstance;
         });
 
-        // TODO: return result on PipelineOutput
         object? result;
 
         logger.LogDebug("Executing query: {QueryType}", query.GetType().Name);
 
+        // TODO: return result on PipelineOutput
         result = await queryHandler.ExecuteAsync(query, scope.ServiceProvider);
 
         return new PipelineOutput
@@ -204,10 +293,48 @@ public class Pipeline : IPipeline
         {
             DbUpdateConcurrencyException
                 or DbUpdateException
-                {
-                    InnerException: PostgresException { SqlState: UniqueConstraintViolationSqlState }
-                } => true,
+            {
+                InnerException: PostgresException { SqlState: UniqueConstraintViolationSqlState }
+            } => true,
             _ => false
         };
+    }
+
+    private static Type ResolveCommandOutputType(Type commandType)
+    {
+        var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+
+        foreach (var type in assemblies.SelectMany(SafeGetTypes))
+        {
+            if (type is null || !type.IsClass || type.IsAbstract)
+            {
+                continue;
+            }
+
+            // Prefer async handler if both exist
+            var asyncInterface = type.GetInterfaces().FirstOrDefault(i =>
+                i.IsGenericType &&
+                i.GetGenericTypeDefinition() == typeof(ICommandHandlerAsync<,>) &&
+                i.GetGenericArguments()[0] == commandType);
+
+            if (asyncInterface != null)
+                return asyncInterface.GetGenericArguments()[1];
+
+            var syncInterface = type.GetInterfaces().FirstOrDefault(i =>
+                i.IsGenericType &&
+                i.GetGenericTypeDefinition() == typeof(ICommandHandler<,>) &&
+                i.GetGenericArguments()[0] == commandType);
+
+            if (syncInterface != null)
+                return syncInterface.GetGenericArguments()[1];
+        }
+
+        throw new InvalidOperationException($"No command handler found to infer output type for command '{commandType.FullName}'.");
+
+        static IEnumerable<Type> SafeGetTypes(Assembly assembly)
+        {
+            try { return assembly.GetTypes(); }
+            catch (ReflectionTypeLoadException ex) { return ex.Types.Where(t => t != null)!; }
+        }
     }
 }
