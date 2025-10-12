@@ -1,4 +1,4 @@
-﻿namespace ArturRios.Common.Output;
+﻿namespace ArturRios.Common.Configuration.Enums;
 
 public enum OutputType
 {

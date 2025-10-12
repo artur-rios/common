@@ -60,4 +60,10 @@ public static class StringExtensions
     {
         return string.IsNullOrEmpty(@string) ? defaultValue : @string;
     }
+
+    public static string JoinWith(this IEnumerable<string> source, string separator = ", ") =>
+        string.Join(separator, source);
+
+    public static string JoinWith<T>(this IEnumerable<T> source, string separator = ", ") =>
+        string.Join(separator, source.Select(x => x?.ToString()));
 }

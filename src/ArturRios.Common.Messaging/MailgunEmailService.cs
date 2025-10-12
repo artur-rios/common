@@ -35,6 +35,13 @@ public class MailgunEmailService(ILogger<MailgunEmailService> logger) : IEmailSe
 
         logger.LogInformation("Mailgun response: {ResponseContent}", responseContent);
 
-        return response.IsSuccessStatusCode ? new ProcessOutput() : new ProcessOutput([responseContent]);
+        var output = new ProcessOutput();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            output.AddError($"Failed to send e-mail via Mailgun. Status Code: {response.StatusCode} | Response: {responseContent}");
+        }
+
+        return output;
     }
 }

@@ -23,7 +23,10 @@ public class TestCommandHandlerAsync(ILogger<TestCommand> logger) : ICommandHand
 
         entity.DoSomething();
 
-        return Task.FromResult(new TestCommandOutputAsync { Messages = ["Message processed successfully"], Success = true });
+        var output = new TestCommandOutputAsync();
+        output.AddMessage("Message processed successfully");
+
+        return Task.FromResult(output);
     }
 
     private static TestEntity ParseMessage(string message)

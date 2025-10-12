@@ -107,12 +107,11 @@ public class EndpointToggleAttribute : ActionFilterAttribute
 
     private void ReturnObject()
     {
-        _context.Result = new WebApiOutput<object>(
-            null,
-            [_disabledMessage],
-            true,
-            (int)_disabledStatusCode
-        ).ToObjectResult();
+        _context.Result = WebApiOutput<object?>.New
+            .WithData(null)
+            .WithMessages([_disabledMessage])
+            .WithHttpStatusCode((int)_disabledStatusCode)
+            .ToObjectResult();
     }
 
     private void ReturnDefault()

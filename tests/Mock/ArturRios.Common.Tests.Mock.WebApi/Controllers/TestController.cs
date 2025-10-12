@@ -11,8 +11,10 @@ public class TestController : BaseController
     [Route("HelloWorld")]
     public ActionResult<WebApiOutput<string>> HelloWorld()
     {
-        WebApiOutput<string> result = new("Hello world!", ["Test controller is on..."], true, HttpStatusCodes.Ok);
-
+        var result = WebApiOutput<string>.New
+            .WithData("Hello world!")
+            .WithMessage("Test controller is on...")
+            .WithHttpStatusCode(HttpStatusCodes.Ok);
         return Resolve(result);
     }
 

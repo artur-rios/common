@@ -13,13 +13,27 @@ public static class FluentValidationExtensions
     {
         var validationErrors = validationResult.Errors.Select(vf => vf.ErrorMessage).ToArray();
 
-        return new DataOutput<T>(default, validationErrors, validationResult.IsValid);
+        var output = new DataOutput<T>();
+
+        if (validationErrors.Length != 0)
+        {
+            output.AddErrors(validationErrors);
+        }
+
+        return output;
     }
 
     public static ProcessOutput ToProcessOutput(this ValidationResult validationResult)
     {
         var validationErrors = validationResult.Errors.Select(vf => vf.ErrorMessage).ToArray();
 
-        return new ProcessOutput(validationErrors);
+        var output = new ProcessOutput();
+
+        if (validationErrors.Length != 0)
+        {
+            output.AddErrors(validationErrors);
+        }
+
+        return output;
     }
 }

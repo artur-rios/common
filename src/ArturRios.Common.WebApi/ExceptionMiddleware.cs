@@ -48,7 +48,9 @@ public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFact
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = HttpStatusCodes.InternalServerError;
 
-        var output = new DataOutput<string>(string.Empty, messages, false);
+        var output = DataOutput<string>.New
+            .WithData(string.Empty)
+            .WithMessages(messages);
 
         await context.Response.WriteAsync(JsonConvert.SerializeObject(output));
     }

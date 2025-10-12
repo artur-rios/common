@@ -31,7 +31,15 @@ public class CommandDispatcherHandler(IPipeline pipeline, ILogger<CommandDispatc
                     commandInput.TypeFullName, commandInput.CommandId, commandOutput.Messages.JoinWith());
             }
 
-            return new ProcessOutput { Errors = commandOutput.Success ? [] : commandOutput.Messages };
+            var output = new ProcessOutput();
+            output.AddMessages(commandOutput.Messages);
+
+            if (!commandOutput.Success)
+            {
+                output.AddErrors(commandOutput.Errors);
+            }
+
+            return output;
         }
         catch (Exception ex)
         {
@@ -39,7 +47,10 @@ public class CommandDispatcherHandler(IPipeline pipeline, ILogger<CommandDispatc
                 "Exception thrown when processing SQS message with Id {MessageId} and Body {MessageBody}",
                 message.MessageId, message.Body);
 
-            return new ProcessOutput { Errors = [ex.Message] };
+            var output = new ProcessOutput();
+            output.AddError(ex.Message);
+
+            return output;
         }
     }
 }

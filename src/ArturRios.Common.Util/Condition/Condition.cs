@@ -53,5 +53,15 @@ public class Condition
         throw new ConditionFailedException(FailedConditions);
     }
 
-    public ProcessOutput ToProcessOutput() => new(_failedConditions.ToList());
+    public ProcessOutput ToProcessOutput()
+    {
+        var output = new ProcessOutput();
+
+        if (IsSatisfied)
+        {
+            output.AddErrors(_failedConditions.ToList());
+        }
+
+        return output;
+    }
 }

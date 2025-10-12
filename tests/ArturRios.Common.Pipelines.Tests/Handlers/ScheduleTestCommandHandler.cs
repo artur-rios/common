@@ -32,7 +32,10 @@ public class ScheduleTestCommandHandler(ICommandQueue commandQueue, ICrudReposit
 
         entity.MarkAsScheduled();
 
-        return Task.FromResult(new ScheduleTestCommandOutput { Messages = ["Command scheduled successfully"], Success = true, });
+        var output = new ScheduleTestCommandOutput();
+        output.AddMessage("Command scheduled successfully");
+
+        return Task.FromResult(output);
     }
 
     private static bool IsWeekendDay(DateTime date)

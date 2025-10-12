@@ -85,7 +85,8 @@ public class Pipeline : IPipeline
                         "Retryable exception occurred while executing command: {CommandType}. Retrying...",
                         command.GetType().Name);
                     transaction.Rollback();
-                    backoffWaiter.Wait();
+                    _ = backoffWaiter.Wait();
+
                     continue;
                 }
 
@@ -93,15 +94,12 @@ public class Pipeline : IPipeline
                     "A retryable exception was thrown but the maximum retry count of {MaxRetryCount} was reached for the command {CommandType}",
                     backoffWaiter.MaxRetryCount, command.GetType().Name);
 
-                return new PipelineOutput
-                {
-                    Success = false,
-                    Messages = ["A retryable exception was thrown but the maximum retry count was reached."]
-                };
+                return PipelineOutput.New.WithError(
+                    "A retryable exception was thrown but the maximum retry count was reached");
             }
             catch (Exception ex)
             {
-                return new PipelineOutput { Success = false, Messages = [ex.Message] };
+                return PipelineOutput.New.WithError(ex.Message);
             }
 
             foreach (var domainEvent in domainEventBus.DomainEvents)
@@ -126,7 +124,9 @@ public class Pipeline : IPipeline
 
             commandQueue.Flush();
 
-            return new PipelineOutput { Success = true, Messages = ["Command executed successfully."] };
+            return PipelineOutput.New
+                .WithMessage("Command executed successfully")
+                .WithResult(result);
         }
     }
 
@@ -195,15 +195,12 @@ public class Pipeline : IPipeline
                     "A retryable exception was thrown but the maximum retry count of {MaxRetryCount} was reached for the command {CommandType}",
                     backoffWaiter.MaxRetryCount, command.GetType().Name);
 
-                return new PipelineOutput
-                {
-                    Success = false,
-                    Messages = ["A retryable exception was thrown but the maximum retry count was reached."]
-                };
+                return PipelineOutput.New.WithError(
+                    "A retryable exception was thrown but the maximum retry count was reached");
             }
             catch (Exception ex)
             {
-                return new PipelineOutput { Success = false, Messages = [ex.Message] };
+                return PipelineOutput.New.WithError(ex.Message);
             }
 
             foreach (var domainEvent in domainEventBus.DomainEvents)
@@ -228,7 +225,9 @@ public class Pipeline : IPipeline
 
             await commandQueue.Flush();
 
-            return new PipelineOutput { Success = true, Messages = ["Command executed successfully."] };
+            return PipelineOutput.New
+                .WithMessage("Command executed successfully")
+                .WithResult(result);
         }
     }
 
@@ -259,33 +258,21 @@ public class Pipeline : IPipeline
             return (QueryHandlerWrapper)wrapperInstance;
         });
 
-        object? result;
-
         logger.LogDebug("Executing query: {QueryType}", query.GetType().Name);
 
-        // TODO: return result on PipelineOutput
-        result = await queryHandler.ExecuteAsync(query, scope.ServiceProvider);
+        var result = await queryHandler.ExecuteAsync(query, scope.ServiceProvider);
 
-        return new PipelineOutput
-        {
-            Success = true,
-            Messages = ["Query executed successfully"]
-        };
+        return PipelineOutput.New
+            .WithMessage("Query executed successfully")
+            .WithResult(result);
     }
 
-    public async Task<TResult> ExecuteQueryAsync<TQuery, TResult>(TQuery query)
+    public Task<TResult> ExecuteQueryAsync<TQuery, TResult>(TQuery query)
         where TQuery : IQuery<TResult> where TResult : class
     {
-        var result = await ExecuteQueryAsync(query);
-
-        if (!result.Success)
-        {
-            throw new InvalidOperationException($"Query execution failed: {string.Join(", ", result.Messages)}");
-        }
-
-        // TODO: return result data
-        throw new NotImplementedException();
+        return ExecuteQueryAsync(query) as Task<TResult> ?? Task.FromResult<TResult>(null!);
     }
+
 
     private static bool IsRetryableException(Exception ex)
     {
@@ -293,9 +280,9 @@ public class Pipeline : IPipeline
         {
             DbUpdateConcurrencyException
                 or DbUpdateException
-            {
-                InnerException: PostgresException { SqlState: UniqueConstraintViolationSqlState }
-            } => true,
+                {
+                    InnerException: PostgresException { SqlState: UniqueConstraintViolationSqlState }
+                } => true,
             _ => false
         };
     }
@@ -306,6 +293,8 @@ public class Pipeline : IPipeline
 
         foreach (var type in assemblies.SelectMany(SafeGetTypes))
         {
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            // Reason: the null check is necessary
             if (type is null || !type.IsClass || type.IsAbstract)
             {
                 continue;
@@ -329,7 +318,8 @@ public class Pipeline : IPipeline
                 return syncInterface.GetGenericArguments()[1];
         }
 
-        throw new InvalidOperationException($"No command handler found to infer output type for command '{commandType.FullName}'.");
+        throw new InvalidOperationException(
+            $"No command handler found to infer output type for command '{commandType.FullName}'.");
 
         static IEnumerable<Type> SafeGetTypes(Assembly assembly)
         {

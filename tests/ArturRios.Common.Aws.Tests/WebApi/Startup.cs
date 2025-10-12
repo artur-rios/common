@@ -56,7 +56,9 @@ public class Startup(IConfiguration configuration)
                         .Where(e => e.Value?.Errors.Count > 0)
                         .Select(e => $"Parameter: {e.Key} | Error: {e.Value?.Errors.First().ErrorMessage}").ToArray();
 
-                    DataOutput<string> output = new(string.Empty, errors, false);
+                    var output = DataOutput<string>.New
+                        .WithData(string.Empty)
+                        .WithErrors(errors);
 
                     return new BadRequestObjectResult(output);
                 };

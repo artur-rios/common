@@ -1,29 +1,43 @@
-﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-// Reason: Keep the setters for deserialization purposes.
+﻿namespace ArturRios.Common.Output;
 
-// ReSharper disable MemberCanBeProtected.Global
-// Reason: public empty constructor is necessary for json deserialization
-
-namespace ArturRios.Common.Output;
-
-public class DataOutput<T>
+public class DataOutput<T> : ProcessOutput
 {
-    public DataOutput()
-    {
-    }
+    public T? Data { get; protected set; }
 
-    public DataOutput(T? data, string[] messages, bool success)
+    public static DataOutput<T> New => new();
+
+    public DataOutput<T> WithData(T data)
     {
         Data = data;
-        Messages = messages;
-        Success = success;
+
+        return this;
     }
 
-    public T? Data { get; set; }
-    public string[] Messages { get; set; } = [];
-    public bool Success { get; set; }
+    public DataOutput<T> WithError(string error)
+    {
+        AddError(error);
 
-    // ReSharper disable once UnusedMember.Global
-    // Reason: This is a metadata field
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+        return this;
+    }
+
+    public DataOutput<T> WithErrors(IEnumerable<string> errors)
+    {
+        AddErrors(errors);
+
+        return this;
+    }
+
+    public DataOutput<T> WithMessage(string message)
+    {
+        AddMessage(message);
+
+        return this;
+    }
+
+    public DataOutput<T> WithMessages(IEnumerable<string> messages)
+    {
+        AddMessages(messages);
+
+        return this;
+    }
 }

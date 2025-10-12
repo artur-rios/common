@@ -8,24 +8,29 @@ namespace ArturRios.Common.WebApi;
 
 public class BaseController : Controller
 {
-    public static ActionResult<WebApiOutput<T>> Resolve<T>(WebApiOutput<T> webApiOutput) =>
+    protected static ActionResult<WebApiOutput<T>> Resolve<T>(WebApiOutput<T> webApiOutput) =>
         webApiOutput.ToObjectResult();
 
     public static ActionResult<WebApiOutput<T>> Resolve<T>(DataOutput<T?> dataOutput)
     {
         var statusCode = dataOutput.Success ? HttpStatusCodes.Ok : HttpStatusCodes.BadRequest;
-        var webApiOutput = new WebApiOutput<T?>(dataOutput, statusCode);
 
-        return webApiOutput.ToObjectResult();
+        return WebApiOutput<T?>.New
+            .WithData(dataOutput.Data)
+            .WithHttpStatusCode(statusCode)
+            .ToObjectResult();
     }
 
     public static ActionResult<WebApiOutput<string>> Resolve(ProcessOutput processOutput, string successOutput)
     {
         var statusCode = processOutput.Success ? HttpStatusCodes.Ok : HttpStatusCodes.BadRequest;
         var dataOutput = processOutput.Success ? successOutput : GetFailureOutput(processOutput.Errors.Count);
-        var webApiOutput = new WebApiOutput<string>(processOutput, dataOutput, statusCode);
 
-        return webApiOutput.ToObjectResult();
+        return WebApiOutput<string>.New
+            .WithData(dataOutput)
+            .WithErrors(processOutput.Errors)
+            .WithHttpStatusCode(statusCode)
+            .ToObjectResult();
     }
 
     private static string GetFailureOutput(int errorCount) =>

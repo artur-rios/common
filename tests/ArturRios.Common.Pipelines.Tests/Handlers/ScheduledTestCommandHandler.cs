@@ -15,6 +15,9 @@ public class ScheduledTestCommandHandler(ICrudRepository<TestEntity> repository)
 
         entity.MarkAsCompleted();
 
-        return Task.FromResult(new ScheduledTestCommandOutput { Messages = ["Command completed successfully"], Success = true, });
+        var output = new ScheduledTestCommandOutput();
+        output.AddMessage("Command completed successfully");
+
+        return Task.FromResult(output);
     }
 }

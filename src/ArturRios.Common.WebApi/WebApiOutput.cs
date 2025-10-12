@@ -6,38 +6,58 @@ namespace ArturRios.Common.WebApi;
 
 public class WebApiOutput<T> : DataOutput<T>
 {
-    private readonly int _httpStatusCode;
+    private int _httpStatusCode;
 
     // Necessary for json serialization
     public WebApiOutput()
     {
     }
 
-    public WebApiOutput(T? data, string[] messages, bool success, int httpStatusCode) : base(data, messages, success)
+    public static new WebApiOutput<T> New => new();
+
+    public new WebApiOutput<T> WithData(T data)
+    {
+        Data = data;
+
+        return this;
+    }
+
+    public new WebApiOutput<T> WithError(string error)
+    {
+        AddError(error);
+
+        return this;
+    }
+
+    public new WebApiOutput<T> WithErrors(IEnumerable<string> errors)
+    {
+        AddErrors(errors);
+
+        return this;
+    }
+
+    public new WebApiOutput<T> WithMessage(string message)
+    {
+        AddMessage(message);
+
+        return this;
+    }
+
+    public new WebApiOutput<T> WithMessages(IEnumerable<string> messages)
+    {
+        AddMessages(messages);
+
+        return this;
+    }
+
+    public WebApiOutput<T> WithHttpStatusCode(int httpStatusCode)
     {
         ValidateStatusCode(httpStatusCode);
 
         _httpStatusCode = httpStatusCode;
+
+        return this;
     }
-
-    public WebApiOutput(DataOutput<T> dataOutput, int httpStatusCode) : base(dataOutput.Data, dataOutput.Messages,
-        dataOutput.Success)
-    {
-        ValidateStatusCode(httpStatusCode);
-
-        _httpStatusCode = httpStatusCode;
-    }
-
-    public WebApiOutput(ProcessOutput processOutput, T dataOutput, int httpStatusCode) : base(
-        dataOutput,
-        processOutput.Success ? ["Process executed with no errors"] : processOutput.Errors.ToArray(),
-        processOutput.Success)
-    {
-        ValidateStatusCode(httpStatusCode);
-
-        _httpStatusCode = httpStatusCode;
-    }
-
 
     public ObjectResult ToObjectResult() => new(this) { StatusCode = _httpStatusCode };
 

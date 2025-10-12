@@ -1,17 +1,45 @@
-﻿namespace ArturRios.Common.Pipelines;
+﻿using ArturRios.Common.Output;
 
-public class PipelineOutput
-{
-    // TODO: Messages could be a Exception object
-    public string[] Messages { get; set; } = [];
-    public bool Success { get; set; }
-    public DateTime Timestamp { get; } = DateTime.UtcNow;
-}
+namespace ArturRios.Common.Pipelines;
 
-public class PipelineOutput<T>
+public class PipelineOutput : ProcessOutput
 {
-    public T? Data { get; set; }
-    public string[] Messages { get; set; } = [];
-    public bool Success { get; set; }
-    public DateTime Timestamp { get; set; } = DateTime.UtcNow;
+    public static PipelineOutput New => new();
+
+    public object? Result { get; private set; } = null;
+
+    public PipelineOutput WithMessage(string message)
+    {
+        AddMessage(message);
+
+        return this;
+    }
+
+    public PipelineOutput WithMessages(IEnumerable<string> messages)
+    {
+        AddMessages(messages);
+
+        return this;
+    }
+
+    public PipelineOutput WithError(string error)
+    {
+        AddError(error);
+
+        return this;
+    }
+
+    public PipelineOutput WithErrors(IEnumerable<string> errors)
+    {
+        AddErrors(errors);
+
+        return this;
+    }
+
+    public PipelineOutput WithResult(object? result)
+    {
+        Result = result;
+
+        return this;
+    }
 }

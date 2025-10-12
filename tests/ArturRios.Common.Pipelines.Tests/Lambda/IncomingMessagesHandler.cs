@@ -24,22 +24,30 @@ public class IncomingMessagesHandler(IPipeline pipeline, ILogger<IncomingMessage
 
             var result = await pipeline.ExecuteCommandAsync(command);
 
+            var output = new ProcessOutput();
+            output.AddMessages(result.Messages);
+
             if (!result.Success)
             {
                 logger.LogError("Command execution failed with errors: {ErrorMessages}", result.Messages.JoinWith());
 
-                return new ProcessOutput { Errors = result.Messages };
+                output.AddErrors(result.Errors);
+            }
+            else
+            {
+                logger.LogInformation("Command executed successfully");
             }
 
-            logger.LogInformation("Command executed successfully");
-
-            return new ProcessOutput();
+            return output;
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Error processing SQS message");
 
-            return new ProcessOutput { Errors = [ex.Message] };
+            var output = new ProcessOutput();
+            output.AddError(ex.Message);
+
+            return output;
         }
     }
 }

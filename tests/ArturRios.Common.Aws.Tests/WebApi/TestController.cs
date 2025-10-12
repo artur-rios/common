@@ -8,7 +8,10 @@ public class TestController : BaseController
     [HttpGet]
     public ActionResult<WebApiOutput<string>> HelloWorld()
     {
-        WebApiOutput<string> result = new("Hello world!", ["User management Web API is ON"], true, HttpStatusCodes.Ok);
+        var result = WebApiOutput<string>.New
+            .WithData("Hello world!")
+            .WithMessage("Test controller is on...")
+            .WithHttpStatusCode(HttpStatusCodes.Ok);
 
         return Resolve(result);
     }

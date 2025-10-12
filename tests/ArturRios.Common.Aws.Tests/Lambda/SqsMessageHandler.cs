@@ -26,22 +26,30 @@ public class SqsMessageHandler(ICommandPipeline pipeline, ILogger<SqsMessageHand
 
             var output = await pipeline.ExecuteCommandAsync(commandInput);
 
+            var processOutput = new ProcessOutput();
+
             if (output.Success)
             {
-                return new ProcessOutput();
+                processOutput.AddMessage($"Command {commandInput.TypeFullName} | Id: {commandInput.CommandId} executed successfully");
             }
 
             logger.LogError("The command {CommandType} | Id: {CommandId} failed with errors: {Errors}",
-                commandInput.TypeFullName, commandInput.CommandId, output.Messages.JoinWith());
+                commandInput.TypeFullName, commandInput.CommandId, output.Errors.JoinWith());
 
-            return new ProcessOutput { Errors = output.Messages.ToList() };
+            processOutput.AddErrors(output.Errors);
+
+            return processOutput;
 
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Exception raised from message body {MessageBody}", message.Body);
 
-            return new ProcessOutput { Errors = [ex.Message] };
+            var processOutput = new ProcessOutput();
+            processOutput.AddError($"Exception raised from message body {message.Body}");
+            processOutput.AddError($"Exception: {ex.Message}");
+
+            return processOutput;
         }
     }
 }

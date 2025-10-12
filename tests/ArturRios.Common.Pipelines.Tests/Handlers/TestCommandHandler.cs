@@ -23,7 +23,10 @@ public class TestCommandHandler(ILogger<TestCommand> logger) : ICommandHandler<T
 
         entity.DoSomething();
 
-        return new TestCommandOutput { Messages = ["Message processed successfully"], Success = true };
+        var output = new TestCommandOutput();
+        output.AddMessage("Message processed successfully");
+
+        return output;
     }
 
     private static TestEntity ParseMessage(string message)
