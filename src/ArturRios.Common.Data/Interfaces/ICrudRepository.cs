@@ -9,5 +9,5 @@ public interface ICrudRepository<T> where T : Entity
     int Create(T entity);
     T? GetById(int id, bool track = false);
     void Update(T entity);
-    List<int> Delete(List<int> ids);
+    IEnumerable<int> Delete(List<int> ids);
 }

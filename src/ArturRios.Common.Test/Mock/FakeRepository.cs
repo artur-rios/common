@@ -50,7 +50,7 @@ public class FakeRepository<T>(Type filterType) : ICrudRepository<T> where T : E
         }
     }
 
-    public List<int> Delete(List<int> ids)
+    public IEnumerable<int> Delete(List<int> ids)
     {
         var entities = _items.Where(e => ids.Contains(e.Id)).ToList();
 
