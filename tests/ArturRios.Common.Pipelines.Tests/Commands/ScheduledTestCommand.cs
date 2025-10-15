@@ -2,7 +2,7 @@ using ArturRios.Common.Pipelines.Commands;
 
 namespace ArturRios.Common.Pipelines.Tests.Commands;
 
-public class ScheduledTestCommand(Guid operationId) : Command
+public class ScheduledTestCommand(int id) : Command
 {
-    public Guid OperationId { get; set; } = operationId;
+    public int Id { get; set; } = id;
 }

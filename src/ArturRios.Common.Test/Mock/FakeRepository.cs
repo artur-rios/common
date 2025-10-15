@@ -17,37 +17,9 @@ public class FakeRepository<T>(Type filterType) : ICrudRepository<T> where T : E
         return entity.Id;
     }
 
-    public IQueryable<T> GetByFilter(DataFilter filter, bool track = false)
+    public IQueryable<T> GetAll()
     {
-        if (filter.GetType() != filterType)
-        {
-            throw new ArgumentException($"Filter type must be {filterType.Name}", nameof(filter));
-        }
-
-        var filterProperties = filterType.GetProperties();
-        IEnumerable<T> query = _items;
-
-        foreach (var prop in filterProperties)
-        {
-            var filterValue = prop.GetValue(filter);
-
-            if (filterValue is null)
-            {
-                continue;
-            }
-
-            var property = typeof(T).GetProperty(prop.Name);
-            if (property is not null)
-            {
-                query = query.Where(item =>
-                {
-                    var itemValue = property.GetValue(item);
-                    return Equals(itemValue, filterValue);
-                });
-            }
-        }
-
-        return query.AsQueryable();
+        return _items.AsQueryable();
     }
 
     public T? GetById(int id, bool track = false)
@@ -78,15 +50,15 @@ public class FakeRepository<T>(Type filterType) : ICrudRepository<T> where T : E
         }
     }
 
-    public void Delete(int id)
+    public List<int> Delete(List<int> ids)
     {
-        var entity = _items.FirstOrDefault(item => item.Id == id);
+        var entities = _items.Where(e => ids.Contains(e.Id)).ToList();
 
-        if (entity is null)
+        foreach (var entity in entities)
         {
-            throw new KeyNotFoundException($"Entity with ID {id} not found.");
+            _items.Remove(entity);
         }
 
-        _items.Remove(entity);
+        return entities.Select(e => e.Id).ToList();
     }
 }

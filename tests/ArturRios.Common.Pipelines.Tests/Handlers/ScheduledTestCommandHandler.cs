@@ -2,7 +2,6 @@
 using ArturRios.Common.Pipelines.Commands.Interfaces;
 using ArturRios.Common.Pipelines.Tests.Commands;
 using ArturRios.Common.Pipelines.Tests.Entities;
-using ArturRios.Common.Pipelines.Tests.Filters;
 using ArturRios.Common.Pipelines.Tests.Output;
 
 namespace ArturRios.Common.Pipelines.Tests.Handlers;
@@ -11,7 +10,7 @@ public class ScheduledTestCommandHandler(ICrudRepository<TestEntity> repository)
 {
     public Task<ScheduledTestCommandOutput> HandleAsync(ScheduledTestCommand command)
     {
-        var entity = repository.GetByFilter(new TestFilter { OperationId = command.OperationId }).FirstOrDefault() ?? throw new ArgumentException($"Entity with OperationId {command.OperationId} not found");
+        var entity = repository.GetById(command.Id) ?? throw new ArgumentException($"Entity with Id {command.Id} not found");
 
         entity.MarkAsCompleted();
 

@@ -2,7 +2,6 @@
 using ArturRios.Common.Pipelines.Commands.Interfaces;
 using ArturRios.Common.Pipelines.Tests.Commands;
 using ArturRios.Common.Pipelines.Tests.Entities;
-using ArturRios.Common.Pipelines.Tests.Filters;
 using ArturRios.Common.Pipelines.Tests.Output;
 
 namespace ArturRios.Common.Pipelines.Tests.Handlers;
@@ -12,11 +11,11 @@ public class ScheduleTestCommandHandler(ICommandQueue commandQueue, ICrudReposit
 
     public Task<ScheduleTestCommandOutput> HandleAsync(ScheduleTestCommand command)
     {
-        var entity = repository.GetByFilter(new TestFilter { OperationId = command.OperationId }).FirstOrDefault();
+        var entity = repository.GetById(command.Id);
 
         if (entity is null)
         {
-            throw new ArgumentException($"Entity with OperationId {command.OperationId} not found");
+            throw new ArgumentException($"Entity with Id {command.Id} not found");
         }
 
         var scheduleDate = command.ScheduledDate.AddDays(1);
@@ -28,7 +27,7 @@ public class ScheduleTestCommandHandler(ICommandQueue commandQueue, ICrudReposit
 
         entity.CanSchedule(scheduleDate);
 
-        commandQueue.Schedule(new ScheduledTestCommand(entity.OperationId), scheduleDate);
+        commandQueue.Schedule(new ScheduledTestCommand(entity.Id), scheduleDate);
 
         entity.MarkAsScheduled();
 

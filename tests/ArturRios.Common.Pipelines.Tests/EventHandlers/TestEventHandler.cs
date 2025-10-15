@@ -9,7 +9,7 @@ public class TestEventHandler(ICommandQueue commandQueue) : IEventHandler<TestEv
 {
     public Task Handle(TestEvent @event)
     {
-        commandQueue.Enqueue(new ScheduleTestCommand(@event.OperationId, @event.ScheduleDate));
+        commandQueue.Enqueue(new ScheduleTestCommand(@event.Id, @event.ScheduleDate));
 
         return Task.CompletedTask;
     }

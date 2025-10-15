@@ -25,7 +25,7 @@ public class TestEntity : DomainEventEntity
     {
         CanDoSomething();
 
-        AddDomainEvent(new TestEvent { OperationId = OperationId, ScheduleDate = CreatedAt });
+        AddDomainEvent(new TestEvent { Id = Id, ScheduleDate = CreatedAt });
     }
 
     public void CanSchedule(DateTime scheduleDate)
