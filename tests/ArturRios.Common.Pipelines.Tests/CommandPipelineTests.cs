@@ -16,10 +16,10 @@ public class CommandPipelineTests
             .AddTransient<ICommandHandlerAsync<TestCommand, TestCommandOutputAsync>, TestCommandHandlerAsync>()
             .BuildServiceProvider();
 
-        var pipeline = new CommandPipeline(serviceProvider);
+        var pipeline = new Pipeline(serviceProvider);
         var command = new TestCommand { Message = "{\"Id\":1,\"Name\":\"Test\"}" };
 
-        var result = await pipeline.ExecuteAsync<TestCommandOutputAsync>(command);
+        var result = await pipeline.ExecuteCommandAsync<TestCommand, TestCommandOutputAsync>(command);
 
         Assert.NotNull(result);
         Assert.True(result.Success);
@@ -35,10 +35,10 @@ public class CommandPipelineTests
             .AddTransient<ICommandHandler<TestCommand, TestCommandOutput>, TestCommandHandler>()
             .BuildServiceProvider();
 
-        var pipeline = new CommandPipeline(serviceProvider);
+        var pipeline = new Pipeline(serviceProvider);
         var command = new TestCommand { Message = "{\"Id\":1,\"Name\":\"Test\"}" };
 
-        var result = pipeline.Execute<TestCommandOutput>(command);
+        var result = pipeline.ExecuteCommand<TestCommand, TestCommandOutput>(command);
 
         Assert.NotNull(result);
         Assert.True(result.Success);

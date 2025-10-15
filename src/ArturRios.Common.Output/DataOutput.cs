@@ -2,7 +2,10 @@
 
 public class DataOutput<T> : ProcessOutput
 {
-    public T? Data { get; protected set; }
+
+    // ReSharper disable once MemberCanBeProtected.Global
+    // Reason: setter must be public for deserialization purposes
+    public T? Data { get; set; }
 
     public static DataOutput<T> New => new();
 

@@ -57,7 +57,7 @@ public class Condition
     {
         var output = new ProcessOutput();
 
-        if (IsSatisfied)
+        if (!IsSatisfied)
         {
             output.AddErrors(_failedConditions.ToList());
         }

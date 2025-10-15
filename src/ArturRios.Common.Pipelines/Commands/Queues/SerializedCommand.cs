@@ -1,8 +1,8 @@
 ﻿using System.Text.Json;
 
-namespace ArturRios.Common.Pipelines.Commands;
+namespace ArturRios.Common.Pipelines.Commands.Queues;
 
-public class SerializedCommand
+public class SerializedCommand : Command
 {
     public string TypeFullName { get; }
     public string AssemblyName { get; }
@@ -19,7 +19,8 @@ public class SerializedCommand
 
         if (data is JsonElement { ValueKind: JsonValueKind.Object } json)
         {
-            var assemblyChain = AppDomain.CurrentDomain.GetAssemblies().First(assembly => assembly.GetName().Name == assemblyName);
+            var assemblyChain = AppDomain.CurrentDomain.GetAssemblies()
+                .First(assembly => assembly.GetName().Name == assemblyName);
             var commandType = assemblyChain.GetType(typeFullName);
 
             if (commandType is null)
@@ -29,7 +30,8 @@ public class SerializedCommand
 
             var deserializedData = json.Deserialize(commandType);
 
-            Data = deserializedData ?? throw new ArgumentException($"Failed to deserialize data for type {commandType}");
+            Data = deserializedData ??
+                   throw new ArgumentException($"Failed to deserialize data for type {commandType}");
         }
         else
         {
@@ -39,7 +41,8 @@ public class SerializedCommand
 
     private SerializedCommand(object commandInstance)
     {
-        TypeFullName = commandInstance.GetType().FullName ?? throw new ArgumentNullException(nameof(commandInstance), "Command instance type full name cannot be null");
+        TypeFullName = commandInstance.GetType().FullName ?? throw new ArgumentNullException(nameof(commandInstance),
+            "Command instance type full name cannot be null");
         AssemblyName = commandInstance.GetType().Assembly.GetName().Name!;
         Data = commandInstance;
         CommandId = Guid.NewGuid();
@@ -50,20 +53,18 @@ public class SerializedCommand
         return new SerializedCommand(request);
     }
 
-    public static SerializedCommand FromScheduledRequest<TRequest>(TRequest request, DateTime scheduledAt) where TRequest : notnull
+    public static SerializedCommand FromScheduledRequest<TRequest>(TRequest request, DateTime scheduledAt)
+        where TRequest : notnull
     {
-        var command = new SerializedCommand(request)
-        {
-            IsScheduled = true,
-            ScheduledAt = scheduledAt
-        };
+        var command = new SerializedCommand(request) { IsScheduled = true, ScheduledAt = scheduledAt };
 
         return command;
     }
 
     public static SerializedCommand FromJson(string json)
     {
-        return JsonSerializer.Deserialize<SerializedCommand>(json) ?? throw new ArgumentException("Failed to deserialize JSON to SerializedCommand");
+        return JsonSerializer.Deserialize<SerializedCommand>(json) ??
+               throw new ArgumentException("Failed to deserialize JSON to SerializedCommand");
     }
 
     public string ToJson()

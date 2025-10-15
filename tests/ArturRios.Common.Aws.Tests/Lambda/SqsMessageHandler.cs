@@ -4,12 +4,12 @@ using ArturRios.Common.Extensions;
 using ArturRios.Common.Output;
 using ArturRios.Common.Pipelines;
 using ArturRios.Common.Pipelines.Commands;
-using ArturRios.Common.Pipelines.Commands.Interfaces;
+using ArturRios.Common.Pipelines.Commands.Queues;
 using Microsoft.Extensions.Logging;
 
 namespace ArturRios.Common.Aws.Tests.Lambda;
 
-public class SqsMessageHandler(ICommandPipeline pipeline, ILogger<SqsMessageHandler> logger) : ISqsMessageHandler
+public class SqsMessageHandler(Pipeline pipeline, ILogger<SqsMessageHandler> logger) : ISqsMessageHandler
 {
     public async Task<ProcessOutput> HandleAsync(SQSEvent.SQSMessage message)
     {
@@ -24,7 +24,7 @@ public class SqsMessageHandler(ICommandPipeline pipeline, ILogger<SqsMessageHand
             logger.LogInformation("Executing command {CommandType} | Id: {CommandId}", commandInput.TypeFullName,
                 commandInput.CommandId);
 
-            var output = await pipeline.ExecuteCommandAsync(commandInput);
+            var output = await pipeline.ExecuteCommandAsync<SerializedCommand, CommandOutput>(commandInput);
 
             var processOutput = new ProcessOutput();
 

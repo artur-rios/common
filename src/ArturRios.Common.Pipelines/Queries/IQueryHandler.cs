@@ -1,6 +1,6 @@
 ﻿namespace ArturRios.Common.Pipelines.Queries;
 
-public interface IQueryHandler<in TQuery, TResult> where TQuery : IQuery<TResult> where TResult : class?
+public interface IQueryHandler<in TQuery, out TOutput> where TQuery : Query where TOutput : QueryOutput
 {
-    Task<TResult> ExecuteAsync(TQuery query);
+    TOutput Handle(TQuery query);
 }

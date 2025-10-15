@@ -1,4 +1,4 @@
-﻿namespace ArturRios.Common.Pipelines.Waiter;
+﻿namespace ArturRios.Common.Util.Waiter;
 
 public class JitteredWaiter(int maxRetryCount)
 {
@@ -25,7 +25,7 @@ public class JitteredWaiter(int maxRetryCount)
         else
         {
             var backoffPeriodMs = Convert.ToInt32(Math.Pow(2, currentRetryAttempt) * 1000) - FixedWaitDelay;
-            await Task.Delay(FixedWaitDelay + backoffPeriodMs / 2 + new Random().Next(0, backoffPeriodMs / 2));
+            await Task.Delay(FixedWaitDelay + backoffPeriodMs / 2 + new System.Random().Next(0, backoffPeriodMs / 2));
         }
     }
 }
