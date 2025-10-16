@@ -1,4 +1,5 @@
-﻿using ArturRios.Common.Pipelines.Commands;
+﻿using ArturRios.Common.Output;
+using ArturRios.Common.Pipelines.Commands;
 using ArturRios.Common.Pipelines.Commands.Interfaces;
 using ArturRios.Common.Pipelines.Queries;
 
@@ -8,7 +9,7 @@ public class Pipeline(IServiceProvider serviceProvider)
 {
     public TOutput ExecuteCommand<TCommand, TOutput>(TCommand command)
         where TCommand : Command
-        where TOutput : CommandOutput
+        where TOutput : ProcessOutput
     {
         var handler =
             (ICommandHandler<TCommand, TOutput>?)serviceProvider.GetService(typeof(ICommandHandler<TCommand, TOutput>));
@@ -20,7 +21,7 @@ public class Pipeline(IServiceProvider serviceProvider)
 
     public async Task<TOutput> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
         where TCommand : Command
-        where TOutput : CommandOutput
+        where TOutput : ProcessOutput
     {
         var handler =
             (ICommandHandlerAsync<TCommand, TOutput>?)serviceProvider.GetService(
@@ -34,26 +35,26 @@ public class Pipeline(IServiceProvider serviceProvider)
         return await handler.HandleAsync(command);
     }
 
-    public TQueryOutput ExecuteQuery<TQuery, TQueryOutput>(TQuery query)
+    public PaginatedOutput<TOutput?> ExecuteQuery<TQuery, TOutput>(TQuery query)
         where TQuery : Query
-        where TQueryOutput : QueryOutput
+        where TOutput : QueryOutput
     {
         var handler =
-            (IQueryHandler<TQuery, TQueryOutput>?)serviceProvider.GetService(
-                typeof(IQueryHandler<TQuery, TQueryOutput>));
+            (IQueryHandler<TQuery, TOutput>?)serviceProvider.GetService(
+                typeof(IQueryHandler<TQuery, TOutput>));
 
         return handler is null
             ? throw new InvalidOperationException($"No query handler registered for {typeof(TQuery).Name}")
             : handler.Handle(query);
     }
 
-    public async Task<TQueryOutput> ExecuteQueryAsync<TQuery, TQueryOutput>(TQuery query)
+    public async Task<PaginatedOutput<TOutput?>> ExecuteQueryAsync<TQuery, TOutput>(TQuery query)
         where TQuery : Query
-        where TQueryOutput : QueryOutput
+        where TOutput : QueryOutput
     {
         var handler =
-            (IQueryHandlerAsync<TQuery, TQueryOutput>?)serviceProvider.GetService(
-                typeof(IQueryHandlerAsync<TQuery, TQueryOutput>));
+            (IQueryHandlerAsync<TQuery, TOutput>?)serviceProvider.GetService(
+                typeof(IQueryHandlerAsync<TQuery, TOutput>));
 
         if (handler == null)
         {

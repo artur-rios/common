@@ -1,4 +1,4 @@
-﻿namespace ArturRios.Common.Pipelines.Commands.Queues;
+﻿namespace ArturRios.Common.Aws.Command;
 
 public class AwsCommandQueueConfiguration
 {

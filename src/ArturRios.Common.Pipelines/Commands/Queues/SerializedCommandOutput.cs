@@ -1,3 +1,5 @@
-﻿namespace ArturRios.Common.Pipelines.Commands.Queues;
+﻿using ArturRios.Common.Output;
 
-public class SerializedCommandOutput : CommandOutput;
+namespace ArturRios.Common.Pipelines.Commands.Queues;
+
+public class SerializedCommandOutput : ProcessOutput;

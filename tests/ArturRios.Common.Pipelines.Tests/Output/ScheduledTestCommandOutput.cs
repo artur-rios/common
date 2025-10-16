@@ -1,5 +1,5 @@
-using ArturRios.Common.Pipelines.Commands;
+using ArturRios.Common.Output;
 
 namespace ArturRios.Common.Pipelines.Tests.Output;
 
-public class ScheduledTestCommandOutput : CommandOutput;
+public class ScheduledTestCommandOutput : ProcessOutput;

@@ -5,9 +5,10 @@ using Amazon.SQS;
 using Amazon.SQS.Model;
 using ArturRios.Common.Extensions;
 using ArturRios.Common.Pipelines.Commands.Interfaces;
+using ArturRios.Common.Pipelines.Commands.Queues;
 using Microsoft.Extensions.Logging;
 
-namespace ArturRios.Common.Pipelines.Commands.Queues;
+namespace ArturRios.Common.Aws.Command;
 
 public class AwsCommandQueue(
     IAmazonSQS sqs,

@@ -24,7 +24,7 @@ public class SqsMessageHandler(Pipeline pipeline, ILogger<SqsMessageHandler> log
             logger.LogInformation("Executing command {CommandType} | Id: {CommandId}", commandInput.TypeFullName,
                 commandInput.CommandId);
 
-            var output = await pipeline.ExecuteCommandAsync<SerializedCommand, CommandOutput>(commandInput);
+            var output = await pipeline.ExecuteCommandAsync<SerializedCommand, ProcessOutput>(commandInput);
 
             var processOutput = new ProcessOutput();
 

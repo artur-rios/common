@@ -1,6 +1,8 @@
-﻿namespace ArturRios.Common.Pipelines.Queries;
+﻿using ArturRios.Common.Output;
 
-public interface IQueryHandler<in TQuery, out TOutput> where TQuery : Query where TOutput : QueryOutput
+namespace ArturRios.Common.Pipelines.Queries;
+
+public interface IQueryHandler<in TQuery, TOutput> where TQuery : Query where TOutput : QueryOutput
 {
-    TOutput Handle(TQuery query);
+    PaginatedOutput<TOutput?> Handle(TQuery query);
 }

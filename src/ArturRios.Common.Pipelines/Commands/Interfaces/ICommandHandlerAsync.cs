@@ -1,6 +1,8 @@
-﻿namespace ArturRios.Common.Pipelines.Commands.Interfaces;
+﻿using ArturRios.Common.Output;
 
-public interface ICommandHandlerAsync<in TCommand, TOutput> where TCommand : Command where TOutput : CommandOutput
+namespace ArturRios.Common.Pipelines.Commands.Interfaces;
+
+public interface ICommandHandlerAsync<in TCommand, TOutput> where TCommand : Command where TOutput : ProcessOutput
 {
     Task<TOutput> HandleAsync(TCommand command);
 }

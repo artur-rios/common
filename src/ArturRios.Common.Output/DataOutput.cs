@@ -7,7 +7,7 @@ public class DataOutput<T> : ProcessOutput
     // Reason: setter must be public for deserialization purposes
     public T? Data { get; set; }
 
-    public static DataOutput<T> New => new();
+    public static new DataOutput<T> New => new();
 
     public DataOutput<T> WithData(T data)
     {
@@ -16,28 +16,28 @@ public class DataOutput<T> : ProcessOutput
         return this;
     }
 
-    public DataOutput<T> WithError(string error)
+    public new DataOutput<T> WithError(string error)
     {
         AddError(error);
 
         return this;
     }
 
-    public DataOutput<T> WithErrors(IEnumerable<string> errors)
+    public new DataOutput<T> WithErrors(IEnumerable<string> errors)
     {
         AddErrors(errors);
 
         return this;
     }
 
-    public DataOutput<T> WithMessage(string message)
+    public new DataOutput<T> WithMessage(string message)
     {
         AddMessage(message);
 
         return this;
     }
 
-    public DataOutput<T> WithMessages(IEnumerable<string> messages)
+    public new DataOutput<T> WithMessages(IEnumerable<string> messages)
     {
         AddMessages(messages);
 

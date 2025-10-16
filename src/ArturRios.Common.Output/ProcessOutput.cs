@@ -10,6 +10,8 @@ public class ProcessOutput
     // Reason: metadata field
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
+    public static ProcessOutput New => new();
+
     public void AddError(string error)
     {
         if (string.IsNullOrWhiteSpace(error))
@@ -45,5 +47,33 @@ public class ProcessOutput
     public void AddMessages(IEnumerable<string> messages)
     {
         Messages.AddRange(messages.Where(e => !string.IsNullOrWhiteSpace(e)).ToList());
+    }
+
+    public ProcessOutput WithError(string error)
+    {
+        AddError(error);
+
+        return this;
+    }
+
+    public ProcessOutput WithErrors(IEnumerable<string> errors)
+    {
+        AddErrors(errors);
+
+        return this;
+    }
+
+    public ProcessOutput WithMessage(string message)
+    {
+        AddMessage(message);
+
+        return this;
+    }
+
+    public ProcessOutput WithMessages(IEnumerable<string> messages)
+    {
+        AddMessages(messages);
+
+        return this;
     }
 }

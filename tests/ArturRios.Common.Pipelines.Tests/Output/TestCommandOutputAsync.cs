@@ -1,5 +1,5 @@
-using ArturRios.Common.Pipelines.Commands;
+using ArturRios.Common.Output;
 
 namespace ArturRios.Common.Pipelines.Tests.Output;
 
-public class TestCommandOutputAsync : CommandOutput;
+public class TestCommandOutputAsync : ProcessOutput;
