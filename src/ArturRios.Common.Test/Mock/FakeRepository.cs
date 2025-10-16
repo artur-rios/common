@@ -3,7 +3,7 @@ using ArturRios.Common.Data.Interfaces;
 
 namespace ArturRios.Common.Test.Mock;
 
-public class FakeRepository<T>(Type filterType) : ICrudRepository<T> where T : Entity
+public class FakeRepository<T> : ICrudRepository<T> where T : Entity
 {
     private readonly List<T> _items = [];
     private int _nextId;
