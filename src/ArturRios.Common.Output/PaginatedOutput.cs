@@ -17,9 +17,32 @@ public class PaginatedOutput<T> : DataOutput<List<T>>
         return this;
     }
 
+    public void AddItem(T item)
+    {
+        Data ??= [];
+
+        Data.Add(item);
+    }
+
+    public void AddItems(IEnumerable<T> items)
+    {
+        Data ??= [];
+
+        Data.AddRange(items);
+    }
+
     public new PaginatedOutput<T> WithData(List<T> data)
     {
         Data = data;
+
+        return this;
+    }
+
+    public PaginatedOutput<T> WithData(T data)
+    {
+        Data ??= [];
+
+        Data.Add(data);
 
         return this;
     }
