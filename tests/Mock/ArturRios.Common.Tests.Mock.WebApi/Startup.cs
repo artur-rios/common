@@ -1,4 +1,6 @@
-﻿using ArturRios.Common.WebApi;
+﻿using ArturRios.Common.Web;
+using ArturRios.Common.Web.Api.Configuration;
+using ArturRios.Common.Web.Middleware;
 using Microsoft.OpenApi.Models;
 
 namespace ArturRios.Common.Tests.Mock.WebApi;

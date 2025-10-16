@@ -1,5 +1,5 @@
 ﻿using ArturRios.Common.Tests.Mock.WebApi.Client.Routes;
-using ArturRios.Common.WebApi.Client;
+using ArturRios.Common.Web.Api.Client;
 
 namespace ArturRios.Common.Tests.Mock.WebApi.Client;
 

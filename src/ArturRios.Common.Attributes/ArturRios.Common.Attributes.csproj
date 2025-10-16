@@ -15,7 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ArturRios.Common.Configuration\ArturRios.Common.Configuration.csproj" />
-      <ProjectReference Include="..\ArturRios.Common.WebApi\ArturRios.Common.WebApi.csproj" />
+      <ProjectReference Include="..\ArturRios.Common.Web\ArturRios.Common.Web.csproj" />
     </ItemGroup>
 
 </Project>

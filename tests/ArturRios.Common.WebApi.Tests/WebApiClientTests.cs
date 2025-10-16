@@ -11,7 +11,7 @@ public class WebApiClientTests : WebApiTest<Program>
 
     public WebApiClientTests(EnvironmentType environment = EnvironmentType.Local) : base(environment)
     {
-        _webApiClient = new WebApiClient(Client);
+        _webApiClient = new WebApiClient(Gateway.Client);
     }
 
     [Fact]

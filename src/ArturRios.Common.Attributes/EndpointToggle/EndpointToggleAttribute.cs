@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using ArturRios.Common.Configuration.Enums;
 using ArturRios.Common.Output;
-using ArturRios.Common.WebApi;
+using ArturRios.Common.Web;
+using ArturRios.Common.Web.Api.Output;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;

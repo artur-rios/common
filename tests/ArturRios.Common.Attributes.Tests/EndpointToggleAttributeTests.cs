@@ -6,15 +6,17 @@ using ArturRios.Common.Tests.Mock.WebApi;
 
 namespace ArturRios.Common.Attributes.Tests;
 
-public class EndpointToggleAttributeTests(EnvironmentType environment = EnvironmentType.Local) : WebApiTest<Program>(environment)
+public class EndpointToggleAttributeTests(EnvironmentType environment = EnvironmentType.Local)
+    : WebApiTest<Program>(environment)
 {
     private const string TestRoute = "/EndpointToggleTest";
 
     [Fact]
     public async Task EndpointShouldBe_Enabled()
     {
-        var output = await GetAsync<string>($"{TestRoute}/Enabled", HttpStatusCode.OK);
+        var output = await Gateway.GetAsync<string>($"{TestRoute}/Enabled");
 
+        Assert.Equal(HttpStatusCode.OK, output.GetStatusCode());
         Assert.NotNull(output);
         Assert.Equal("Hello world!", output.Data);
         Assert.Equal("Endpoint test controller is on...", output.Messages.First());
@@ -23,8 +25,9 @@ public class EndpointToggleAttributeTests(EnvironmentType environment = Environm
     [Fact]
     public async Task EndpointShouldBe_Disabled()
     {
-        var output = await GetAsync<string>($"{TestRoute}/Disabled", EndpointToggleAttribute.DefaultDisabledStatusCode);
+        var output = await Gateway.GetAsync<string>($"{TestRoute}/Disabled");
 
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.GetStatusCode());
         Assert.NotNull(output);
         Assert.Null(output.Data);
         Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Messages.First());
@@ -33,8 +36,9 @@ public class EndpointToggleAttributeTests(EnvironmentType environment = Environm
     [Fact]
     public async Task EndpointShouldBe_DisabledByAppSettings()
     {
-        var output = await GetAsync<string>($"{TestRoute}/DisabledByAppSettings", EndpointToggleAttribute.DefaultDisabledStatusCode);
+        var output = await Gateway.GetAsync<string>($"{TestRoute}/DisabledByAppSettings");
 
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.GetStatusCode());
         Assert.NotNull(output);
         Assert.Null(output.Data);
         Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Messages.First());

@@ -1,7 +1,9 @@
-﻿using ArturRios.Common.Attributes;
-using ArturRios.Common.Attributes.EndpointToggle;
+﻿using ArturRios.Common.Attributes.EndpointToggle;
 using ArturRios.Common.Configuration.Enums;
-using ArturRios.Common.WebApi;
+using ArturRios.Common.Web;
+using ArturRios.Common.Web.Api.Base;
+using ArturRios.Common.Web.Api.Output;
+using ArturRios.Common.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArturRios.Common.Tests.Mock.WebApi.Controllers;

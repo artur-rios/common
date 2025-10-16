@@ -1,5 +1,5 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Data", "ArturRios.Common.Data\ArturRios.Common.Data.csproj", "{B888446F-CB02-4A3C-B42A-042EAE672E3D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Extensions", "ArturRios.Common.Extensions\ArturRios.Common.Extensions.csproj", "{88785125-ED2D-48AE-98FC-6C1E33B775A8}"
@@ -8,7 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Security",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Output", "ArturRios.Common.Output\ArturRios.Common.Output.csproj", "{5BEC9320-A4B2-4DE0-8A3F-666492C15B02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.WebApi", "ArturRios.Common.WebApi\ArturRios.Common.WebApi.csproj", "{6A40DD5B-E8C0-4780-95DD-D6B968CD89E6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Web", "ArturRios.Common.Web\ArturRios.Common.Web.csproj", "{6A40DD5B-E8C0-4780-95DD-D6B968CD89E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Util.Tests", "..\tests\ArturRios.Common.Util.Tests\ArturRios.Common.Util.Tests.csproj", "{D6365923-C461-40A3-B2FF-E9CBE61BC960}"
 EndProject
