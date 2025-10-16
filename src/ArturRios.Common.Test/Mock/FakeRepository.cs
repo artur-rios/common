@@ -3,7 +3,7 @@ using ArturRios.Common.Data.Interfaces;
 
 namespace ArturRios.Common.Test.Mock;
 
-public class FakeRepository<T> : ICrudRepository<T> where T : Entity
+public class FakeRepository<T> : ICrudRepository<T>, IRangeRepository<T> where T : Entity
 {
     private readonly List<T> _items = [];
     private int _nextId;
@@ -22,18 +22,18 @@ public class FakeRepository<T> : ICrudRepository<T> where T : Entity
         return _items.AsQueryable();
     }
 
-    public T? GetById(int id, bool track = false)
+    public T? GetById(int id)
     {
-        return _items.FirstOrDefault(item => item.Id == id);
+        return _items.FirstOrDefault(x => x.Id == id);
     }
 
-    public void Update(T entity)
+    public T Update(T entity)
     {
         var existingItem = _items.FirstOrDefault(item => item.Id == entity.Id);
 
         if (existingItem is null)
         {
-            throw new KeyNotFoundException($"Entity with ID {entity.Id} not found.");
+            throw new KeyNotFoundException($"Entity with Id {entity.Id} not found");
         }
 
         var properties = typeof(T).GetProperties();
@@ -48,9 +48,43 @@ public class FakeRepository<T> : ICrudRepository<T> where T : Entity
             var value = prop.GetValue(entity);
             prop.SetValue(existingItem, value);
         }
+
+        return existingItem;
     }
 
-    public IEnumerable<int> Delete(List<int> ids)
+    public IEnumerable<T> UpdateRange(List<T> entities)
+    {
+        foreach (var entity in entities)
+        {
+            try
+            {
+                Update(entity);
+            }
+            catch
+            {
+                // ignored
+            }
+        }
+
+        return entities;
+    }
+
+    public int Delete(T entity)
+    {
+        var existingItem = _items.FirstOrDefault(item => item.Id == entity.Id);
+
+        if (existingItem is null)
+        {
+            throw new KeyNotFoundException($"Entity with Id {entity.Id} not found");
+        }
+
+        _items.Remove(existingItem);
+
+        return existingItem.Id;
+    }
+
+
+    public IEnumerable<int> DeleteRange(List<int> ids)
     {
         var entities = _items.Where(e => ids.Contains(e.Id)).ToList();
 

@@ -7,28 +7,35 @@ Data utilities, to be used on data access layer.
 ```mermaid
 classDiagram
     ICrudRepository~T~ <|.. T: Entity
-    ICrudRepository ..> DataFilter: uses
+    IReadOnlyRepository~T~ <|.. T: Entity
+    IRangeRepository~T~ <|.. T: Entity
 
     class Entity {
         int Id
     }
 
-    class DataFilter {
-        <<abstract>>
-    }
-
     class ICrudRepository~T~ {
         +int Create(T entity)
-        +IQueryable~T~ GetByFilter(DataFilter filter, bool track = false)
-        +T? GetById(int id, bool track = false)
-        +void Update(T entity)
-        +void Delete(int id)
+        +IQueryable~T~ GetAll()
+        +T? GetById(int id)
+        +T Update(T entity)
+        +int Delete(T entity)
+    }
+
+    class IReadOnlyRepository~T~ {
+        +IQueryable~T~ GetAll()
+        +T? GetById(int id)
+    }
+
+    class IRangeRepository~T~ {
+        +IEnumerable~T~ UpdateRange(List<T> entities)
+        +IEnumerable~int~ DeleteRange(List<int> ids)
     }
 ```
 
 ## Entity
 
-A base for other classes that represents a database entity. Contain an int id property.
+A base for other classes that represents a database entity. Contains an int id property.
 
 [Source code](../src/ArturRios.Common.Data/Entity.cs)
 
@@ -43,8 +50,7 @@ public class CustomEntity : Entity
 
 ## ICrudRepository
 
-An interface that can be used to implement CRUD (Create, Read, Update, Delete) database operations on repository classes.
-It's a generic interface that can be used with any class that represents a database entity. It requires a type parameter that must be a class that inherits from the [Entity](#Entity) class.
+An interface for implementing CRUD (Create, Read, Update, Delete) database operations on repository classes. It is generic and requires a type parameter that inherits from the [Entity](#Entity) class.
 
 [Source code](../src/ArturRios.Common.Data/Interfaces/ICrudRepository.cs)
 
@@ -53,72 +59,118 @@ It's a generic interface that can be used with any class that represents a datab
 ```csharp
 public class CustomRepository : ICrudRepository<CustomEntity>
 {
+    private readonly CustomDbContext _dbContext;
+
+    public CustomRepository(CustomDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
     public int Create(CustomEntity entity)
     {
-        throw new NotImplementedException();
+        _dbContext.CustomEntities.Add(entity);
+
+        _dbContext.SaveChanges();
+
+        return entity.Id;
     }
 
-    public IQueryable<CustomEntity> GetByFilter(DataFilter filter)
+    public IQueryable<CustomEntity> GetAll()
     {
-        throw new NotImplementedException();
+        return _dbContext.CustomEntities;
     }
 
-    public CustomEntity GetById(int id)
+    public CustomEntity? GetById(int id)
     {
-        throw new NotImplementedException();
+        return _dbContext.CustomEntities.Find(id);
     }
 
-    public void Update(CustomEntity entity)
+    public CustomEntity Update(CustomEntity entity)
     {
-        throw new NotImplementedException();
+        _dbContext.CustomEntities.Update(entity);
+
+        _dbContext.SaveChanges();
+
+        return entity;
     }
 
-    public void Delete(int id)
+    public int Delete(CustomEntity entity)
     {
-        throw new NotImplementedException();
+        _dbContext.CustomEntities.Remove(entity);
+
+        _dbContext.SaveChanges();
+
+        return entity.Id;
     }
 }
 ```
 
-## Data Filter
+## IReadOnlyRepository
 
-An abstract class to use as a base for classes that contains properties to be used as filters on database queries
+An interface for read-only access to entities. It provides methods to get all entities or get a single entity by id.
 
-[Source code](../src/ArturRios.Common.Data/DataFilter.cs)
+[Source code](../src/ArturRios.Common.Data/Interfaces/IReadOnlyRepository.cs)
 
 ### Usage
 
 ```csharp
-public class CustomFilter : DataFilter
+public class ReadOnlyRepository : IReadOnlyRepository<CustomEntity>
 {
-    public string? Name { get; set; }
-    public DateTime? CreationDate { get; set; }
+    private readonly CustomDbContext _dbContext;
+
+    public ReadOnlyRepository(CustomDbContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+
+    public IQueryable<CustomEntity> GetAll()
+    {
+        return _dbContext.CustomEntities.AsNoTracking();
+    }
+
+    public CustomEntity? GetById(int id)
+    {
+        return _dbContext.CustomEntities.AsNoTracking().FirstOrDefault(e => e.Id == id);
+    }
 }
 ```
 
-The DataFilter class is the type of the parameter passed to the [ICrudRepository](#ICrudRepository) method
-`GetByFilter`. The following approach is recommended:
+## IRangeRepository
+
+An interface for batch operations on entities, such as updating or deleting multiple entities at once.
+
+[Source code](../src/ArturRios.Common.Data/Interfaces/IRangeRepository.cs)
+
+### Usage
 
 ```csharp
-    public IQueryable<CustomEntity> GetByFilter(DataFilter filter)
+public class RangeRepository : IRangeRepository<CustomEntity>
+{
+    private readonly CustomDbContext _dbContext;
+
+    public RangeRepository(CustomDbContext dbContext)
     {
-        if (filter is not CustomFilter customFilter)
-        {
-            throw new ArgumentException("Invalid filter");
-        }
-
-        var query = _dbContext.Set<CustomEntity>().AsQueryable();
-
-        if (!string.IsNullOrWhiteSpace(customFilter.Name))
-        {
-            query = query.Where(e => e.Name == customFilter.Name);
-        }
-
-        if (customFilter.CreationDate.HasValue)
-        {
-            query = query.Where(e => e.Name == customFilter.CreationDate);
-        }
-
-        return query;
+        _dbContext = dbContext;
     }
+
+    public IEnumerable<CustomEntity> UpdateRange(List<CustomEntity> entities)
+    {
+        _dbContext.CustomEntities.UpdateRange(entities);
+
+        _dbContext.SaveChanges();
+
+        return entities;
+    }
+
+    public IEnumerable<int> DeleteRange(List<int> ids)
+    {
+        var entities = _dbContext.CustomEntities.Where(e => ids.Contains(e.Id)).ToList();
+
+        _dbContext.CustomEntities.RemoveRange(entities);
+
+        _dbContext.SaveChanges();
+
+        return entities.Select(e => e.Id);
+    }
+}
 ```
