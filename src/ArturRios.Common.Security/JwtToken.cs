@@ -18,7 +18,10 @@ public class JwtToken
     private readonly byte[] _key;
     private readonly SecurityToken? _securityToken;
 
-    public JwtToken(string token, string secret = "")
+    public static JwtToken FromToken(string token, string secret = "") => new(token, secret);
+    public static JwtToken FromClaims(Dictionary<string, string> claims, JwtTokenConfiguration configuration) => new(claims, configuration);
+
+    private JwtToken(string token, string secret = "")
     {
         Token = token;
 
@@ -30,11 +33,13 @@ public class JwtToken
         _key = string.IsNullOrWhiteSpace(secret) ? [] : Encoding.ASCII.GetBytes(secret);
     }
 
-    public JwtToken(int userId, JwtTokenConfiguration configuration)
+    private JwtToken(Dictionary<string, string> claims, JwtTokenConfiguration configuration)
     {
         _key = string.IsNullOrWhiteSpace(configuration.Secret) ? [] : Encoding.ASCII.GetBytes(configuration.Secret);
 
-        ClaimsIdentity identity = new([new Claim("id", userId.ToString())]);
+        var claimsList = claims.Select(c => new Claim(c.Key, c.Value)).ToList();
+
+        ClaimsIdentity identity = new(claimsList);
 
         var creationDate = DateTime.Now;
         var expirationDate = creationDate + TimeSpan.FromSeconds(configuration.ExpirationInSeconds);

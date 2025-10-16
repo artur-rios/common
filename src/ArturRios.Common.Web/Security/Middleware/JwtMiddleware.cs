@@ -26,7 +26,7 @@ public class JwtMiddleware(RequestDelegate next, SettingsProvider settings) : We
             {
                 var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last() ?? "";
 
-                var jwtToken = new JwtToken(token, tokenConfig.Secret);
+                var jwtToken = JwtToken.FromToken(token, tokenConfig.Secret);
                 var isValid = jwtToken.IsTokenValidAsync().GetAwaiter().GetResult();
 
                 string authError;
