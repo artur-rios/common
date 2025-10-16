@@ -24,6 +24,13 @@ public class PaginatedOutput<T> : DataOutput<List<T>>
         return this;
     }
 
+    public PaginatedOutput<T> WithEmptyData()
+    {
+        Data = [];
+
+        return this;
+    }
+
     public new PaginatedOutput<T> WithError(string error)
     {
         AddError(error);

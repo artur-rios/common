@@ -35,7 +35,7 @@ public class Pipeline(IServiceProvider serviceProvider)
         return await handler.HandleAsync(command);
     }
 
-    public PaginatedOutput<TOutput?> ExecuteQuery<TQuery, TOutput>(TQuery query)
+    public PaginatedOutput<TOutput> ExecuteQuery<TQuery, TOutput>(TQuery query)
         where TQuery : Query
         where TOutput : QueryOutput
     {
@@ -48,7 +48,7 @@ public class Pipeline(IServiceProvider serviceProvider)
             : handler.Handle(query);
     }
 
-    public async Task<PaginatedOutput<TOutput?>> ExecuteQueryAsync<TQuery, TOutput>(TQuery query)
+    public async Task<PaginatedOutput<TOutput>> ExecuteQueryAsync<TQuery, TOutput>(TQuery query)
         where TQuery : Query
         where TOutput : QueryOutput
     {
