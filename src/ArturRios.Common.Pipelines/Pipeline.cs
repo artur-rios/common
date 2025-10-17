@@ -7,9 +7,9 @@ namespace ArturRios.Common.Pipelines;
 
 public class Pipeline(IServiceProvider serviceProvider)
 {
-    public TOutput ExecuteCommand<TCommand, TOutput>(TCommand command)
+    public DataOutput<TOutput> ExecuteCommand<TCommand, TOutput>(TCommand command)
         where TCommand : Command
-        where TOutput : ProcessOutput
+        where TOutput : CommandOutput
     {
         var handler =
             (ICommandHandler<TCommand, TOutput>?)serviceProvider.GetService(typeof(ICommandHandler<TCommand, TOutput>));
@@ -19,9 +19,9 @@ public class Pipeline(IServiceProvider serviceProvider)
             : handler.Handle(command);
     }
 
-    public async Task<TOutput> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
+    public async Task<DataOutput<TOutput>> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
         where TCommand : Command
-        where TOutput : ProcessOutput
+        where TOutput : CommandOutput
     {
         var handler =
             (ICommandHandlerAsync<TCommand, TOutput>?)serviceProvider.GetService(

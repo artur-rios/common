@@ -1,3 +1,4 @@
+using ArturRios.Common.Output;
 using ArturRios.Common.Pipelines.Commands.Interfaces;
 using ArturRios.Common.Pipelines.Tests.Commands;
 using ArturRios.Common.Pipelines.Tests.Entities;
@@ -10,7 +11,7 @@ namespace ArturRios.Common.Pipelines.Tests.Handlers;
 
 public class TestCommandHandlerAsync(ILogger<TestCommand> logger) : ICommandHandlerAsync<TestCommand, TestCommandOutputAsync>
 {
-    public Task<TestCommandOutputAsync> HandleAsync(TestCommand command)
+    public Task<DataOutput<TestCommandOutputAsync>> HandleAsync(TestCommand command)
     {
         Condition.Create
             .False(string.IsNullOrWhiteSpace(command.Message))
@@ -23,8 +24,9 @@ public class TestCommandHandlerAsync(ILogger<TestCommand> logger) : ICommandHand
 
         entity.DoSomething();
 
-        var output = new TestCommandOutputAsync();
-        output.AddMessage("Message processed successfully");
+        var output = DataOutput<TestCommandOutputAsync>.New
+            .WithData(new TestCommandOutputAsync())
+            .WithMessage("Message processed successfully");
 
         return Task.FromResult(output);
     }
