@@ -7,7 +7,7 @@ namespace ArturRios.Common.Pipelines;
 
 public class Pipeline(IServiceProvider serviceProvider)
 {
-    public DataOutput<TOutput> ExecuteCommand<TCommand, TOutput>(TCommand command)
+    public DataOutput<TOutput?> ExecuteCommand<TCommand, TOutput>(TCommand command)
         where TCommand : Command
         where TOutput : CommandOutput
     {
@@ -19,7 +19,7 @@ public class Pipeline(IServiceProvider serviceProvider)
             : handler.Handle(command);
     }
 
-    public async Task<DataOutput<TOutput>> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
+    public async Task<DataOutput<TOutput?>> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
         where TCommand : Command
         where TOutput : CommandOutput
     {
