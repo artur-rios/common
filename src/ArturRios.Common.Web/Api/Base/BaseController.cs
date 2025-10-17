@@ -13,6 +13,16 @@ public class BaseController : Controller
     protected static ActionResult<WebApiOutput<T>> Resolve<T>(WebApiOutput<T> webApiOutput) =>
         webApiOutput.ToObjectResult();
 
+    public static ActionResult<WebApiOutput<PaginatedOutput<T>>> Resolve<T>(PaginatedOutput<T> paginatedOutput)
+    {
+        return WebApiOutput<PaginatedOutput<T>>.New
+            .WithData(paginatedOutput)
+            .WithErrors(paginatedOutput.Errors)
+            .WithMessages(paginatedOutput.Messages)
+            .WithHttpStatusCode(GetStatusCode(paginatedOutput.Success))
+            .ToObjectResult();
+    }
+
     public static ActionResult<WebApiOutput<T>> Resolve<T>(DataOutput<T?> dataOutput)
     {
         return WebApiOutput<T?>.New
