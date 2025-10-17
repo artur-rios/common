@@ -15,26 +15,23 @@ public class BaseController : Controller
 
     public static ActionResult<WebApiOutput<T>> Resolve<T>(DataOutput<T?> dataOutput)
     {
-        var statusCode = dataOutput.Success ? HttpStatusCodes.Ok : HttpStatusCodes.BadRequest;
-
         return WebApiOutput<T?>.New
             .WithData(dataOutput.Data)
-            .WithHttpStatusCode(statusCode)
+            .WithErrors(dataOutput.Errors)
+            .WithMessages(dataOutput.Messages)
+            .WithHttpStatusCode(GetStatusCode(dataOutput.Success))
             .ToObjectResult();
     }
 
-    public static ActionResult<WebApiOutput<string>> Resolve(ProcessOutput processOutput, string successOutput)
+    public static ActionResult<WebApiOutput<object?>> Resolve(ProcessOutput processOutput)
     {
-        var statusCode = processOutput.Success ? HttpStatusCodes.Ok : HttpStatusCodes.BadRequest;
-        var dataOutput = processOutput.Success ? successOutput : GetFailureOutput(processOutput.Errors.Count);
-
-        return WebApiOutput<string>.New
-            .WithData(dataOutput)
+        return WebApiOutput<object?>.New
+            .WithData(null)
             .WithErrors(processOutput.Errors)
-            .WithHttpStatusCode(statusCode)
+            .WithMessages(processOutput.Messages)
+            .WithHttpStatusCode(GetStatusCode(processOutput.Success))
             .ToObjectResult();
     }
 
-    private static string GetFailureOutput(int errorCount) =>
-        $"Process executed with {errorCount} error{(errorCount > 1 ? "s" : string.Empty)}";
+    private static int GetStatusCode(bool success) => success ? HttpStatusCodes.Ok : HttpStatusCodes.BadRequest;
 }
