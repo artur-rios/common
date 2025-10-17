@@ -11,7 +11,7 @@ namespace ArturRios.Common.Pipelines.Tests.Handlers;
 
 public class TestCommandHandler(ILogger<TestCommand> logger) : ICommandHandler<TestCommand, TestCommandOutput>
 {
-    public DataOutput<TestCommandOutput> Handle(TestCommand command)
+    public DataOutput<TestCommandOutput?> Handle(TestCommand command)
     {
         Condition.Create
             .False(string.IsNullOrWhiteSpace(command.Message))
@@ -24,7 +24,7 @@ public class TestCommandHandler(ILogger<TestCommand> logger) : ICommandHandler<T
 
         entity.DoSomething();
 
-        var output = DataOutput<TestCommandOutput>.New
+        var output = DataOutput<TestCommandOutput?>.New
             .WithData(new TestCommandOutput())
             .WithMessage("Message processed successfully");
 

@@ -10,7 +10,7 @@ namespace ArturRios.Common.Pipelines.Tests.Handlers;
 public class ScheduleTestCommandHandler(ICommandQueue commandQueue, ICrudRepository<TestEntity> repository) : ICommandHandlerAsync<ScheduleTestCommand, ScheduleTestCommandOutput>
 {
 
-    public Task<DataOutput<ScheduleTestCommandOutput>> HandleAsync(ScheduleTestCommand command)
+    public Task<DataOutput<ScheduleTestCommandOutput?>> HandleAsync(ScheduleTestCommand command)
     {
         var entity = repository.GetById(command.Id);
 
@@ -32,7 +32,7 @@ public class ScheduleTestCommandHandler(ICommandQueue commandQueue, ICrudReposit
 
         entity.MarkAsScheduled();
 
-        var output = DataOutput<ScheduleTestCommandOutput>.New
+        var output = DataOutput<ScheduleTestCommandOutput?>.New
             .WithData(new ScheduleTestCommandOutput())
             .WithMessage("Command scheduled successfully");
 
