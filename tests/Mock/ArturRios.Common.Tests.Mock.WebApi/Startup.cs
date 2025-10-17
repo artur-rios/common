@@ -10,7 +10,7 @@ public class Startup(string[] args) : WebApiStartup(args)
     public override void Build()
     {
         LoadConfiguration();
-        ConfigureServices();
+        ConfigureWebApi();
         UseSwaggerGen(swaggerGenOptions: options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "Test Web API", Version = "v1" });
@@ -25,7 +25,7 @@ public class Startup(string[] args) : WebApiStartup(args)
         UseSwagger();
     }
 
-    public override void ConfigureServices()
+    public override void ConfigureWebApi()
     {
         Builder.Services.AddEndpointsApiExplorer();
         Builder.Services.AddControllers();

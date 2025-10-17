@@ -66,11 +66,13 @@ public abstract class WebApiStartup(string[] args)
         App = Builder.Build();
     }
 
-    public abstract void ConfigureServices();
     public abstract void ConfigureApp();
+
+    public virtual void AddDependencies() { }
     public virtual void AddLogging() { }
     public virtual void ConfigureCors() { }
     public virtual void ConfigureSecurity() { }
+    public virtual void ConfigureWebApi() { }
     public virtual void StartServices() { }
 
     public void LoadConfiguration()
