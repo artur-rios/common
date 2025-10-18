@@ -13,10 +13,13 @@ using Newtonsoft.Json;
 
 namespace ArturRios.Common.Web.Security.Middleware;
 
-public class JwtMiddleware(RequestDelegate next, SettingsProvider settings) : WebApiMiddleware
+public class JwtMiddleware(
+    RequestDelegate next,
+    SettingsProvider settings,
+    IAuthenticationProvider authProvider,
+    JwtTokenConfiguration tokenConfig) : WebApiMiddleware
 {
-    public async Task Invoke(HttpContext context, IAuthenticationProvider authProvider,
-        JwtTokenConfiguration tokenConfig)
+    public async Task Invoke(HttpContext context)
     {
         var endpoint = context.GetEndpoint();
 
