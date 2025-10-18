@@ -70,8 +70,12 @@ public class JwtMiddleware(
                 var payload = JsonConvert.SerializeObject(output);
 
                 await context.Response.WriteAsync(payload);
+
+                return;
             }
         }
+
+        await next(context);
     }
 
     private bool SkipRoute(string path)
