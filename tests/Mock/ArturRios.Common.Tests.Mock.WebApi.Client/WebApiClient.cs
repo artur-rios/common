@@ -12,6 +12,6 @@ public class WebApiClient : BaseWebApiClient
 
     protected override void SetRoutes()
     {
-        Test = new TestRoute(HttpClient);
+        Test = new TestRoute(Gateway);
     }
 }
