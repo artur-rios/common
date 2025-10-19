@@ -17,7 +17,8 @@ public class WebApiOutput<T> : DataOutput<T>
 
     public static new WebApiOutput<T> New => new();
 
-    public HttpStatusCode GetStatusCode() => (HttpStatusCode)_httpStatusCode;
+    public HttpStatusCode GetHttpStatus() => (HttpStatusCode)_httpStatusCode;
+    public int GetHttpStatusCode() => _httpStatusCode;
 
     public void SetStatusCode(HttpStatusCode httpStatusCode)
     {

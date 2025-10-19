@@ -16,7 +16,7 @@ public class EndpointToggleAttributeTests(EnvironmentType environment = Environm
     {
         var output = await Gateway.GetAsync<string>($"{TestRoute}/Enabled");
 
-        Assert.Equal(HttpStatusCode.OK, output.GetStatusCode());
+        Assert.Equal(HttpStatusCode.OK, output.GetHttpStatus());
         Assert.NotNull(output);
         Assert.Equal("Hello world!", output.Data);
         Assert.Equal("Endpoint test controller is on...", output.Messages.First());
@@ -27,7 +27,7 @@ public class EndpointToggleAttributeTests(EnvironmentType environment = Environm
     {
         var output = await Gateway.GetAsync<string>($"{TestRoute}/Disabled");
 
-        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.GetStatusCode());
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.GetHttpStatus());
         Assert.NotNull(output);
         Assert.Null(output.Data);
         Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Messages.First());
@@ -38,7 +38,7 @@ public class EndpointToggleAttributeTests(EnvironmentType environment = Environm
     {
         var output = await Gateway.GetAsync<string>($"{TestRoute}/DisabledByAppSettings");
 
-        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.GetStatusCode());
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.GetHttpStatus());
         Assert.NotNull(output);
         Assert.Null(output.Data);
         Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Messages.First());

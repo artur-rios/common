@@ -10,38 +10,51 @@ namespace ArturRios.Common.Web.Api.Base;
 
 public class BaseController : Controller
 {
-    protected static ActionResult<WebApiOutput<T>> Resolve<T>(WebApiOutput<T> webApiOutput) =>
-        webApiOutput.ToObjectResult();
+    protected static ActionResult<WebApiOutput<T>> Resolve<T>(WebApiOutput<T> webApiOutput)
+        => new ObjectResult(webApiOutput) { StatusCode = webApiOutput.GetHttpStatusCode() };
 
-    public static ActionResult<WebApiOutput<PaginatedOutput<T>>> Resolve<T>(PaginatedOutput<T> paginatedOutput)
+    public static ActionResult<WebApiOutput<PaginatedOutput<T>>> Resolve<T>(PaginatedOutput<T> paginatedOutput,
+        int? statusCode = null)
     {
-        return WebApiOutput<PaginatedOutput<T>>.New
+        var output = WebApiOutput<PaginatedOutput<T>>.New
             .WithData(paginatedOutput)
             .WithErrors(paginatedOutput.Errors)
-            .WithMessages(paginatedOutput.Messages)
-            .WithHttpStatusCode(GetStatusCode(paginatedOutput.Success))
-            .ToObjectResult();
+            .WithMessages(paginatedOutput.Messages);
+
+        var httpStatusCode = statusCode ?? GetDefaultStatusCode(paginatedOutput.Success);
+
+        output.WithHttpStatusCode(httpStatusCode);
+
+        return Resolve(output);
     }
 
-    public static ActionResult<WebApiOutput<T>> Resolve<T>(DataOutput<T?> dataOutput)
+    public static ActionResult<WebApiOutput<T?>> Resolve<T>(DataOutput<T?> dataOutput, int? statusCode = null)
     {
-        return WebApiOutput<T?>.New
+        var output = WebApiOutput<T?>.New
             .WithData(dataOutput.Data)
             .WithErrors(dataOutput.Errors)
-            .WithMessages(dataOutput.Messages)
-            .WithHttpStatusCode(GetStatusCode(dataOutput.Success))
-            .ToObjectResult();
+            .WithMessages(dataOutput.Messages);
+
+        var httpStatusCode = statusCode ?? GetDefaultStatusCode(dataOutput.Success);
+
+        output.WithHttpStatusCode(httpStatusCode);
+
+        return Resolve(output);
     }
 
-    public static ActionResult<WebApiOutput<object?>> Resolve(ProcessOutput processOutput)
+    public static ActionResult<WebApiOutput<object?>> Resolve(ProcessOutput processOutput, int? statusCode = null)
     {
-        return WebApiOutput<object?>.New
+        var output = WebApiOutput<object?>.New
             .WithData(null)
             .WithErrors(processOutput.Errors)
-            .WithMessages(processOutput.Messages)
-            .WithHttpStatusCode(GetStatusCode(processOutput.Success))
-            .ToObjectResult();
+            .WithMessages(processOutput.Messages);
+
+        var httpStatusCode = statusCode ?? GetDefaultStatusCode(processOutput.Success);
+
+        output.WithHttpStatusCode(httpStatusCode);
+
+        return Resolve(output);
     }
 
-    private static int GetStatusCode(bool success) => success ? HttpStatusCodes.Ok : HttpStatusCodes.BadRequest;
+    private static int GetDefaultStatusCode(bool success) => success ? HttpStatusCodes.Ok : HttpStatusCodes.BadRequest;
 }
