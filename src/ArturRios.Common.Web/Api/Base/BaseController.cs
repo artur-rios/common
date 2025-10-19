@@ -10,10 +10,10 @@ namespace ArturRios.Common.Web.Api.Base;
 
 public class BaseController : Controller
 {
-    protected static ActionResult<WebApiOutput<T>> Resolve<T>(WebApiOutput<T> webApiOutput)
+    protected static ActionResult<WebApiOutput<T?>> Resolve<T>(WebApiOutput<T> webApiOutput)
         => new ObjectResult(webApiOutput) { StatusCode = webApiOutput.GetHttpStatusCode() };
 
-    public static ActionResult<WebApiOutput<PaginatedOutput<T>>> Resolve<T>(PaginatedOutput<T> paginatedOutput,
+    protected static ActionResult<WebApiOutput<PaginatedOutput<T>>> Resolve<T>(PaginatedOutput<T> paginatedOutput,
         int? statusCode = null)
     {
         var output = WebApiOutput<PaginatedOutput<T>>.New
@@ -25,10 +25,10 @@ public class BaseController : Controller
 
         output.WithHttpStatusCode(httpStatusCode);
 
-        return Resolve(output);
+        return Resolve(output)!;
     }
 
-    public static ActionResult<WebApiOutput<T?>> Resolve<T>(DataOutput<T?> dataOutput, int? statusCode = null)
+    protected static ActionResult<WebApiOutput<T?>> Resolve<T>(DataOutput<T?> dataOutput, int? statusCode = null)
     {
         var output = WebApiOutput<T?>.New
             .WithData(dataOutput.Data)
@@ -42,7 +42,7 @@ public class BaseController : Controller
         return Resolve(output);
     }
 
-    public static ActionResult<WebApiOutput<object?>> Resolve(ProcessOutput processOutput, int? statusCode = null)
+    protected static ActionResult<WebApiOutput<object?>> Resolve(ProcessOutput processOutput, int? statusCode = null)
     {
         var output = WebApiOutput<object?>.New
             .WithData(null)
