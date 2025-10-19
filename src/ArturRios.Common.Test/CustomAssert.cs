@@ -1,8 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-// ReSharper disable UnusedType.Global
-// Reason: These assertion methods are meant to be used in other projects
-
-using System.Collections;
+﻿using System.Collections;
 using ArturRios.Common.Extensions;
 using Xunit;
 

@@ -1,7 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-// Reason: This is intentional to allow derived classes to set up routes during construction
-
-using ArturRios.Common.Web.Http;
+﻿using ArturRios.Common.Web.Http;
 
 namespace ArturRios.Common.Web.Api.Client;
 

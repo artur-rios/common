@@ -1,8 +1,6 @@
 ﻿using System.Net;
 using ArturRios.Common.Configuration.Enums;
 using ArturRios.Common.Output;
-using ArturRios.Common.Web;
-using ArturRios.Common.Web.Api.Output;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -108,11 +106,9 @@ public class EndpointToggleAttribute : ActionFilterAttribute
 
     private void ReturnObject()
     {
-        _context.Result = WebApiOutput<object?>.New
-            .WithData(null)
-            .WithMessages([_disabledMessage])
-            .WithHttpStatusCode((int)_disabledStatusCode)
-            .ToObjectResult();
+        var output = ProcessOutput.New.WithMessage(_disabledMessage);
+
+        _context.Result = new ObjectResult(output) { StatusCode = (int)_disabledStatusCode };
     }
 
     private void ReturnDefault()

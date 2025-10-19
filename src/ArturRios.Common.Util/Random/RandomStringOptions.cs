@@ -1,8 +1,4 @@
-﻿// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
-// ReSharper disable ClassNeverInstantiated.Global
-// Reason: This class is used as a configuration object for the CustomRandom class
-
-namespace ArturRios.Common.Util.Random;
+﻿namespace ArturRios.Common.Util.Random;
 
 public class RandomStringOptions
 {

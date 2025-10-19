@@ -6,8 +6,6 @@ public class ProcessOutput
     public List<string> Errors { get; } = [];
     public bool Success => Errors.Count == 0;
 
-    // ReSharper disable once UnusedMember.Global
-    // Reason: metadata field
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
 
     public static ProcessOutput New => new();

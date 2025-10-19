@@ -15,9 +15,6 @@ public abstract class WebApiStartup(string[] args)
 {
     protected WebApplication App = null!;
     protected readonly WebApplicationBuilder Builder = WebApplication.CreateBuilder(args);
-
-    // ReSharper disable once MemberCanBePrivate.Global
-    // Reason: this field needs to be visible if inheritor wants to access parameters
     protected readonly WebApiParameters Parameters = new(args);
 
     private SettingsProvider _settings = null!;
@@ -44,12 +41,8 @@ public abstract class WebApiStartup(string[] args)
         setup.AddSecurityRequirement(new OpenApiSecurityRequirement { { jwtSecurityScheme, Array.Empty<string>() } });
     };
 
-    // ReSharper disable MemberCanBeProtected.Global
-    // Reason: this method needs to be public if caller wants to build only
     public abstract void Build();
 
-    // ReSharper disable once MemberCanBePrivate.Global
-    // Reason: this method needs to be public if caller wants to run only
     public void Run()
     {
         App.Run();

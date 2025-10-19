@@ -1,21 +1,18 @@
-﻿using ArturRios.Common.Web;
-using ArturRios.Common.Web.Api.Base;
-using ArturRios.Common.Web.Api.Output;
-using ArturRios.Common.Web.Http;
+﻿using ArturRios.Common.Output;
+using ArturRios.Common.Web.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArturRios.Common.Aws.Tests.WebApi;
 
-public class TestController : BaseController
+public class TestController : Controller
 {
     [HttpGet]
-    public ActionResult<WebApiOutput<string>> HelloWorld()
+    public ActionResult<DataOutput<string?>> HelloWorld()
     {
-        var result = WebApiOutput<string>.New
+        var result = DataOutput<string?>.New
             .WithData("Hello world!")
-            .WithMessage("Test controller is on...")
-            .WithHttpStatusCode(HttpStatusCodes.Ok);
+            .WithMessage("Test controller is on...");
 
-        return Resolve(result);
+        return ResponseResolver.Resolve(result);
     }
 }

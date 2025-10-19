@@ -26,7 +26,6 @@ public class SqsEntryPoint<THandler> where THandler : class, ISqsMessageHandler
         {
             lock (collectionLock)
             {
-                // ReSharper disable once InvertIf
                 if (_serviceCollection is null)
                 {
                     _serviceCollection = new ServiceCollection();

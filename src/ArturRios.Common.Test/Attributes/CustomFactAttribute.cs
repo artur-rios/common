@@ -1,7 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-// Reason: call needed
-
-using ArturRios.Common.Configuration.Enums;
+﻿using ArturRios.Common.Configuration.Enums;
 using Xunit;
 
 namespace ArturRios.Common.Test.Attributes;
@@ -35,7 +32,5 @@ public class CustomFactAttribute : FactAttribute
         }
     }
 
-    // ReSharper disable once MemberCanBePrivate.Global
-    // Reason: This property is used by the test framework to determine if the test should be skipped
     public EnvironmentType[]? Environments { get; }
 }

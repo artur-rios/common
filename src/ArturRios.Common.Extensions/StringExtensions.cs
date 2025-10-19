@@ -1,8 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-// ReSharper disable UnusedType.Global
-// Reason: This class is meant to be used in other projects
-
-using System.Text.Json;
+﻿using System.Text.Json;
 using ArturRios.Common.Util.RegularExpressions;
 
 namespace ArturRios.Common.Extensions;

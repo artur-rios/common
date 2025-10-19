@@ -3,8 +3,6 @@ using FluentValidation;
 
 namespace ArturRios.Common.Security;
 
-// ReSharper disable once UnusedType.Global
-// Reason: This class is meant to be used in other projects
 public class JwtTokenConfigurationValidator : FluentValidator<JwtTokenConfiguration>
 {
     public JwtTokenConfigurationValidator()

@@ -1,7 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-// Reason: This enum is meant to be used in other projects
-
-namespace ArturRios.Common.Configuration.Enums;
+﻿namespace ArturRios.Common.Configuration.Enums;
 
 public enum EnvironmentType
 {

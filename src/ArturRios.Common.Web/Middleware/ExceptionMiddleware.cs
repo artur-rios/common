@@ -1,8 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-// ReSharper disable UnusedType.Global
-// Reason: This middleware is meant to be used in other projects
-
-using ArturRios.Common.Output;
+﻿using ArturRios.Common.Output;
 using ArturRios.Common.Web.Http;
 using Newtonsoft.Json;
 

@@ -1,7 +1,4 @@
-﻿// ReSharper disable VirtualMemberCallInConstructor
-// Reason: necessary calls
-
-using Amazon.CDK;
+﻿using Amazon.CDK;
 using Amazon.CDK.AWS.APIGateway;
 using Constructs;
 
@@ -9,12 +6,7 @@ namespace ArturRios.Common.Aws.RestApi;
 
 public class AwsRestApi : CfnRestApi
 {
-    // ReSharper disable once CollectionNeverQueried.Local
-    // Reason: necessary for it's side effects
     private readonly List<AwsRestApiKey> _keys = [];
-
-    // ReSharper disable once CollectionNeverQueried.Local
-    // Reason: necessary for it's side effects
     private readonly List<AwsRestApiResource> _resources = [];
 
     public AwsRestApi(Construct scope, string constructId) : base(scope, constructId, new CfnRestApiProps())

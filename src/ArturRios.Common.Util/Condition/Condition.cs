@@ -1,10 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
-// Reason: This class is used in other projects and it's properties and methods should be public
-
-// ReSharper disable UnusedMember.Global
-// Reason: This class is meant to be used in other projects
-
-using ArturRios.Common.Output;
+﻿using ArturRios.Common.Output;
 
 namespace ArturRios.Common.Util.Condition;
 

@@ -1,7 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-// Reason: This class is meant to be used in other projects
-
-using System.Net.Mime;
+﻿using System.Net.Mime;
 using System.Text;
 using Newtonsoft.Json;
 

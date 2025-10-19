@@ -7,8 +7,6 @@ namespace ArturRios.Common.Validation;
 
 public class FluentValidator<T> : AbstractValidator<T>, IFluentValidator<T>
 {
-    // ReSharper disable once StaticMemberInGenericType
-    // Reason: This is a default value for the unwanted characters in error messages
     private static readonly char[] DefaultErrorMessageUnwantedChars = ['\'', '.'];
 
     private readonly Regex _unwantedCharsRegex = RegexBuilder

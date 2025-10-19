@@ -1,7 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-// Reason: This is a test class for the extension methods
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace ArturRios.Common.Extensions.Tests.Mock;
 

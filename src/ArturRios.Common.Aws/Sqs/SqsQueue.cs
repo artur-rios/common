@@ -62,8 +62,6 @@ public class SqsQueue : CfnQueue
                 TopicArn = topicArn
             });
 
-        // ReSharper disable once UnusedVariable
-        // Reason: this variable is used for its side effects
         var policy = new CfnQueuePolicy(this, $"policy-{topicName}", new CfnQueuePolicyProps
         {
             Queues = [AttrQueueUrl],

@@ -1,7 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-// Reason: This class is meant to be used in other projects
-
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ArturRios.Common.Data;
 

@@ -1,6 +1,7 @@
 using System.Net;
 using ArturRios.Common.Attributes.EndpointToggle;
 using ArturRios.Common.Configuration.Enums;
+using ArturRios.Common.Output;
 using ArturRios.Common.Test;
 using ArturRios.Common.Tests.Mock.WebApi;
 
@@ -14,33 +15,31 @@ public class EndpointToggleAttributeTests(EnvironmentType environment = Environm
     [Fact]
     public async Task EndpointShouldBe_Enabled()
     {
-        var output = await Gateway.GetAsync<string>($"{TestRoute}/Enabled");
+        var output = await Gateway.GetAsync<DataOutput<string>>($"{TestRoute}/Enabled");
 
-        Assert.Equal(HttpStatusCode.OK, output.GetHttpStatus());
-        Assert.NotNull(output);
-        Assert.Equal("Hello world!", output.Data);
-        Assert.Equal("Endpoint test controller is on...", output.Messages.First());
+        Assert.Equal(HttpStatusCode.OK, output.StatusCode);
+        Assert.NotNull(output.Body);
+        Assert.Equal("Hello world!", output.Body.Data);
+        Assert.Equal("Endpoint test controller is on...", output.Body.Messages.First());
     }
 
     [Fact]
     public async Task EndpointShouldBe_Disabled()
     {
-        var output = await Gateway.GetAsync<string>($"{TestRoute}/Disabled");
+        var output = await Gateway.GetAsync<DataOutput<string>>($"{TestRoute}/Disabled");
 
-        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.GetHttpStatus());
-        Assert.NotNull(output);
-        Assert.Null(output.Data);
-        Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Messages.First());
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.StatusCode);
+        Assert.NotNull(output.Body);
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Body.Messages.First());
     }
 
     [Fact]
     public async Task EndpointShouldBe_DisabledByAppSettings()
     {
-        var output = await Gateway.GetAsync<string>($"{TestRoute}/DisabledByAppSettings");
+        var output = await Gateway.GetAsync<DataOutput<string>>($"{TestRoute}/DisabledByAppSettings");
 
-        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.GetHttpStatus());
-        Assert.NotNull(output);
-        Assert.Null(output.Data);
-        Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Messages.First());
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledStatusCode, output.StatusCode);
+        Assert.NotNull(output.Body);
+        Assert.Equal(EndpointToggleAttribute.DefaultDisabledMessage, output.Body.Messages.First());
     }
 }

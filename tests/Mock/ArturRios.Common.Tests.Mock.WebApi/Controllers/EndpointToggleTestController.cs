@@ -1,53 +1,48 @@
 ﻿using ArturRios.Common.Attributes.EndpointToggle;
 using ArturRios.Common.Configuration.Enums;
-using ArturRios.Common.Web;
-using ArturRios.Common.Web.Api.Base;
-using ArturRios.Common.Web.Api.Output;
-using ArturRios.Common.Web.Http;
+using ArturRios.Common.Output;
+using ArturRios.Common.Web.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArturRios.Common.Tests.Mock.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class EndpointToggleTestController : BaseController
+public class EndpointToggleTestController : Controller
 {
     [HttpGet]
     [Route("Enabled")]
     [EndpointToggle]
-    public ActionResult<WebApiOutput<string>> Enabled()
+    public ActionResult<DataOutput<string?>> Enabled()
     {
-        var result = WebApiOutput<string>.New
+        var result = DataOutput<string?>.New
             .WithData("Hello world!")
-            .WithMessage("Endpoint test controller is on...")
-            .WithHttpStatusCode(HttpStatusCodes.Ok);
+            .WithMessage("Endpoint test controller is on...");
 
-        return Resolve(result);
+        return ResponseResolver.Resolve(result);
     }
 
     [HttpGet]
     [Route("Disabled")]
     [EndpointToggle(isEnabled: false)]
-    public ActionResult<WebApiOutput<string>> Disabled()
+    public ActionResult<DataOutput<string?>> Disabled()
     {
-        var result = WebApiOutput<string>.New
+        var result = DataOutput<string?>.New
             .WithData("Hello world!")
-            .WithMessage("Endpoint test controller is on...")
-            .WithHttpStatusCode(HttpStatusCodes.Ok);
+            .WithMessage("Endpoint test controller is on...");
 
-        return Resolve(result);
+        return ResponseResolver.Resolve(result);
     }
 
     [HttpGet]
     [Route("DisabledByAppSettings")]
     [EndpointToggle(configurationSource: ConfigurationSourceType.AppSettings)]
-    public ActionResult<WebApiOutput<string>> DisabledByAppSettings()
+    public ActionResult<DataOutput<string?>> DisabledByAppSettings()
     {
-        var result = WebApiOutput<string>.New
+        var result = DataOutput<string?>.New
             .WithData("Hello world!")
-            .WithMessage("Endpoint test controller is on...")
-            .WithHttpStatusCode(HttpStatusCodes.Ok);
+            .WithMessage("Endpoint test controller is on...");
 
-        return Resolve(result);
+        return ResponseResolver.Resolve(result);
     }
 }

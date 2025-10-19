@@ -19,8 +19,8 @@ public class WebApiClientTests : WebApiTest<Program>
     {
         var output = await _webApiClient.Test.HelloWorld();
 
-        Assert.NotNull(output);
-        Assert.Equal("Hello world!", output.Data);
-        Assert.Equal("Test controller is on...", output.Messages.First());
+        Assert.NotNull(output.Body?.Data);
+        Assert.Equal("Hello world!", output.Body.Data);
+        Assert.Equal("Test controller is on...", output.Body.Messages.First());
     }
 }

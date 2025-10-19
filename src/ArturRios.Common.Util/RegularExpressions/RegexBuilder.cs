@@ -1,7 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
-// These methods are intended to be used publicly if needed
-
-using System.Text;
+﻿using System.Text;
 using System.Text.RegularExpressions;
 
 namespace ArturRios.Common.Util.RegularExpressions;

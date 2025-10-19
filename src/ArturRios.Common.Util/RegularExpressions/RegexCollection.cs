@@ -1,7 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
-// These properties need to be public because they are meant to be used in other projects
-
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace ArturRios.Common.Util.RegularExpressions;
 

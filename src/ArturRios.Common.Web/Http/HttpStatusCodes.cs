@@ -1,7 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
-// Reason: These properties are meant to be used in other projects
-
-namespace ArturRios.Common.Web.Http;
+﻿namespace ArturRios.Common.Web.Http;
 
 public static class HttpStatusCodes
 {

@@ -1,7 +1,4 @@
-﻿// ReSharper disable MemberCanBePrivate.Global
-// Reason: These methods are intended to be used by derived classes
-
-using ArturRios.Common.Web.Http;
+﻿using ArturRios.Common.Web.Http;
 using ArturRios.Common.Web.Security.Records;
 
 namespace ArturRios.Common.Web.Api.Client;
@@ -15,7 +12,7 @@ public abstract class BaseWebApiClientRoute(HttpGateway gateway)
     {
         var output = await Gateway.PostAsync<Authentication>(authRoute, credentials);
 
-        return output.Data ?? throw new Exception("Could not authenticate");
+        return output.Body ?? throw new Exception("Could not authenticate");
     }
 
     protected void Authorize(string authToken) =>

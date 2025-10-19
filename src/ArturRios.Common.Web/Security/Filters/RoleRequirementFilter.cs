@@ -1,7 +1,8 @@
 ﻿using ArturRios.Common.Extensions;
-using ArturRios.Common.Web.Api.Output;
+using ArturRios.Common.Output;
 using ArturRios.Common.Web.Http;
 using ArturRios.Common.Web.Security.Records;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace ArturRios.Common.Web.Security.Filters;
@@ -24,10 +25,8 @@ public class RoleRequirementFilter(params int[] authorizedRoles) : IAuthorizatio
             return;
         }
 
-        context.Result = WebApiOutput<string>.New
-            .WithData("Forbidden")
-            .WithError("You do not have permission to access this resource")
-            .WithHttpStatusCode(HttpStatusCodes.Forbidden)
-            .ToObjectResult();
+        var output = ProcessOutput.New.WithError("You do not have permission to access this resource");
+
+        context.Result = new ObjectResult(output) { StatusCode = HttpStatusCodes.Forbidden };
     }
 }

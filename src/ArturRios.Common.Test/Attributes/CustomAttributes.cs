@@ -1,7 +1,4 @@
-﻿// ReSharper disable UnusedType.Global
-// Reason: These annotations are meant to be used in other projects
-
-using ArturRios.Common.Configuration.Enums;
+﻿using ArturRios.Common.Configuration.Enums;
 
 namespace ArturRios.Common.Test.Attributes;
 

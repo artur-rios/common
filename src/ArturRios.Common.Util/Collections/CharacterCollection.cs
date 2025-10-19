@@ -1,10 +1,4 @@
-﻿// ReSharper disable ClassNeverInstantiated.Global
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable UnusedMember.Global
-// ReSharper disable UnusedType.Global
-// Reason: This class is used in other projects and it's properties and methods should be public
-
-namespace ArturRios.Common.Util.Collections;
+﻿namespace ArturRios.Common.Util.Collections;
 
 public class CharacterCollection
 {
