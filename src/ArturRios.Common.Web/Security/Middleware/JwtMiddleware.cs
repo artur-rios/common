@@ -1,8 +1,4 @@
-﻿// ReSharper disable UnusedMember.Global
-// ReSharper disable UnusedType.Global
-// Reason: this middleware is meant to be used in other projects
-
-using ArturRios.Common.Configuration.Providers;
+﻿using ArturRios.Common.Configuration.Providers;
 using ArturRios.Common.Output;
 using ArturRios.Common.Security;
 using ArturRios.Common.Web.Api.Configuration;
@@ -23,62 +19,67 @@ public class JwtMiddleware(
     {
         var endpoint = context.GetEndpoint();
 
-        if (!SkipRoute(context.Request.Path.Value ?? string.Empty))
+        var skipRoute =
+            IsSwaggerRoute(context.Request.Path.Value ?? string.Empty) ||
+            endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>() is not null;
+
+        if (skipRoute)
         {
-            if (endpoint?.Metadata.GetMetadata<AllowAnonymousAttribute>() is null)
-            {
-                var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(" ").Last() ?? "";
+            await next(context);
 
-                var jwtToken = JwtToken.FromToken(token, tokenConfig.Secret);
-                var isValid = jwtToken.IsTokenValidAsync().GetAwaiter().GetResult();
-
-                string authError;
-
-                if (isValid)
-                {
-                    var userId = jwtToken.GetUserId();
-
-                    if (userId.HasValue)
-                    {
-                        var authenticatedUser = authProvider.GetAuthenticatedUserById(userId.Value);
-
-                        if (authenticatedUser is not null)
-                        {
-                            context.Items["User"] = authenticatedUser;
-
-                            await next(context);
-                        }
-
-                        authError = "User not found";
-                    }
-                    else
-                    {
-                        authError = "Could no retrieve user id from token";
-                    }
-                }
-                else
-                {
-                    authError = "Invalid token";
-                }
-
-                var output = ProcessOutput.New
-                    .WithError(authError);
-
-                context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                context.Response.ContentType = "application/json";
-
-                var payload = JsonConvert.SerializeObject(output);
-
-                await context.Response.WriteAsync(payload);
-
-                return;
-            }
+            return;
         }
 
-        await next(context);
+        var token = context.Request.Headers.Authorization.FirstOrDefault()?.Split(' ').Last() ?? string.Empty;
+
+        var jwtToken = JwtToken.FromToken(token, tokenConfig.Secret);
+        var isValid = jwtToken.IsTokenValidAsync().GetAwaiter().GetResult();
+
+        string? authError;
+
+        if (isValid)
+        {
+            var userId = jwtToken.GetUserId();
+
+            if (userId.HasValue)
+            {
+                var authenticatedUser = authProvider.GetAuthenticatedUserById(userId.Value);
+
+                if (authenticatedUser is not null)
+                {
+                    context.Items["User"] = authenticatedUser;
+
+                    await next(context);
+
+                    return;
+                }
+
+                authError = "User not found";
+            }
+            else
+            {
+                authError = "Could not retrieve user id from token";
+            }
+        }
+        else
+        {
+            authError = "Invalid token";
+        }
+
+        var output = ProcessOutput.New.WithError(authError);
+
+        if (!context.Response.HasStarted)
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.ContentType = "application/json";
+
+            var payload = JsonConvert.SerializeObject(output);
+
+            await context.Response.WriteAsync(payload);
+        }
     }
 
-    private bool SkipRoute(string path)
+    private bool IsSwaggerRoute(string path)
     {
         return settings.GetBool(AppSettingsKeys.SwaggerEnabled) is true &&
                path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase);
