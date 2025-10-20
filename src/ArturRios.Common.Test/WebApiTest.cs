@@ -1,4 +1,6 @@
-﻿using ArturRios.Common.Configuration.Enums;
+﻿using System.Net;
+using ArturRios.Common.Configuration.Enums;
+using ArturRios.Common.Output;
 using ArturRios.Common.Web.Http;
 using ArturRios.Common.Web.Security.Records;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -19,9 +21,15 @@ public class WebApiTest<T> where T : class
 
     public async Task<Authentication> AuthenticateAsync(Credentials credentials, string authRoute)
     {
-        var output = await Gateway.PostAsync<Authentication>(authRoute, credentials);
+        var output = await Gateway.PostAsync<DataOutput<Authentication>>(authRoute, credentials);
 
-        return output.Body ?? throw new TestException("Could not authenticate");
+        var authError = output.StatusCode != HttpStatusCode.OK
+                        || output.Body is null
+                        || !output.Body.Success
+                        || output.Body.Data is null
+                        || string.IsNullOrEmpty(output.Body.Data.Token);
+
+        return authError ? throw new TestException("Could not authenticate") : output.Body!.Data!;
     }
 
     public void Authorize(string authToken) =>
