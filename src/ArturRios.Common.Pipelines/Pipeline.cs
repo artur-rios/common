@@ -63,4 +63,35 @@ public class Pipeline(IServiceProvider serviceProvider)
 
         return await handler.HandleAsync(query);
     }
+
+    public DataOutput<TOutput?> ExecuteSingleQuery<TQuery, TOutput>(TQuery query)
+        where TQuery : Query
+        where TOutput : QueryOutput
+    {
+        var handler =
+            (ISingleQueryHandler<TQuery, TOutput>?)serviceProvider.GetService(
+                typeof(ISingleQueryHandler<TQuery, TOutput>));
+
+        return handler is null
+            ? throw new InvalidOperationException(
+                $"No single-result query handler registered for {typeof(TQuery).Name}")
+            : handler.Handle(query);
+    }
+
+    public async Task<DataOutput<TOutput?>> ExecuteSingleQueryAsync<TQuery, TOutput>(TQuery query)
+        where TQuery : Query
+        where TOutput : QueryOutput
+    {
+        var handler =
+            (ISingleQueryHandlerAsync<TQuery, TOutput>?)serviceProvider.GetService(
+                typeof(ISingleQueryHandlerAsync<TQuery, TOutput>));
+
+        if (handler is null)
+        {
+            throw new InvalidOperationException(
+                $"No async single-result query handler registered for {typeof(TQuery).Name}");
+        }
+
+        return await handler.HandleAsync(query);
+    }
 }
