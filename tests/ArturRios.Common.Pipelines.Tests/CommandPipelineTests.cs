@@ -11,12 +11,15 @@ public class CommandPipelineTests
     [Fact]
     public async Task Should_ExecuteCommandAsync_And_Return_Output()
     {
-        var serviceProvider = new ServiceCollection()
-            .AddLogging()
-            .AddTransient<ICommandHandlerAsync<TestCommand, TestCommandOutputAsync>, TestCommandHandlerAsync>()
-            .BuildServiceProvider();
+        var services = new ServiceCollection();
 
-        var pipeline = new Pipeline(serviceProvider);
+        services.AddLogging();
+        services.AddScoped<ICommandHandlerAsync<TestCommand, TestCommandOutputAsync>, TestCommandHandlerAsync>();
+
+        await using var provider = services.BuildServiceProvider();
+        using var scope = provider.CreateScope();
+
+        var pipeline = new Pipeline(provider.GetRequiredService<IServiceScopeFactory>());
         var command = new TestCommand { Message = "{\"Id\":1,\"Name\":\"Test\"}" };
 
         var result = await pipeline.ExecuteCommandAsync<TestCommand, TestCommandOutputAsync>(command);
@@ -30,12 +33,16 @@ public class CommandPipelineTests
     [Fact]
     public void Should_ExecuteCommand_And_Return_Output()
     {
-        var serviceProvider = new ServiceCollection()
-            .AddLogging()
-            .AddTransient<ICommandHandler<TestCommand, TestCommandOutput>, TestCommandHandler>()
-            .BuildServiceProvider();
+        var services = new ServiceCollection();
 
-        var pipeline = new Pipeline(serviceProvider);
+        services.AddLogging();
+        services.AddScoped<ICommandHandler<TestCommand, TestCommandOutput>, TestCommandHandler>();
+
+        using var provider = services.BuildServiceProvider();
+        using var scope = provider.CreateScope();
+
+        var pipeline = new Pipeline(provider.GetRequiredService<IServiceScopeFactory>());
+
         var command = new TestCommand { Message = "{\"Id\":1,\"Name\":\"Test\"}" };
 
         var result = pipeline.ExecuteCommand<TestCommand, TestCommandOutput>(command);

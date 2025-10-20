@@ -2,35 +2,30 @@
 using ArturRios.Common.Pipelines.Commands;
 using ArturRios.Common.Pipelines.Commands.Interfaces;
 using ArturRios.Common.Pipelines.Queries;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ArturRios.Common.Pipelines;
 
-public class Pipeline(IServiceProvider serviceProvider)
+public class Pipeline(IServiceScopeFactory scopeFactory)
 {
     public DataOutput<TOutput?> ExecuteCommand<TCommand, TOutput>(TCommand command)
         where TCommand : Command
         where TOutput : CommandOutput
     {
-        var handler =
-            (ICommandHandler<TCommand, TOutput>?)serviceProvider.GetService(typeof(ICommandHandler<TCommand, TOutput>));
+        using var scoped = scopeFactory.CreateScope();
 
-        return handler is null
-            ? throw new InvalidOperationException($"No handler registered for {typeof(TCommand).Name}")
-            : handler.Handle(command);
+        var handler = scoped.ServiceProvider.GetRequiredService<ICommandHandler<TCommand, TOutput>>();
+
+        return handler.Handle(command);
     }
 
     public async Task<DataOutput<TOutput?>> ExecuteCommandAsync<TCommand, TOutput>(TCommand command)
         where TCommand : Command
         where TOutput : CommandOutput
     {
-        var handler =
-            (ICommandHandlerAsync<TCommand, TOutput>?)serviceProvider.GetService(
-                typeof(ICommandHandlerAsync<TCommand, TOutput>));
+        using var scoped = scopeFactory.CreateScope();
 
-        if (handler is null)
-        {
-            throw new InvalidOperationException($"No async handler registered for {typeof(TCommand).Name}");
-        }
+        var handler = scoped.ServiceProvider.GetRequiredService<ICommandHandlerAsync<TCommand, TOutput>>();
 
         return await handler.HandleAsync(command);
     }
@@ -39,27 +34,20 @@ public class Pipeline(IServiceProvider serviceProvider)
         where TQuery : Query
         where TOutput : QueryOutput
     {
-        var handler =
-            (IQueryHandler<TQuery, TOutput>?)serviceProvider.GetService(
-                typeof(IQueryHandler<TQuery, TOutput>));
+        using var scoped = scopeFactory.CreateScope();
 
-        return handler is null
-            ? throw new InvalidOperationException($"No query handler registered for {typeof(TQuery).Name}")
-            : handler.Handle(query);
+        var handler = scoped.ServiceProvider.GetRequiredService<IQueryHandler<TQuery, TOutput>>();
+
+        return handler.Handle(query);
     }
 
     public async Task<PaginatedOutput<TOutput>> ExecuteQueryAsync<TQuery, TOutput>(TQuery query)
         where TQuery : Query
         where TOutput : QueryOutput
     {
-        var handler =
-            (IQueryHandlerAsync<TQuery, TOutput>?)serviceProvider.GetService(
-                typeof(IQueryHandlerAsync<TQuery, TOutput>));
+        using var scoped = scopeFactory.CreateScope();
 
-        if (handler == null)
-        {
-            throw new InvalidOperationException($"No async query handler registered for {typeof(TQuery).Name}");
-        }
+        var handler = scoped.ServiceProvider.GetRequiredService<IQueryHandlerAsync<TQuery, TOutput>>();
 
         return await handler.HandleAsync(query);
     }
@@ -68,30 +56,34 @@ public class Pipeline(IServiceProvider serviceProvider)
         where TQuery : Query
         where TOutput : QueryOutput
     {
-        var handler =
-            (ISingleQueryHandler<TQuery, TOutput>?)serviceProvider.GetService(
-                typeof(ISingleQueryHandler<TQuery, TOutput>));
+        using var scoped = scopeFactory.CreateScope();
 
-        return handler is null
-            ? throw new InvalidOperationException(
-                $"No single-result query handler registered for {typeof(TQuery).Name}")
-            : handler.Handle(query);
+        var handler = scoped.ServiceProvider.GetRequiredService<ISingleQueryHandler<TQuery, TOutput>>();
+
+        return handler.Handle(query);
     }
 
     public async Task<DataOutput<TOutput?>> ExecuteSingleQueryAsync<TQuery, TOutput>(TQuery query)
         where TQuery : Query
         where TOutput : QueryOutput
     {
-        var handler =
-            (ISingleQueryHandlerAsync<TQuery, TOutput>?)serviceProvider.GetService(
-                typeof(ISingleQueryHandlerAsync<TQuery, TOutput>));
+        using var scoped = scopeFactory.CreateScope();
 
-        if (handler is null)
-        {
-            throw new InvalidOperationException(
-                $"No async single-result query handler registered for {typeof(TQuery).Name}");
-        }
+        var handler = scoped.ServiceProvider.GetRequiredService<ISingleQueryHandlerAsync<TQuery, TOutput>>();
 
         return await handler.HandleAsync(query);
+    }
+
+    private TService GetService<TService>() where TService : notnull
+    {
+        var scope = scopeFactory.CreateScope();
+
+        return new ScopedService<TService>(scope, scope.ServiceProvider.GetRequiredService<TService>()).Service;
+    }
+
+    private sealed class ScopedService<T>(IServiceScope scope, T service) : IDisposable
+    {
+        public T Service { get; } = service;
+        public void Dispose() => scope.Dispose();
     }
 }
