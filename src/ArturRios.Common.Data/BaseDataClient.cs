@@ -11,8 +11,6 @@ public abstract class BaseDataClient
         configLoader.LoadEnvironment();
     }
 
-    protected BaseDataClient(string connectionString)
-    {
+    protected BaseDataClient(string connectionString) =>
         Environment.SetEnvironmentVariable("DATABASE_CONNECTION_STRING", connectionString);
-    }
 }

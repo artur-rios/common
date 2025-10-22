@@ -9,15 +9,9 @@ namespace ArturRios.Common.Aws.Sqs;
 
 public class SqsEntryPoint<THandler> where THandler : class, ISqsMessageHandler
 {
-    private struct EntryPointNames
-    {
-        public Type EntryPointLoggerType;
-        public string EntryPointName;
-    }
-
-    private object collectionLock = new();
-    private IServiceCollection? _serviceCollection = null;
-    private IServiceProvider? _serviceProvider = null;
+    private readonly object collectionLock = new();
+    private IServiceCollection? _serviceCollection;
+    private IServiceProvider? _serviceProvider;
     private EntryPointNames Names;
 
     protected IServiceProvider ServiceProvider
@@ -58,7 +52,7 @@ public class SqsEntryPoint<THandler> where THandler : class, ISqsMessageHandler
             var result = await handler.HandleAsync(message);
             var approximateReceiveCountAttributeValue =
                 message.Attributes.GetValueOrDefault(MessageSystemAttributeName.ApproximateReceiveCount,
-                    defaultValue: null);
+                    null);
             var approximateReceiveCount = 0;
 
             if (approximateReceiveCountAttributeValue is not null)
@@ -105,10 +99,12 @@ public class SqsEntryPoint<THandler> where THandler : class, ISqsMessageHandler
         return new SQSBatchResponse { BatchItemFailures = results.Where(result => result is not null).ToList() };
     }
 
-    protected virtual void ConfigureServices(IServiceCollection services)
-    {
-        services.TryAddScoped<THandler>();
+    protected virtual void ConfigureServices(IServiceCollection services) => services.TryAddScoped<THandler>();
 
-        // Add any other dependencies, like services, database, logging, etc
+    private struct EntryPointNames
+    {
+        public Type EntryPointLoggerType;
+        public string EntryPointName;
     }
+    // Add any other dependencies, like services, database, logging, etc
 }

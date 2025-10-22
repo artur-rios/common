@@ -24,8 +24,6 @@ public class CloudFormationTests
         Assert.True(File.Exists(expectedFile), $"Expected file not found: {expectedFile}");
     }
 
-    private static string? GetCurrentPath([CallerFilePath] string? path = null)
-    {
-        return path == null ? null : Path.GetDirectoryName(path);
-    }
+    private static string? GetCurrentPath([CallerFilePath] string? path = null) =>
+        path == null ? null : Path.GetDirectoryName(path);
 }

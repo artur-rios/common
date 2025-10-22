@@ -8,7 +8,10 @@ public class AwsRestApiResource : CfnResource
     private readonly List<AwsRestApiResourceMethod> _methods = [];
 
     public AwsRestApiResource(string pathPart, AwsRestApi awsRestApi) : base(awsRestApi, pathPart,
-        new CfnResourceProps { PathPart = pathPart, ParentId = awsRestApi.Ref, RestApiId = awsRestApi.AttrRootResourceId }) =>
+        new CfnResourceProps
+        {
+            PathPart = pathPart, ParentId = awsRestApi.Ref, RestApiId = awsRestApi.AttrRootResourceId
+        }) =>
         AwsRestApi = awsRestApi;
 
     public AwsRestApiResource(string pathPart, AwsRestApiResource parent) : base(parent, pathPart,

@@ -13,12 +13,6 @@ namespace ArturRios.Common.Web.Api.Configuration;
 
 public abstract class WebApiStartup(string[] args)
 {
-    protected WebApplication App = null!;
-    protected readonly WebApplicationBuilder Builder = WebApplication.CreateBuilder(args);
-    protected readonly WebApiParameters Parameters = new(args);
-
-    private SettingsProvider _settings = null!;
-
     private readonly Action<SwaggerGenOptions> _swaggerGenJwtAuthentication = setup =>
     {
         var jwtSecurityScheme = new OpenApiSecurityScheme
@@ -41,12 +35,15 @@ public abstract class WebApiStartup(string[] args)
         setup.AddSecurityRequirement(new OpenApiSecurityRequirement { { jwtSecurityScheme, Array.Empty<string>() } });
     };
 
+    protected readonly WebApplicationBuilder Builder = WebApplication.CreateBuilder(args);
+    protected readonly WebApiParameters Parameters = new(args);
+
+    private SettingsProvider _settings = null!;
+    protected WebApplication App = null!;
+
     public abstract void Build();
 
-    public void Run()
-    {
-        App.Run();
-    }
+    public void Run() => App.Run();
 
     public void BuildAndRun()
     {
@@ -54,10 +51,7 @@ public abstract class WebApiStartup(string[] args)
         Run();
     }
 
-    public void BuildApp()
-    {
-        App = Builder.Build();
-    }
+    public void BuildApp() => App = Builder.Build();
 
     public abstract void ConfigureApp();
 
@@ -102,8 +96,7 @@ public abstract class WebApiStartup(string[] args)
         }
     }
 
-    public void AddCustomInvalidModelStateResponse()
-    {
+    public void AddCustomInvalidModelStateResponse() =>
         Builder.Services.Configure<ApiBehaviorOptions>(options =>
         {
             options.InvalidModelStateResponseFactory = context =>
@@ -119,7 +112,6 @@ public abstract class WebApiStartup(string[] args)
                 return new BadRequestObjectResult(output);
             };
         });
-    }
 
     public void UseSwagger(EnvironmentType[]? allowedEnvironments = null)
     {

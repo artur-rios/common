@@ -20,10 +20,7 @@ public class SettingsProvider(IConfiguration configuration) : IConfigurationProv
         return value.ParseToIntOrDefault();
     }
 
-    public string? GetString(string key)
-    {
-        return configuration[key];
-    }
+    public string? GetString(string key) => configuration[key];
 
     public T? GetObject<T>(string key) where T : class
     {

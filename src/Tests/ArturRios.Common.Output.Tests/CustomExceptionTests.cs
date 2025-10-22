@@ -1,6 +1,5 @@
 ﻿using ArturRios.Common.Output.Tests.Mock;
 using Xunit;
-using Xunit.Sdk;
 
 namespace ArturRios.Common.Output.Tests;
 
@@ -28,8 +27,5 @@ public class CustomExceptionTests
         Assert.Equal("Error 1, Error 2", exception.Message);
     }
 
-    private static void TestMethod(string[] messages)
-    {
-        throw new TestException(messages);
-    }
+    private static void TestMethod(string[] messages) => throw new TestException(messages);
 }

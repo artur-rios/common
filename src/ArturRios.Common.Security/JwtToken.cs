@@ -12,9 +12,6 @@ public class JwtToken
     private readonly byte[] _key;
     private readonly SecurityToken? _securityToken;
 
-    public static JwtToken FromToken(string token, string secret = "") => new(token, secret);
-    public static JwtToken FromClaims(Dictionary<string, string> claims, JwtTokenConfiguration configuration) => new(claims, configuration);
-
     private JwtToken(string token, string secret = "")
     {
         Token = token;
@@ -58,6 +55,11 @@ public class JwtToken
     public string Token { get; }
     public string CreatedAt { get; } = string.Empty;
     public string Expiration { get; } = string.Empty;
+
+    public static JwtToken FromToken(string token, string secret = "") => new(token, secret);
+
+    public static JwtToken FromClaims(Dictionary<string, string> claims, JwtTokenConfiguration configuration) =>
+        new(claims, configuration);
 
     public int? GetUserId()
     {

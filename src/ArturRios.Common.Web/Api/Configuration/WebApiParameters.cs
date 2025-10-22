@@ -5,12 +5,6 @@ namespace ArturRios.Common.Web.Api.Configuration;
 
 public class WebApiParameters
 {
-    public string EnvironmentName { get; set; } = string.Empty;
-    public bool UseAppSettings { get; set; } = true;
-    public bool UseEnvFile { get; set; } = true;
-    public bool EnableSwaggerDocs { get; set; } = true;
-    public string[] SwaggerEnvironments { get; set; } = [];
-
     private readonly string[] _defaultSwaggerEnvironments =
         [nameof(EnvironmentType.Development), nameof(EnvironmentType.Local)];
 
@@ -54,10 +48,17 @@ public class WebApiParameters
                             ',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
                         SwaggerEnvironments = envs;
                     }
+
                     break;
             }
         }
     }
+
+    public string EnvironmentName { get; set; } = string.Empty;
+    public bool UseAppSettings { get; set; } = true;
+    public bool UseEnvFile { get; set; } = true;
+    public bool EnableSwaggerDocs { get; set; } = true;
+    public string[] SwaggerEnvironments { get; set; } = [];
 
     public string[] GetSwaggerEnvironments()
     {

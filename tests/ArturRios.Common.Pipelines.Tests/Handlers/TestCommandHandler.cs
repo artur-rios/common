@@ -31,8 +31,5 @@ public class TestCommandHandler(ILogger<TestCommand> logger) : ICommandHandler<T
         return output;
     }
 
-    private static TestEntity ParseMessage(string message)
-    {
-        return JsonConvert.DeserializeObject<TestEntity>(message)!;
-    }
+    private static TestEntity ParseMessage(string message) => JsonConvert.DeserializeObject<TestEntity>(message)!;
 }

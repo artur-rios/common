@@ -50,7 +50,8 @@ public class CustomEntity : Entity
 
 ## ICrudRepository
 
-An interface for implementing CRUD (Create, Read, Update, Delete) database operations on repository classes. It is generic and requires a type parameter that inherits from the [Entity](#Entity) class.
+An interface for implementing CRUD (Create, Read, Update, Delete) database operations on repository classes. It is
+generic and requires a type parameter that inherits from the [Entity](#Entity) class.
 
 [Source code](../src/ArturRios.Common.Data/Interfaces/ICrudRepository.cs)
 

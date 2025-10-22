@@ -38,7 +38,9 @@ public class AwsRestApi : CfnRestApi
 
     public AwsRestApiResource AddResource(string pathPart, AwsRestApiResource? parent = null)
     {
-        var resource = parent is null ? new AwsRestApiResource(pathPart, this) : new AwsRestApiResource(pathPart, parent);
+        var resource = parent is null
+            ? new AwsRestApiResource(pathPart, this)
+            : new AwsRestApiResource(pathPart, parent);
 
         _resources.Add(resource);
 

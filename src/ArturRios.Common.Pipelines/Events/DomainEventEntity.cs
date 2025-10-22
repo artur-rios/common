@@ -12,30 +12,17 @@ public class DomainEventEntity : Entity
         DomainEvents.Add(domainEvent);
     }
 
-    protected void RemoveDomainEvent(DomainEvent domainEvent)
-    {
-        DomainEvents?.Remove(domainEvent);
-    }
+    protected void RemoveDomainEvent(DomainEvent domainEvent) => DomainEvents?.Remove(domainEvent);
 
-    public override bool Equals(object? obj)
-    {
-        return obj is DomainEventEntity entity &&
-               obj.GetType() == GetType() &&
-               Id.Equals(entity.Id);
-    }
+    public override bool Equals(object? obj) =>
+        obj is DomainEventEntity entity &&
+        obj.GetType() == GetType() &&
+        Id.Equals(entity.Id);
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Id);
-    }
+    public override int GetHashCode() => HashCode.Combine(Id);
 
-    public static bool operator ==(DomainEventEntity? left, DomainEventEntity? right)
-    {
-        return EqualityComparer<DomainEventEntity>.Default.Equals(left, right);
-    }
+    public static bool operator ==(DomainEventEntity? left, DomainEventEntity? right) =>
+        EqualityComparer<DomainEventEntity>.Default.Equals(left, right);
 
-    public static bool operator !=(DomainEventEntity? left, DomainEventEntity? right)
-    {
-        return !(left == right);
-    }
+    public static bool operator !=(DomainEventEntity? left, DomainEventEntity? right) => !(left == right);
 }

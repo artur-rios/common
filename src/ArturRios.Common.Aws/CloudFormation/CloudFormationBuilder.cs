@@ -20,21 +20,17 @@ public sealed class CloudFormationBuilder
         SaveTemplateToFile(assembly, outputPath);
     }
 
-    private static App CreateDefaultApp()
-    {
-        return new App(new AppProps
+    private static App CreateDefaultApp() =>
+        new(new AppProps
         {
             DefaultStackSynthesizer = new DefaultStackSynthesizer(new DefaultStackSynthesizerProps
             {
                 GenerateBootstrapVersionRule = false, Qualifier = null
             })
         });
-    }
 
     private static void PrintStacksToConsole(CloudAssembly assembly)
     {
-
-
         foreach (var artifact in assembly.Stacks)
         {
             CustomConsole.WriteCharLine();

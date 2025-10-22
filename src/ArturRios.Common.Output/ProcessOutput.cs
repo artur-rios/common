@@ -42,10 +42,8 @@ public class ProcessOutput
         Messages.Add(message);
     }
 
-    public void AddMessages(IEnumerable<string> messages)
-    {
+    public void AddMessages(IEnumerable<string> messages) =>
         Messages.AddRange(messages.Where(e => !string.IsNullOrWhiteSpace(e)).ToList());
-    }
 
     public ProcessOutput WithError(string error)
     {

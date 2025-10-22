@@ -66,7 +66,7 @@ public class Startup(IConfiguration configuration)
 
         services.AddLogging(builder =>
         {
-            builder.AddLambdaLogger(new LambdaLoggerOptions { IncludeException = true, });
+            builder.AddLambdaLogger(new LambdaLoggerOptions { IncludeException = true });
         });
     }
 

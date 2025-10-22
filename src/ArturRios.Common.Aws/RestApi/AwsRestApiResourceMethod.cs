@@ -8,7 +8,10 @@ namespace ArturRios.Common.Aws.RestApi;
 public class AwsRestApiResourceMethod : CfnMethod
 {
     public AwsRestApiResourceMethod(HttpMethod method, AwsRestApiResource resource) : base(resource, method.ToString(),
-        new CfnMethodProps { HttpMethod = method.ToString(), ResourceId = resource.Ref, RestApiId = resource.AwsRestApi.Ref })
+        new CfnMethodProps
+        {
+            HttpMethod = method.ToString(), ResourceId = resource.Ref, RestApiId = resource.AwsRestApi.Ref
+        })
     {
         resource.AwsRestApi.Stage.AddMethodSetting(new CfnStage.MethodSettingProperty
         {

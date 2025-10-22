@@ -21,8 +21,5 @@ public class TestController : Controller
 
     [HttpGet]
     [Route("Exception")]
-    public ActionResult ThrowException()
-    {
-        throw new Exception("Test exception");
-    }
+    public ActionResult ThrowException() => throw new Exception("Test exception");
 }

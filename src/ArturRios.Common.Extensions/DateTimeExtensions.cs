@@ -2,9 +2,8 @@
 
 public static class DateTimeExtensions
 {
-    public static DateTime RemoveMilliseconds(this DateTime dateTime)
-    {
-        return new DateTime(
+    public static DateTime RemoveMilliseconds(this DateTime dateTime) =>
+        new(
             dateTime.Year,
             dateTime.Month,
             dateTime.Day,
@@ -12,5 +11,4 @@ public static class DateTimeExtensions
             dateTime.Minute,
             dateTime.Second,
             dateTime.Kind);
-    }
 }

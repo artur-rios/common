@@ -8,7 +8,10 @@ public interface ILambdaLogTracerSingleton
     string GetLogStream(int? currentTrace = null, Dictionary<string, string>? traceParams = null);
     string GetBucketKeyPath(string bucketName, string bucketKey);
     void Info(object message, int? currentTrace = null, Dictionary<string, string>? traceParams = null);
-    void Error(object message, Exception exception, int? currentTrace = null, Dictionary<string, string>? traceParams = null);
+
+    void Error(object message, Exception exception, int? currentTrace = null,
+        Dictionary<string, string>? traceParams = null);
+
     void Error(object message, int? currentTrace = null, Dictionary<string, string>? traceParams = null);
     void Error(Exception exception, int? currentTrace = null, Dictionary<string, string>? traceParams = null);
     void Warn(object message, int? currentTrace = null, Dictionary<string, string>? traceParams = null);

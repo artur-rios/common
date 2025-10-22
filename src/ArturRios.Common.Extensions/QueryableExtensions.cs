@@ -72,7 +72,8 @@ public static class QueryableExtensions
             : new[] { "Id", $"{type.Name}Id" };
 
         var prop = candidates
-            .Select(name => type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase))
+            .Select(name =>
+                type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase))
             .FirstOrDefault(p => p is not null);
 
         if (prop is null)

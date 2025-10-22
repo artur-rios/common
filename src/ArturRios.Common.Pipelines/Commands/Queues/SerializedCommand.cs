@@ -4,13 +4,6 @@ namespace ArturRios.Common.Pipelines.Commands.Queues;
 
 public class SerializedCommand : Command
 {
-    public string TypeFullName { get; }
-    public string AssemblyName { get; }
-    public object Data { get; }
-    public Guid CommandId { get; }
-    public bool IsScheduled { get; private set; }
-    public DateTime? ScheduledAt { get; private set; }
-
     public SerializedCommand(string typeFullName, string assemblyName, object data, Guid commandId)
     {
         TypeFullName = typeFullName;
@@ -48,10 +41,14 @@ public class SerializedCommand : Command
         CommandId = Guid.NewGuid();
     }
 
-    public static SerializedCommand FromRequest<TRequest>(TRequest request) where TRequest : notnull
-    {
-        return new SerializedCommand(request);
-    }
+    public string TypeFullName { get; }
+    public string AssemblyName { get; }
+    public object Data { get; }
+    public Guid CommandId { get; }
+    public bool IsScheduled { get; private set; }
+    public DateTime? ScheduledAt { get; private set; }
+
+    public static SerializedCommand FromRequest<TRequest>(TRequest request) where TRequest : notnull => new(request);
 
     public static SerializedCommand FromScheduledRequest<TRequest>(TRequest request, DateTime scheduledAt)
         where TRequest : notnull
@@ -61,14 +58,9 @@ public class SerializedCommand : Command
         return command;
     }
 
-    public static SerializedCommand FromJson(string json)
-    {
-        return JsonSerializer.Deserialize<SerializedCommand>(json) ??
-               throw new ArgumentException("Failed to deserialize JSON to SerializedCommand");
-    }
+    public static SerializedCommand FromJson(string json) =>
+        JsonSerializer.Deserialize<SerializedCommand>(json) ??
+        throw new ArgumentException("Failed to deserialize JSON to SerializedCommand");
 
-    public string ToJson()
-    {
-        return JsonSerializer.Serialize(this);
-    }
+    public string ToJson() => JsonSerializer.Serialize(this);
 }

@@ -21,7 +21,8 @@ public class CommandDispatcherHandler(Pipeline pipeline, ILogger<CommandDispatch
             logger.LogInformation("Executing command {CommandName} with Id {CommandId} and Data: {CommandData}",
                 commandInput.TypeFullName, commandInput.CommandId, commandInput.Data);
 
-            var commandOutput = await pipeline.ExecuteCommandAsync<SerializedCommand, SerializedCommandOutput>(commandInput);
+            var commandOutput =
+                await pipeline.ExecuteCommandAsync<SerializedCommand, SerializedCommandOutput>(commandInput);
 
             if (!commandOutput.Success)
             {

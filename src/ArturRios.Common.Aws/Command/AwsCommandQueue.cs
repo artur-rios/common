@@ -18,10 +18,7 @@ public class AwsCommandQueue(
 {
     private readonly List<SerializedCommand> commandsQueue = [];
 
-    public void Enqueue(object command)
-    {
-        commandsQueue.Add(SerializedCommand.FromRequest(command));
-    }
+    public void Enqueue(object command) => commandsQueue.Add(SerializedCommand.FromRequest(command));
 
     public async Task Flush()
     {
@@ -32,6 +29,9 @@ public class AwsCommandQueue(
         await enqueueTask;
         await scheduleTask;
     }
+
+    public void Schedule(object command, DateTime dueDate) =>
+        commandsQueue.Add(SerializedCommand.FromScheduledRequest(command, dueDate));
 
     private async Task FlushEnqueuedCommands(List<SerializedCommand> enqueuedCommands)
     {
@@ -79,7 +79,8 @@ public class AwsCommandQueue(
 
             if (++fails > maxFails)
             {
-                throw new InvalidOperationException($"Even after {maxFails} tries it was not possible to publish all the commands. Failed count: {response.Failed!.Count}");
+                throw new InvalidOperationException(
+                    $"Even after {maxFails} tries it was not possible to publish all the commands. Failed count: {response.Failed!.Count}");
             }
 
             var orderedFailed = response.Failed!.Select(f => int.Parse(f.Id)).OrderByDescending(f => f);
@@ -113,10 +114,7 @@ public class AwsCommandQueue(
                 Description = $"Command queue schedule for {command.TypeFullName} with ID {command.CommandId}",
                 State = ScheduleState.ENABLED,
                 ActionAfterCompletion = ActionAfterCompletion.DELETE,
-                FlexibleTimeWindow = new FlexibleTimeWindow
-                {
-                    Mode = FlexibleTimeWindowMode.OFF
-                }
+                FlexibleTimeWindow = new FlexibleTimeWindow { Mode = FlexibleTimeWindowMode.OFF }
             };
 
             logger.LogInformation("Creating schedule: {Payload}", command.ToJson());
@@ -127,7 +125,8 @@ public class AwsCommandQueue(
             {
                 if (++fails > maxFails)
                 {
-                    throw new InvalidOperationException($"Even after {maxFails} tries it was not possible to schedule the command {command.TypeFullName} with ID {command.CommandId}");
+                    throw new InvalidOperationException(
+                        $"Even after {maxFails} tries it was not possible to schedule the command {command.TypeFullName} with ID {command.CommandId}");
                 }
 
                 logger.LogWarning("Failed to create schedule for command {CommandId}. Retrying...", command.CommandId);
@@ -136,13 +135,9 @@ public class AwsCommandQueue(
             }
             else
             {
-                logger.LogInformation("Successfully created schedule with Arn {ScheduleArn} for command {CommandId}", response.ScheduleArn, command.CommandId);
+                logger.LogInformation("Successfully created schedule with Arn {ScheduleArn} for command {CommandId}",
+                    response.ScheduleArn, command.CommandId);
             }
         }
-    }
-
-    public void Schedule(object command, DateTime dueDate)
-    {
-        commandsQueue.Add(SerializedCommand.FromScheduledRequest(command, dueDate));
     }
 }

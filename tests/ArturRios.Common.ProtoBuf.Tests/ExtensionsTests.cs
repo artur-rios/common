@@ -7,12 +7,7 @@ public class ExtensionsTests
     [Fact]
     public void Should_SerializeAndDeserialize()
     {
-        var person = new Person
-        {
-            Id = 123,
-            Name = "John Doe",
-            Email = "john.doe@example.com"
-        };
+        var person = new Person { Id = 123, Name = "John Doe", Email = "john.doe@example.com" };
 
         var serializedPerson = person.ToProtoBufBytes();
         var deserializedPerson = serializedPerson.ToProtoBufObject<Person>();

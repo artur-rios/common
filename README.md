@@ -19,7 +19,8 @@ Liked it? Please consider giving a star to the repository.
 
 ## Recommended Use
 
-This library is designed to be added as a Git submodule to your .NET solution, making it easy to share and reuse code across multiple projects.
+This library is designed to be added as a Git submodule to your .NET solution, making it easy to share and reuse code
+across multiple projects.
 
 ### Add as a Submodule
 
@@ -32,10 +33,12 @@ git submodule update --init --recursive
 
 ### Reference Only What You Need
 
-The library is split into multiple projects, each targeting a specific set of utilities or patterns. This modular structure allows you to reference only the parts you need:
+The library is split into multiple projects, each targeting a specific set of utilities or patterns. This modular
+structure allows you to reference only the parts you need:
 
 1. Open your solution in your favorite IDE (e.g., Visual Studio).
-2. Add the projects you need as references to your existing projects, by browsing to the submodule folder (e.g., libs/common) and select the specific .csproj files you want to include
+2. Add the projects you need as references to your existing projects, by browsing to the submodule folder (e.g.,
+   libs/common) and select the specific .csproj files you want to include
 3. Build and you're good to go!
 
 ## Features

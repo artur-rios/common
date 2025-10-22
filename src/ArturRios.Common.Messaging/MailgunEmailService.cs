@@ -7,10 +7,10 @@ namespace ArturRios.Common.Messaging;
 
 public class MailgunEmailService(ILogger<MailgunEmailService> logger) : IEmailService
 {
-    private readonly HttpClient _httpClient = new();
     private const string MailgunApiBaseUrl = "https://api.mailgun.net";
     private const string MailgunApiVersion = "v3";
     private const string MailgunMessagesEndpoint = "messages";
+    private readonly HttpClient _httpClient = new();
 
     public async Task<ProcessOutput> SendEmailAsync(string to, string subject, string body)
     {
@@ -30,7 +30,9 @@ public class MailgunEmailService(ILogger<MailgunEmailService> logger) : IEmailSe
 
         logger.LogInformation("Testing Mailgun email service...");
 
-        var response = await _httpClient.PostAsync($"{MailgunApiBaseUrl}/{MailgunApiVersion}/{domain}/{MailgunMessagesEndpoint}", content);
+        var response =
+            await _httpClient.PostAsync($"{MailgunApiBaseUrl}/{MailgunApiVersion}/{domain}/{MailgunMessagesEndpoint}",
+                content);
         var responseContent = await response.Content.ReadAsStringAsync();
 
         logger.LogInformation("Mailgun response: {ResponseContent}", responseContent);
@@ -39,7 +41,8 @@ public class MailgunEmailService(ILogger<MailgunEmailService> logger) : IEmailSe
 
         if (!response.IsSuccessStatusCode)
         {
-            output.AddError($"Failed to send e-mail via Mailgun. Status Code: {response.StatusCode} | Response: {responseContent}");
+            output.AddError(
+                $"Failed to send e-mail via Mailgun. Status Code: {response.StatusCode} | Response: {responseContent}");
         }
 
         return output;

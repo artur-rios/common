@@ -22,17 +22,20 @@ public class EventHandlerWrapper<TEvent> : EventHandlerWrapper where TEvent : cl
         {
             foreach (var handler in eventHandlers)
             {
-                logger.LogDebug("Executing event handler {HandlerName} for event {EventName}", handler.GetType().Name, typeof(TEvent).Name);
+                logger.LogDebug("Executing event handler {HandlerName} for event {EventName}", handler.GetType().Name,
+                    typeof(TEvent).Name);
 
                 try
                 {
                     await handler.Handle((TEvent)domainEvent);
 
-                    logger.LogDebug("Event handler {HandlerName} executed successfully for event {EventName}", handler.GetType().Name, typeof(TEvent).Name);
+                    logger.LogDebug("Event handler {HandlerName} executed successfully for event {EventName}",
+                        handler.GetType().Name, typeof(TEvent).Name);
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, "Error executing event handler {HandlerName} for event {EventName}", handler.GetType().Name, typeof(TEvent).Name);
+                    logger.LogError(ex, "Error executing event handler {HandlerName} for event {EventName}",
+                        handler.GetType().Name, typeof(TEvent).Name);
                 }
             }
         }

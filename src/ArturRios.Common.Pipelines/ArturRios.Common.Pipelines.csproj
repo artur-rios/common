@@ -1,22 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\ArturRios.Common.Data\ArturRios.Common.Data.csproj" />
-      <ProjectReference Include="..\ArturRios.Common.Extensions\ArturRios.Common.Extensions.csproj" />
-      <ProjectReference Include="..\ArturRios.Common.Output\ArturRios.Common.Output.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ArturRios.Common.Data\ArturRios.Common.Data.csproj"/>
+    <ProjectReference Include="..\ArturRios.Common.Extensions\ArturRios.Common.Extensions.csproj"/>
+    <ProjectReference Include="..\ArturRios.Common.Output\ArturRios.Common.Output.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.10" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10" />
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.10"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.10"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.10"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
+  </ItemGroup>
 
 </Project>

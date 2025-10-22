@@ -5,13 +5,10 @@ namespace ArturRios.Common.Tests.Mock.WebApi.Client;
 
 public class WebApiClient : BaseWebApiClient
 {
-    public TestRoute Test { get; private set; } = null!;
     public WebApiClient(HttpClient httpClient) : base(httpClient) { }
 
     public WebApiClient(string baseUrl) : base(baseUrl) { }
+    public TestRoute Test { get; private set; } = null!;
 
-    protected override void SetRoutes()
-    {
-        Test = new TestRoute(Gateway);
-    }
+    protected override void SetRoutes() => Test = new TestRoute(Gateway);
 }

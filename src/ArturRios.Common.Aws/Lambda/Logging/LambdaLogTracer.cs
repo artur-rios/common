@@ -10,12 +10,12 @@ namespace ArturRios.Common.Aws.Lambda.Logging;
 [InjectionValidator(ServiceLifetime.Scoped)]
 public class LambdaLogTracer : ILambdaLogTracer
 {
-    private readonly string _logStream;
-    private readonly string _logGroup;
-    private readonly string _region;
-    private readonly int _currentTrace;
-    private readonly Dictionary<string, string> _traceParams;
     private static int s_traceCounter;
+    private readonly int _currentTrace;
+    private readonly string _logGroup;
+    private readonly string _logStream;
+    private readonly string _region;
+    private readonly Dictionary<string, string> _traceParams;
 
     internal LambdaLogTracer()
     {
@@ -30,18 +30,6 @@ public class LambdaLogTracer : ILambdaLogTracer
 
         Info($"Starting {nameof(LambdaLogTracer)} | Current trace: {_currentTrace}");
     }
-
-    private string GetBasicLog(object message, LogType logType) =>
-        $"{GetTraceParams()} {logType.GetDescription()} - Message: {message}";
-
-    private string GetTraceParams() =>
-        $"{_currentTrace} {string.Join(" ", _traceParams.Select(param => string.Concat("[", param.Key, ":", param.Value, "]")))}";
-
-    private void LogException(object message, Exception exception) =>
-        Console.Error.WriteLine($"{GetBasicLog(message, LogType.Error)} | Exception: {exception.ToLogLine(out _)}");
-
-    private void LogException(Exception exception) => Console.Error.WriteLine(
-        $"{GetBasicLog($"Exception message: {exception.Message}", LogType.Error)} | Exception: {exception.ToLogLine(out _)}");
 
     public string GetTraceParams(string key) => _traceParams.TryGetValue(key, out var value) ? value : string.Empty;
 
@@ -74,4 +62,16 @@ public class LambdaLogTracer : ILambdaLogTracer
     public void Error(Exception exception) => LogException(exception);
 
     public void Warn(object message) => Console.WriteLine(GetBasicLog(message, LogType.Warn));
+
+    private string GetBasicLog(object message, LogType logType) =>
+        $"{GetTraceParams()} {logType.GetDescription()} - Message: {message}";
+
+    private string GetTraceParams() =>
+        $"{_currentTrace} {string.Join(" ", _traceParams.Select(param => string.Concat("[", param.Key, ":", param.Value, "]")))}";
+
+    private void LogException(object message, Exception exception) =>
+        Console.Error.WriteLine($"{GetBasicLog(message, LogType.Error)} | Exception: {exception.ToLogLine(out _)}");
+
+    private void LogException(Exception exception) => Console.Error.WriteLine(
+        $"{GetBasicLog($"Exception message: {exception.Message}", LogType.Error)} | Exception: {exception.ToLogLine(out _)}");
 }

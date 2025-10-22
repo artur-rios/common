@@ -20,15 +20,11 @@ public static class StringExtensions
     public static string TrimChar(this string input, char charToTrim) =>
         string.IsNullOrEmpty(input) ? input : input.Trim().Trim(charToTrim);
 
-    public static bool ParseToBoolOrDefault(this string? @string, bool defaultValue = false)
-    {
-        return bool.TryParse(@string, out var result) ? result : defaultValue;
-    }
+    public static bool ParseToBoolOrDefault(this string? @string, bool defaultValue = false) =>
+        bool.TryParse(@string, out var result) ? result : defaultValue;
 
-    public static int ParseToIntOrDefault(this string? @string, int defaultValue = 0)
-    {
-        return int.TryParse(@string, out var result) ? result : defaultValue;
-    }
+    public static int ParseToIntOrDefault(this string? @string, int defaultValue = 0) =>
+        int.TryParse(@string, out var result) ? result : defaultValue;
 
     public static T? ParseToObjectOrDefault<T>(this string? @string) where T : class
     {
@@ -47,15 +43,11 @@ public static class StringExtensions
         }
     }
 
-    public static bool IsValidEnumValue<TEnum>(this string @string, bool ignoreCase = true) where TEnum : Enum
-    {
-        return Enum.TryParse(typeof(TEnum), @string, ignoreCase, out _);
-    }
+    public static bool IsValidEnumValue<TEnum>(this string @string, bool ignoreCase = true) where TEnum : Enum =>
+        Enum.TryParse(typeof(TEnum), @string, ignoreCase, out _);
 
-    public static string? ValueOrDefault(this string? @string, string? defaultValue = null)
-    {
-        return string.IsNullOrEmpty(@string) ? defaultValue : @string;
-    }
+    public static string? ValueOrDefault(this string? @string, string? defaultValue = null) =>
+        string.IsNullOrEmpty(@string) ? defaultValue : @string;
 
     public static string JoinWith(this IEnumerable<string> source, string separator = ", ") =>
         string.Join(separator, source);

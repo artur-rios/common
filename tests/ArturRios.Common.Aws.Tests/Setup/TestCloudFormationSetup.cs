@@ -13,8 +13,8 @@ public class TestCloudFormationSetup : CloudFormationSetup
 {
     private const string StackName = "cf-test-stack";
     private CloudFormationStack? _stack;
-    private SqsQueue? _testQueue;
     private LambdaFunction? _testLambda;
+    private SqsQueue? _testQueue;
 
     public override void Init(App app)
     {

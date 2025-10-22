@@ -10,26 +10,7 @@ namespace ArturRios.Common.Aws.Lambda.Logging;
 [InjectionValidator(ServiceLifetime.Singleton)]
 public class LambdaLogTracerSingleton : ILambdaLogTracerSingleton
 {
-    internal LambdaLogTracerSingleton()
-    {
-        Info($"Starting {nameof(LambdaLogTracerSingleton)}", 0);
-    }
-
-    private static string GetBasicLog(object message, LogType logType, int? currentTrace,
-        Dictionary<string, string> traceParams) =>
-        $"{GetTraceParams(currentTrace, traceParams)} {logType.GetDescription()} - Message: {message}";
-
-    private static string GetTraceParams(int? currentTrace, Dictionary<string, string> traceParams) =>
-        $"[{currentTrace}] {string.Join(" ", traceParams.Select(param => string.Concat("[", param.Key, ":", param.Value, "]")))}";
-
-    private static void LogException(object message, Exception exception, int? currentTrace = null,
-        Dictionary<string, string>? traceParams = null) => Console.Error.WriteLine(
-        $"{GetBasicLog(message, LogType.Error, currentTrace, traceParams ?? [])} | Exception: {exception.ToLogLine(out _)}");
-
-    private static void
-        LogException(Exception exception, int? currentTrace = null, Dictionary<string, string>? traceParams = null) =>
-        Console.Error.WriteLine(
-            $"{GetBasicLog($"Exception message: {exception.Message}", LogType.Error, currentTrace, traceParams ?? [])} | Exception: {exception.ToLogLine(out _)}");
+    internal LambdaLogTracerSingleton() => Info($"Starting {nameof(LambdaLogTracerSingleton)}", 0);
 
     public string GetTraceParams(Dictionary<string, string> traceParams, string key) =>
         traceParams.TryGetValue(key, out var value) ? value : string.Empty;
@@ -72,4 +53,20 @@ public class LambdaLogTracerSingleton : ILambdaLogTracerSingleton
 
     public void Warn(object message, int? currentTrace = null, Dictionary<string, string>? traceParams = null) =>
         Console.WriteLine(GetBasicLog(message, LogType.Warn, currentTrace, traceParams ?? []));
+
+    private static string GetBasicLog(object message, LogType logType, int? currentTrace,
+        Dictionary<string, string> traceParams) =>
+        $"{GetTraceParams(currentTrace, traceParams)} {logType.GetDescription()} - Message: {message}";
+
+    private static string GetTraceParams(int? currentTrace, Dictionary<string, string> traceParams) =>
+        $"[{currentTrace}] {string.Join(" ", traceParams.Select(param => string.Concat("[", param.Key, ":", param.Value, "]")))}";
+
+    private static void LogException(object message, Exception exception, int? currentTrace = null,
+        Dictionary<string, string>? traceParams = null) => Console.Error.WriteLine(
+        $"{GetBasicLog(message, LogType.Error, currentTrace, traceParams ?? [])} | Exception: {exception.ToLogLine(out _)}");
+
+    private static void
+        LogException(Exception exception, int? currentTrace = null, Dictionary<string, string>? traceParams = null) =>
+        Console.Error.WriteLine(
+            $"{GetBasicLog($"Exception message: {exception.Message}", LogType.Error, currentTrace, traceParams ?? [])} | Exception: {exception.ToLogLine(out _)}");
 }

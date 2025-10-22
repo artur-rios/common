@@ -15,10 +15,7 @@ public abstract class BaseWebApiClient
 
     protected BaseWebApiClient(string baseUrl)
     {
-        var httpClient = new HttpClient
-        {
-            BaseAddress = new Uri(baseUrl)
-        };
+        var httpClient = new HttpClient { BaseAddress = new Uri(baseUrl) };
 
         Gateway = new HttpGateway(httpClient);
 

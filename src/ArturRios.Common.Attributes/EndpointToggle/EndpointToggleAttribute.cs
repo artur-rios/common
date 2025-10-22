@@ -11,23 +11,20 @@ namespace ArturRios.Common.Attributes.EndpointToggle;
 [AttributeUsage(AttributeTargets.Method)]
 public class EndpointToggleAttribute : ActionFilterAttribute
 {
-    private readonly bool _isEnabled;
-    private readonly OutputType _disabledOutputType;
-    private readonly string _disabledMessage;
-    private readonly bool _useConfigurationFile;
-    private readonly ConfigurationSourceType _configurationSource;
-    private readonly string _keyPrefix = string.Empty;
-    private readonly string _keySuffix = string.Empty;
-    private readonly string _keySeparator = string.Empty;
-    private readonly string _key = string.Empty;
-    private readonly HttpStatusCode _disabledStatusCode;
-
-    private ActionExecutingContext _context = null!;
     private const string DefaultAppSettingsKeyPrefix = "Endpoints:[Controller]";
     private const string DefaultEnvFileKeyPrefix = "Endpoints_[Controller]";
+    private readonly ConfigurationSourceType _configurationSource;
+    private readonly string _disabledMessage;
+    private readonly OutputType _disabledOutputType;
+    private readonly HttpStatusCode _disabledStatusCode;
+    private readonly bool _isEnabled;
+    private readonly string _key = string.Empty;
+    private readonly string _keyPrefix = string.Empty;
+    private readonly string _keySeparator = string.Empty;
+    private readonly string _keySuffix = string.Empty;
+    private readonly bool _useConfigurationFile;
 
-    public static HttpStatusCode DefaultDisabledStatusCode => HttpStatusCode.NotFound;
-    public static string DefaultDisabledMessage => "This endpoint is currently disabled";
+    private ActionExecutingContext _context = null!;
 
     public EndpointToggleAttribute(
         bool isEnabled = true,
@@ -73,6 +70,9 @@ public class EndpointToggleAttribute : ActionFilterAttribute
             _keyPrefix = keyPrefix;
         }
     }
+
+    public static HttpStatusCode DefaultDisabledStatusCode => HttpStatusCode.NotFound;
+    public static string DefaultDisabledMessage => "This endpoint is currently disabled";
 
     public override void OnActionExecuting(ActionExecutingContext context)
     {

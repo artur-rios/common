@@ -7,9 +7,9 @@ using ArturRios.Common.Pipelines.Tests.Output;
 
 namespace ArturRios.Common.Pipelines.Tests.Handlers;
 
-public class ScheduleTestCommandHandler(ICommandQueue commandQueue, ICrudRepository<TestEntity> repository) : ICommandHandlerAsync<ScheduleTestCommand, ScheduleTestCommandOutput>
+public class ScheduleTestCommandHandler(ICommandQueue commandQueue, ICrudRepository<TestEntity> repository)
+    : ICommandHandlerAsync<ScheduleTestCommand, ScheduleTestCommandOutput>
 {
-
     public Task<DataOutput<ScheduleTestCommandOutput?>> HandleAsync(ScheduleTestCommand command)
     {
         var entity = repository.GetById(command.Id);
@@ -39,10 +39,7 @@ public class ScheduleTestCommandHandler(ICommandQueue commandQueue, ICrudReposit
         return Task.FromResult(output);
     }
 
-    private static bool IsWeekendDay(DateTime date)
-    {
-        return date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
-    }
+    private static bool IsWeekendDay(DateTime date) => date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday;
 
     private static DateTime GetNextWeekday(DateTime date)
     {

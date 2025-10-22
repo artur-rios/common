@@ -10,32 +10,34 @@ public class CloudFormationResourcesFactory
 {
     private const EnvironmentType DefaultEnvironment = EnvironmentType.Local;
     private const string RoleArnPrefix = "arn:aws:iam::${AWS::AccountId}:role/";
+    private readonly string[] _defaultSecurityGroupIds = ["sg-test1"];
 
-    private double _lambdaMemorySize = 512;
-    private string _lambdaRole = "test-role";
-    private string _lambdaRegion = "sa-east-1";
-    private Runtime _lambdaRuntime = Runtime.DOTNET_8;
-    private Duration _lambdaTimeout = Duration.Seconds(60);
-    private string _lambdaTimeZone = "America/Sao_Paulo";
+
+    private readonly List<string> _defaultStackTransforms = ["AWS:Serverless-2016-10-31"];
+    private readonly string[] _defaultSubnetIds = ["subnet-test1", "subnet-test2", "subnet-test3"];
 
     private readonly Dictionary<string, string> _lambdaEnvironmentVariables = new()
     {
         ["ASPNETCORE_ENVIRONMENT"] = Fn.FindInMap(Fn.Ref("Stage"), Fn.Ref("AWS::Region"), "ENVIRONMENT")
     };
 
-
-    private readonly List<string> _defaultStackTransforms = ["AWS:Serverless-2016-10-31"];
-    private readonly string[] _defaultSecurityGroupIds = ["sg-test1"];
-    private readonly string[] _defaultSubnetIds = ["subnet-test1", "subnet-test2", "subnet-test3"];
-
-    private string _stackMappingName = "test";
-    private readonly Dictionary<string, string> _stackTags = new();
     private readonly Dictionary<string, object> _stackMappingValues = new();
 
     private readonly Dictionary<string, (string[] allowedValues, string defaultValue)> _stackParameters = new()
     {
         ["Stage"] = (Enum.GetNames(typeof(EnvironmentType)), "Test")
     };
+
+    private readonly Dictionary<string, string> _stackTags = new();
+
+    private double _lambdaMemorySize = 512;
+    private string _lambdaRegion = "sa-east-1";
+    private string _lambdaRole = "test-role";
+    private Runtime _lambdaRuntime = Runtime.DOTNET_8;
+    private Duration _lambdaTimeout = Duration.Seconds(60);
+    private string _lambdaTimeZone = "America/Sao_Paulo";
+
+    private string _stackMappingName = "test";
 
     public static CloudFormationResourcesFactory New => new();
 
@@ -259,7 +261,7 @@ public class CloudFormationResourcesFactory
 
         if (projectName is null)
         {
-            _stackTags.Add("Project","artur-rios-common-aws-tests");
+            _stackTags.Add("Project", "artur-rios-common-aws-tests");
         }
     }
 }

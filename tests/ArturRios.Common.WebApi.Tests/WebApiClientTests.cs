@@ -9,10 +9,8 @@ public class WebApiClientTests : WebApiTest<Program>
 {
     private readonly WebApiClient _webApiClient;
 
-    public WebApiClientTests(EnvironmentType environment = EnvironmentType.Local) : base(environment)
-    {
+    public WebApiClientTests(EnvironmentType environment = EnvironmentType.Local) : base(environment) =>
         _webApiClient = new WebApiClient(Gateway.Client);
-    }
 
     [Fact]
     public async Task Should_DoHealthCheck()

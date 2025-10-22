@@ -17,15 +17,9 @@ public class FakeRepository<T> : ICrudRepository<T>, IRangeRepository<T> where T
         return entity.Id;
     }
 
-    public IQueryable<T> GetAll()
-    {
-        return _items.AsQueryable();
-    }
+    public IQueryable<T> GetAll() => _items.AsQueryable();
 
-    public T? GetById(int id)
-    {
-        return _items.FirstOrDefault(x => x.Id == id);
-    }
+    public T? GetById(int id) => _items.FirstOrDefault(x => x.Id == id);
 
     public T Update(T entity)
     {
@@ -52,6 +46,20 @@ public class FakeRepository<T> : ICrudRepository<T>, IRangeRepository<T> where T
         return existingItem;
     }
 
+    public int Delete(T entity)
+    {
+        var existingItem = _items.FirstOrDefault(item => item.Id == entity.Id);
+
+        if (existingItem is null)
+        {
+            throw new KeyNotFoundException($"Entity with Id {entity.Id} not found");
+        }
+
+        _items.Remove(existingItem);
+
+        return existingItem.Id;
+    }
+
     public IEnumerable<T> UpdateRange(List<T> entities)
     {
         foreach (var entity in entities)
@@ -67,20 +75,6 @@ public class FakeRepository<T> : ICrudRepository<T>, IRangeRepository<T> where T
         }
 
         return entities;
-    }
-
-    public int Delete(T entity)
-    {
-        var existingItem = _items.FirstOrDefault(item => item.Id == entity.Id);
-
-        if (existingItem is null)
-        {
-            throw new KeyNotFoundException($"Entity with Id {entity.Id} not found");
-        }
-
-        _items.Remove(existingItem);
-
-        return existingItem.Id;
     }
 
 

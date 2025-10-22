@@ -9,7 +9,8 @@ using Newtonsoft.Json;
 
 namespace ArturRios.Common.Pipelines.Tests.Handlers;
 
-public class TestCommandHandlerAsync(ILogger<TestCommand> logger) : ICommandHandlerAsync<TestCommand, TestCommandOutputAsync>
+public class TestCommandHandlerAsync(ILogger<TestCommand> logger)
+    : ICommandHandlerAsync<TestCommand, TestCommandOutputAsync>
 {
     public Task<DataOutput<TestCommandOutputAsync?>> HandleAsync(TestCommand command)
     {
@@ -31,8 +32,5 @@ public class TestCommandHandlerAsync(ILogger<TestCommand> logger) : ICommandHand
         return Task.FromResult(output);
     }
 
-    private static TestEntity ParseMessage(string message)
-    {
-        return JsonConvert.DeserializeObject<TestEntity>(message)!;
-    }
+    private static TestEntity ParseMessage(string message) => JsonConvert.DeserializeObject<TestEntity>(message)!;
 }

@@ -24,7 +24,7 @@ public class EndpointToggleTestController : Controller
 
     [HttpGet]
     [Route("Disabled")]
-    [EndpointToggle(isEnabled: false)]
+    [EndpointToggle(false)]
     public ActionResult<DataOutput<string?>> Disabled()
     {
         var result = DataOutput<string?>.New
@@ -36,7 +36,7 @@ public class EndpointToggleTestController : Controller
 
     [HttpGet]
     [Route("DisabledByAppSettings")]
-    [EndpointToggle(configurationSource: ConfigurationSourceType.AppSettings)]
+    [EndpointToggle(ConfigurationSourceType.AppSettings)]
     public ActionResult<DataOutput<string?>> DisabledByAppSettings()
     {
         var result = DataOutput<string?>.New

@@ -32,7 +32,8 @@ public class GuidTraceIdentifierMiddleware(RequestDelegate next, ILogger<GuidTra
         }
 
         context.TraceIdentifier = lambdaContext?.AwsRequestId ?? Guid.NewGuid().ToString("N");
-        logger.LogInformation("Starting request with trace identifier: {TraceIdentifier} | Payload: {Payload}", context.TraceIdentifier, bodyString);
+        logger.LogInformation("Starting request with trace identifier: {TraceIdentifier} | Payload: {Payload}",
+            context.TraceIdentifier, bodyString);
 
         await next(context);
     }

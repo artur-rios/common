@@ -58,7 +58,9 @@ public class FileReader
             throw new ArgumentException("Path cannot be null or whitespace", nameof(path));
         }
 
-        return File.Exists(path) ? File.ReadAllLines(path) : throw new FileNotFoundException($"The file at path '{path}' does not exist", path);
+        return File.Exists(path)
+            ? File.ReadAllLines(path)
+            : throw new FileNotFoundException($"The file at path '{path}' does not exist", path);
     }
 
     public static T? ReadAndDeserialize<T>(string path)

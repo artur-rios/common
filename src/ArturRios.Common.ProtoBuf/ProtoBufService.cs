@@ -106,7 +106,10 @@ public static class ProtoBufService
 
     private static void SaveToFile(string protoFileName, string protoContent, string path)
     {
-        if (string.IsNullOrWhiteSpace(protoFileName)) return;
+        if (string.IsNullOrWhiteSpace(protoFileName))
+        {
+            return;
+        }
 
         if (!protoFileName.EndsWith(".proto"))
         {

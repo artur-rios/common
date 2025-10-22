@@ -29,7 +29,8 @@ public class SqsMessageHandler(Pipeline pipeline, ILogger<SqsMessageHandler> log
 
             if (output.Success)
             {
-                processOutput.AddMessage($"Command {commandInput.TypeFullName} | Id: {commandInput.CommandId} executed successfully");
+                processOutput.AddMessage(
+                    $"Command {commandInput.TypeFullName} | Id: {commandInput.CommandId} executed successfully");
             }
 
             logger.LogError("The command {CommandType} | Id: {CommandId} failed with errors: {Errors}",
@@ -38,7 +39,6 @@ public class SqsMessageHandler(Pipeline pipeline, ILogger<SqsMessageHandler> log
             processOutput.AddErrors(output.Errors);
 
             return processOutput;
-
         }
         catch (Exception ex)
         {

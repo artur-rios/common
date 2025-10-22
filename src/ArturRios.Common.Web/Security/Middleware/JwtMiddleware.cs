@@ -79,9 +79,7 @@ public class JwtMiddleware(
         }
     }
 
-    private bool IsSwaggerRoute(string path)
-    {
-        return settings.GetBool(AppSettingsKeys.SwaggerEnabled) is true &&
-               path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase);
-    }
+    private bool IsSwaggerRoute(string path) =>
+        settings.GetBool(AppSettingsKeys.SwaggerEnabled) is true &&
+        path.StartsWith("/swagger", StringComparison.OrdinalIgnoreCase);
 }

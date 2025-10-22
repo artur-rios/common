@@ -19,10 +19,7 @@ public class EnvironmentProvider : IConfigurationProvider
         return value.ParseToIntOrDefault();
     }
 
-    public string? GetString(string key)
-    {
-        return Environment.GetEnvironmentVariable(key);
-    }
+    public string? GetString(string key) => Environment.GetEnvironmentVariable(key);
 
     public T? GetObject<T>(string key) where T : class
     {

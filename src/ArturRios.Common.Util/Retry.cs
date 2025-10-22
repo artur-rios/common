@@ -2,8 +2,8 @@
 
 public class Retry
 {
-    private int _maxAttempts;
     private int _delayMilliseconds;
+    private int _maxAttempts;
 
     public static Retry New => new();
 

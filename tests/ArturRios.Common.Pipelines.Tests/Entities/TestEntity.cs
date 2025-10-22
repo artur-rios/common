@@ -13,13 +13,11 @@ public class TestEntity : DomainEventEntity
     public bool Scheduled { get; set; }
     public bool Completed { get; set; }
 
-    private void CanDoSomething()
-    {
+    private void CanDoSomething() =>
         Condition.Create
             .False(!string.IsNullOrWhiteSpace(Data))
             .FailsWith("Data cannot be empty")
             .ThrowIfNotSatisfied();
-    }
 
     public void DoSomething()
     {
@@ -28,15 +26,13 @@ public class TestEntity : DomainEventEntity
         AddDomainEvent(new TestEvent { Id = Id, ScheduleDate = CreatedAt });
     }
 
-    public void CanSchedule(DateTime scheduleDate)
-    {
+    public void CanSchedule(DateTime scheduleDate) =>
         Condition.Create
             .True(scheduleDate > DateTime.UtcNow)
             .FailsWith("Schedule date must be in the future")
             .True(scheduleDate > CreatedAt)
             .FailsWith("Schedule date must be after entity creation date")
             .ThrowIfNotSatisfied();
-    }
 
     public void MarkAsScheduled()
     {
@@ -45,13 +41,11 @@ public class TestEntity : DomainEventEntity
         AddDomainEvent(new CommandScheduledEvent { OperationId = OperationId });
     }
 
-    private void CanComplete()
-    {
+    private void CanComplete() =>
         Condition.Create
             .True(Scheduled)
             .FailsWith("Entity must be scheduled before completing")
             .ThrowIfNotSatisfied();
-    }
 
     public void MarkAsCompleted()
     {

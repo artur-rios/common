@@ -12,7 +12,7 @@ public class EnumerableExtensionsTests
 
     public static IEnumerable<object[]> NotEmptyCollections => new List<object[]>
     {
-        new object[] { (int[]) [1, 2, 3] }, new object[] { new List<int> { 1, 2, 3 } }
+        new object[] { (int[])[1, 2, 3] }, new object[] { new List<int> { 1, 2, 3 } }
     };
 
     [Theory]

@@ -8,8 +8,6 @@ public class TestRoute(HttpGateway gateway) : BaseWebApiClientRoute(gateway)
 {
     public override string BaseUrl => "/Test";
 
-    public async Task<HttpOutput<DataOutput<string?>?>> HelloWorld()
-    {
-        return await Gateway.GetAsync<DataOutput<string?>>($"{BaseUrl}/HelloWorld");
-    }
+    public async Task<HttpOutput<DataOutput<string?>?>> HelloWorld() =>
+        await Gateway.GetAsync<DataOutput<string?>>($"{BaseUrl}/HelloWorld");
 }

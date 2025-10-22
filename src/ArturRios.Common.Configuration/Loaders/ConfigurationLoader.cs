@@ -1,4 +1,5 @@
 ﻿using ArturRios.Common.Configuration.Enums;
+using DotNetEnv;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -6,9 +7,12 @@ namespace ArturRios.Common.Configuration.Loaders;
 
 public class ConfigurationLoader
 {
+    private const string DefaultEnvironmentName = nameof(EnvironmentType.Local);
+    private const string DefaultEnvFileFolder = "Environments";
+    private const string DefaultAppSettingsFolder = "Settings";
+    private readonly string _basePath;
     private readonly IConfigurationBuilder? _configurationBuilder;
     private readonly string _environmentName;
-    private readonly string _basePath;
 
     private readonly ILogger _logger =
         LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<ConfigurationLoader>();
@@ -27,10 +31,6 @@ public class ConfigurationLoader
         _basePath = string.IsNullOrEmpty(basePath) ? AppDomain.CurrentDomain.BaseDirectory : basePath;
     }
 
-    private const string DefaultEnvironmentName = nameof(EnvironmentType.Local);
-    private const string DefaultEnvFileFolder = "Environments";
-    private const string DefaultAppSettingsFolder = "Settings";
-
     public void LoadEnvironment()
     {
         var envFolder = Path.Combine(_basePath, DefaultEnvFileFolder);
@@ -41,7 +41,7 @@ public class ConfigurationLoader
         {
             _logger.LogInformation("Loading variables for {EnvironmentName} environment...", _environmentName);
 
-            DotNetEnv.Env.Load(envFile);
+            Env.Load(envFile);
         }
         else if (File.Exists(defaultEnvFile))
         {
@@ -49,7 +49,7 @@ public class ConfigurationLoader
                 "Could not find variables for {EnvironmentName} environment. Loading default environment {DefaultEnvironmentName} instead...",
                 _environmentName, DefaultEnvironmentName);
 
-            DotNetEnv.Env.Load(defaultEnvFile);
+            Env.Load(defaultEnvFile);
         }
         else
         {
@@ -73,7 +73,7 @@ public class ConfigurationLoader
         {
             _logger.LogInformation("Loading app settings for {EnvironmentName} environment...", _environmentName);
 
-            _configurationBuilder.AddJsonFile(envSettingsFile, optional: false, reloadOnChange: true);
+            _configurationBuilder.AddJsonFile(envSettingsFile, false, true);
         }
         else if (File.Exists(defaultSettingsFile))
         {
@@ -81,7 +81,7 @@ public class ConfigurationLoader
                 "Could not find app settings for {EnvironmentName} environment. Loading default environment {DefaultEnvironmentName} instead...",
                 _environmentName, DefaultEnvironmentName);
 
-            _configurationBuilder.AddJsonFile(defaultSettingsFile, optional: false, reloadOnChange: true);
+            _configurationBuilder.AddJsonFile(defaultSettingsFile, false, true);
         }
         else
         {

@@ -2,10 +2,9 @@
 
 public class JitteredWaiter(int maxRetryCount)
 {
+    private const int FixedWaitDelay = 500;
     public int MaxRetryCount { get; set; } = maxRetryCount;
     private int Count { get; set; }
-
-    private const int FixedWaitDelay = 500;
 
     public bool CanRetry => Count < MaxRetryCount;
 

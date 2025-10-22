@@ -6,15 +6,21 @@ public abstract class LambdaEntryPoint : IDisposable
 {
     private bool disposedValue;
 
-    protected IServiceProvider ServiceProvider { get; }
-
-    internal IServiceCollection ServiceCollection { get; }
-
     protected LambdaEntryPoint()
     {
         ServiceCollection = ConfigureServices();
         ServiceCollection = MockServices(ServiceCollection);
         ServiceProvider = ServiceCollection.BuildServiceProvider();
+    }
+
+    protected IServiceProvider ServiceProvider { get; }
+
+    internal IServiceCollection ServiceCollection { get; }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
     protected void Scope(Action<IServiceProvider> action)
@@ -74,14 +80,5 @@ public abstract class LambdaEntryPoint : IDisposable
         disposedValue = true;
     }
 
-    ~LambdaEntryPoint()
-    {
-        Dispose(disposing: false);
-    }
-
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
+    ~LambdaEntryPoint() => Dispose(false);
 }
