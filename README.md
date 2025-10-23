@@ -44,5 +44,6 @@ structure allows you to reference only the parts you need:
 ## Features
 
 - [Data access utilities](docs/data.md)
+- [Web utilities](docs/web.md)
 
 *Documentation under construction*
