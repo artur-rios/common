@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ArturRios.Common.Output\ArturRios.Common.Output.csproj"/>
+    <ProjectReference Include="..\..\src\ArturRios.Common.Output\ArturRios.Common.Output.csproj" />
   </ItemGroup>
 
 </Project>

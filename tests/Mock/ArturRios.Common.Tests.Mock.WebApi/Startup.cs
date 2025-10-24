@@ -1,4 +1,5 @@
-﻿using ArturRios.Common.Web.Api.Configuration;
+﻿using ArturRios.Common.Logging;
+using ArturRios.Common.Web.Api.Configuration;
 using ArturRios.Common.Web.Middleware;
 using Microsoft.OpenApi.Models;
 
@@ -10,6 +11,7 @@ public class Startup(string[] args) : WebApiStartup(args)
     {
         LoadConfiguration();
         ConfigureWebApi();
+        AddDependencies();
         UseSwaggerGen(swaggerGenOptions: options =>
         {
             options.SwaggerDoc("v1", new OpenApiInfo { Title = "Test Web API", Version = "v1" });
@@ -22,6 +24,14 @@ public class Startup(string[] args) : WebApiStartup(args)
         AddMiddlewares([typeof(ExceptionMiddleware)]);
         ConfigureApp();
         UseSwagger();
+    }
+
+    public override void AddDependencies()
+    {
+        var contentRoot = Builder.Environment.ContentRootPath;
+        var logPath = Path.Combine(contentRoot, "log");
+
+        Builder.Services.AddSingleton<SimpleFileLogger>( _ => new SimpleFileLogger("test-web-api", logPath));
     }
 
     public override void ConfigureWebApi()

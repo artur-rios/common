@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\src\ArturRios.Common.Attributes\ArturRios.Common.Attributes.csproj"/>
+    <ProjectReference Include="..\..\..\src\ArturRios.Common.Logging\ArturRios.Common.Logging.csproj" />
     <ProjectReference Include="..\..\..\src\ArturRios.Common.Web\ArturRios.Common.Web.csproj"/>
     <ProjectReference Include="..\ArturRios.Common.Tests.Mock.Classes\ArturRios.Common.Tests.Mock.Classes.csproj"/>
   </ItemGroup>

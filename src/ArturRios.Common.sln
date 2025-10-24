@@ -58,7 +58,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.ProtoBuf",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.ProtoBuf.Tests", "..\tests\ArturRios.Common.ProtoBuf.Tests\ArturRios.Common.ProtoBuf.Tests.csproj", "{C162C268-15E0-45CE-B395-D8BB5DE19418}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Output.Tests", "Tests\ArturRios.Common.Output.Tests\ArturRios.Common.Output.Tests.csproj", "{6388FDBA-7B66-48F2-BC2D-E9BDE0554576}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Output.Tests", "..\tests\ArturRios.Common.Output.Tests\ArturRios.Common.Output.Tests.csproj", "{6388FDBA-7B66-48F2-BC2D-E9BDE0554576}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Logging", "ArturRios.Common.Logging\ArturRios.Common.Logging.csproj", "{4BD6E4C0-1DFD-405A-BCB4-AAAD9CB62C53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArturRios.Common.Logging.Tests", "..\tests\ArturRios.Common.Logging.Tests\ArturRios.Common.Logging.Tests.csproj", "{6D8A4E13-5642-46F4-A6AE-76592C06B5A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +182,14 @@ Global
 		{6388FDBA-7B66-48F2-BC2D-E9BDE0554576}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6388FDBA-7B66-48F2-BC2D-E9BDE0554576}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6388FDBA-7B66-48F2-BC2D-E9BDE0554576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4BD6E4C0-1DFD-405A-BCB4-AAAD9CB62C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4BD6E4C0-1DFD-405A-BCB4-AAAD9CB62C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4BD6E4C0-1DFD-405A-BCB4-AAAD9CB62C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4BD6E4C0-1DFD-405A-BCB4-AAAD9CB62C53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D8A4E13-5642-46F4-A6AE-76592C06B5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8A4E13-5642-46F4-A6AE-76592C06B5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8A4E13-5642-46F4-A6AE-76592C06B5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8A4E13-5642-46F4-A6AE-76592C06B5A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{D6365923-C461-40A3-B2FF-E9CBE61BC960} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
@@ -194,5 +206,6 @@ Global
 		{B0780433-6245-4366-B611-1BD50C82F3CF} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
 		{C162C268-15E0-45CE-B395-D8BB5DE19418} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
 		{6388FDBA-7B66-48F2-BC2D-E9BDE0554576} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
+		{6D8A4E13-5642-46F4-A6AE-76592C06B5A7} = {3ABEBFA6-AC88-4EB1-8149-46CC5E3D427E}
 	EndGlobalSection
 EndGlobal
