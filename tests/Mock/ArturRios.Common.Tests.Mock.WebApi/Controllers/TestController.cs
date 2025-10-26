@@ -1,13 +1,13 @@
-﻿using ArturRios.Common.Logging;
-using ArturRios.Common.Output;
+﻿using ArturRios.Common.Output;
 using ArturRios.Common.Web.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using ILogger = ArturRios.Common.Logging.Interfaces.ILogger;
 
 namespace ArturRios.Common.Tests.Mock.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TestController(SimpleFileLogger logger) : Controller
+public class TestController(ILogger logger) : Controller
 {
     [HttpGet]
     [Route("HelloWorld")]

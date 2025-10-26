@@ -1,7 +1,10 @@
 ﻿using ArturRios.Common.Logging;
+using ArturRios.Common.Logging.Configuration;
 using ArturRios.Common.Web.Api.Configuration;
 using ArturRios.Common.Web.Middleware;
 using Microsoft.OpenApi.Models;
+using ILogger = ArturRios.Common.Logging.Interfaces.ILogger;
+using LoggerFactory = ArturRios.Common.Logging.Factories.LoggerFactory;
 
 namespace ArturRios.Common.Tests.Mock.WebApi;
 
@@ -31,7 +34,7 @@ public class Startup(string[] args) : WebApiStartup(args)
         var contentRoot = Builder.Environment.ContentRootPath;
         var logPath = Path.Combine(contentRoot, "log");
 
-        Builder.Services.AddSingleton<SimpleFileLogger>( _ => new SimpleFileLogger("test-web-api", logPath));
+        Builder.Services.AddSingleton<ILogger>( _ => LoggerFactory.Create(new ConsoleLoggerConfiguration()));
     }
 
     public override void ConfigureWebApi()

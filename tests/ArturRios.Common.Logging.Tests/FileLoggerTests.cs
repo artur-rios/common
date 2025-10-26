@@ -6,7 +6,7 @@ using ArturRios.Common.Tests.Mock.WebApi;
 
 namespace ArturRios.Common.Logging.Tests;
 
-public class SimpleFileLoggerTests(EnvironmentType environment = EnvironmentType.Local)
+public class FileLoggerTests(EnvironmentType environment = EnvironmentType.Local)
     : WebApiTest<Program>(environment)
 {
     private const string TestRoute = "/Test";
