@@ -6,13 +6,13 @@ namespace ArturRios.Common.Logging.Factories;
 
 public static class LoggerFactory
 {
-    public static ILogger Create(LoggerConfiguration loggerConfiguration)
+    public static IInternalLogger Create(LoggerConfiguration loggerConfiguration)
     {
         ArgumentNullException.ThrowIfNull(loggerConfiguration);
 
         return loggerConfiguration switch
         {
-            ConsoleLoggerConfiguration => new ConsoleLogger(),
+            ConsoleLoggerConfiguration consoleConfig => new ConsoleLogger(consoleConfig),
             FileLoggerConfiguration fileConfig => new FileLogger(fileConfig),
             _ => throw new ArgumentException($"Unsupported logger configuration type: {loggerConfiguration.GetType().FullName}", nameof(loggerConfiguration))
         };

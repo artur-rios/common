@@ -34,7 +34,18 @@ public class Startup(string[] args) : WebApiStartup(args)
         var contentRoot = Builder.Environment.ContentRootPath;
         var logPath = Path.Combine(contentRoot, "log");
 
-        Builder.Services.AddSingleton<ILogger>( _ => LoggerFactory.Create(new ConsoleLoggerConfiguration()));
+        var consoleLoggerConfig = new ConsoleLoggerConfiguration
+        {
+            UseColors = true
+        };
+
+        var fileLoggerConfig = new FileLoggerConfiguration
+        {
+            ApplicationName = "test-web-api",
+            FilePath = logPath
+        };
+
+        Builder.Services.AddSingleton<ILogger>( _ => new Logger([consoleLoggerConfig, fileLoggerConfig]));
     }
 
     public override void ConfigureWebApi()

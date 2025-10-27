@@ -5,47 +5,47 @@ using ArturRios.Common.Logging.Interfaces;
 
 namespace ArturRios.Common.Logging.Loggers;
 
-public class FileLogger(FileLoggerConfiguration configuration) : ILogger
+public class FileLogger(FileLoggerConfiguration configuration) : IInternalLogger
 {
     private const string DefaultLogFolder = "log";
     private const string FileExtension = ".log";
 
-    public void Trace(string message, [CallerFilePath] string filePath = "unknown",  [CallerMemberName] string methodName = "unknown")
+    public void Trace(string message, string filePath, string methodName)
     {
         Write(LogLevel.Trace, filePath, methodName, message);
     }
 
-    public void Debug(string message, [CallerFilePath] string filePath = "unknown",  [CallerMemberName] string methodName = "unknown")
+    public void Debug(string message, string filePath, string methodName)
     {
         Write(LogLevel.Debug, filePath, methodName, message);
     }
 
-    public void Info(string message, [CallerFilePath] string filePath = "unknown",  [CallerMemberName] string methodName = "unknown")
+    public void Info(string message, string filePath, string methodName)
     {
         Write(LogLevel.Information, filePath, methodName, message);
     }
 
-    public void Warn(string message, [CallerFilePath] string filePath = "unknown",  [CallerMemberName] string methodName = "unknown")
+    public void Warn(string message, string filePath, string methodName)
     {
         Write(LogLevel.Warning, filePath, methodName, message);
     }
 
-    public void Error(string message, [CallerFilePath] string filePath = "unknown",  [CallerMemberName] string methodName = "unknown")
+    public void Error(string message, string filePath, string methodName)
     {
         Write(LogLevel.Error, filePath, methodName, message);
     }
 
-    public void Exception(Exception exception, [CallerFilePath] string filePath = "unknown",  [CallerMemberName] string methodName = "unknown")
+    public void Exception(Exception exception, string filePath, string methodName)
     {
         Write(LogLevel.Exception, filePath, methodName, exception.Message);
     }
 
-    public void Critical(string message, [CallerFilePath] string filePath = "unknown",  [CallerMemberName] string methodName = "unknown")
+    public void Critical(string message, string filePath, string methodName)
     {
         Write(LogLevel.Critical, filePath, methodName, message);
     }
 
-    public void Fatal(string message, [CallerFilePath] string filePath = "unknown",  [CallerMemberName] string methodName = "unknown")
+    public void Fatal(string message, string filePath, string methodName)
     {
         Write(LogLevel.Fatal, filePath, methodName, message);
     }
