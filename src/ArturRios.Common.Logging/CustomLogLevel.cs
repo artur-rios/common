@@ -2,7 +2,7 @@
 
 namespace ArturRios.Common.Logging;
 
-public enum LogLevel
+public enum CustomLogLevel
 {
     [Description("TRACE")]
     Trace = 0,

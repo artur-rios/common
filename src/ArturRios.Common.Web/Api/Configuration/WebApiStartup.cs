@@ -2,6 +2,10 @@
 using ArturRios.Common.Configuration.Loaders;
 using ArturRios.Common.Configuration.Providers;
 using ArturRios.Common.Extensions;
+using ArturRios.Common.Logging;
+using ArturRios.Common.Logging.Adapter;
+using ArturRios.Common.Logging.Configuration;
+using ArturRios.Common.Logging.Interfaces;
 using ArturRios.Common.Output;
 using ArturRios.Common.Web.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -56,15 +60,36 @@ public abstract class WebApiStartup(string[] args)
     public abstract void ConfigureApp();
 
     public virtual void AddDependencies() { }
-    public virtual void AddLogging() { }
     public virtual void ConfigureCors() { }
     public virtual void ConfigureSecurity() { }
     public virtual void ConfigureWebApi() { }
     public virtual void StartServices() { }
 
+    public void AddLogging()
+    {
+        Builder.Services.AddLogging();
+    }
+
+    public void AddCustomLogging(List<LoggerConfiguration> loggerConfigurations)
+    {
+        Builder.Services.AddScoped<IStateLogger>(_ => new StateLogger(loggerConfigurations));
+
+        Builder.Services.AddLogging(lb =>
+        {
+            lb.ClearProviders();
+            lb.AddCustomLogger();
+            lb.SetMinimumLevel(LogLevel.Trace);
+        });
+    }
+
     public void LoadConfiguration()
     {
-        var configurationLoader = new ConfigurationLoader(Builder.Configuration, Builder.Environment.EnvironmentName);
+        Builder.Services.AddSingleton(sp =>
+            new ConfigurationLoader(Builder.Configuration, Builder.Environment.EnvironmentName,
+                basePath: null, logger: sp.GetRequiredService<ILogger<ConfigurationLoader>>()));
+
+        using var provider = Builder.Services.BuildServiceProvider();
+        var configurationLoader = provider.GetRequiredService<ConfigurationLoader>();
 
         SetSwaggerConfigFromParameters();
 

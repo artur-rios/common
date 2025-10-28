@@ -1,11 +1,10 @@
 ﻿using ArturRios.Common.Output;
 using ArturRios.Common.Web.Http;
 using Newtonsoft.Json;
-using ILogger = ArturRios.Common.Logging.Interfaces.ILogger;
 
 namespace ArturRios.Common.Web.Middleware;
 
-public class ExceptionMiddleware(RequestDelegate next, ILogger logger) : WebApiMiddleware
+public class ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger) : WebApiMiddleware
 {
     public async Task Invoke(HttpContext httpContext)
     {
@@ -15,11 +14,11 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger logger) : WebApiM
         }
         catch (OperationCanceledException oce) when (httpContext.RequestAborted.IsCancellationRequested)
         {
-            logger.Debug($"Request was canceled by the client: {oce.Message}");
+            logger.LogDebug("Request was canceled by the client: {OceMessage}", oce.Message);
         }
         catch (TaskCanceledException tce) when (httpContext.RequestAborted.IsCancellationRequested)
         {
-            logger.Debug($"Request was canceled by the client (TaskCanceled): {tce.Message}");
+            logger.LogDebug("Request was canceled by the client (TaskCanceled): {TceMessage}", tce.Message);
         }
         catch (Exception ex)
         {
@@ -31,7 +30,8 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger logger) : WebApiM
     {
         if (context.RequestAborted.IsCancellationRequested || context.Response.HasStarted)
         {
-            logger.Debug("Cannot write error response because the request was aborted or the response has already started.");
+            logger.LogDebug("Cannot write error response because the request was aborted or the response has already started.");
+
             return;
         }
 
@@ -42,17 +42,17 @@ public class ExceptionMiddleware(RequestDelegate next, ILogger logger) : WebApiM
             messages = customException.Messages;
         }
 
-        logger.Exception(exception);
-        logger.Error($"Stack: {exception.StackTrace}");
+        logger.LogError("Exception: {ExceptionMessage}", exception.Message);
+        logger.LogError("Stack: {ExceptionStackTrace}", exception.StackTrace);
 
         foreach (var message in messages)
         {
-            logger.Error($"Message: {message}");
+            logger.LogError("Message: {Message}", message);
         }
 
         if (exception.InnerException is not null)
         {
-            logger.Error($"Inner exception on request: {exception.InnerException.Message}");
+            logger.LogError("Inner exception on request: {InnerExceptionMessage}", exception.InnerException.Message);
         }
 
         context.Response.ContentType = "application/json";

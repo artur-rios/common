@@ -1,13 +1,12 @@
 ﻿using ArturRios.Common.Output;
 using ArturRios.Common.Web.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
-using ILogger = ArturRios.Common.Logging.Interfaces.ILogger;
 
 namespace ArturRios.Common.Tests.Mock.WebApi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TestController(ILogger logger) : Controller
+public class TestController(ILogger<TestController> logger) : Controller
 {
     [HttpGet]
     [Route("HelloWorld")]
@@ -28,14 +27,12 @@ public class TestController(ILogger logger) : Controller
             .WithData("Logs tested")
             .WithMessage("Check the application logs for log entries");
 
-        logger.Trace("Test trace log");
-        logger.Debug("Test debug log");
-        logger.Info("Test info log");
-        logger.Warn("Test warn log");
-        logger.Error("Test error log");
-        logger.Exception(new Exception("Test exception log"));
-        logger.Critical("Test critical log");
-        logger.Fatal("Test fatal log");
+        logger.LogTrace("Test trace log");
+        logger.LogDebug("Test debug log");
+        logger.LogInformation("Test info log");
+        logger.LogWarning("Test warn log");
+        logger.LogError("Test error log");
+        logger.LogCritical("Test critical log");
 
         return ResponseResolver.Resolve(result);
     }

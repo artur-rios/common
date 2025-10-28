@@ -5,18 +5,17 @@ using ArturRios.Common.Logging.Interfaces;
 
 namespace ArturRios.Common.Logging;
 
-public class Logger : ILogger
+public class StandaloneLogger : IStandaloneLogger
 {
     private readonly List<IInternalLogger> _loggers = [];
-    private const string TraceIdLabel = "[TraceId]";
 
     public string? TraceId { get; set; }
 
-    public Logger(List<LoggerConfiguration> configurations)
+    public StandaloneLogger(List<LoggerConfiguration> configurations)
     {
         foreach (var config in configurations)
         {
-            _loggers.Add(LoggerFactory.Create(config));
+            _loggers.Add(InternalLoggerFactory.Create(config));
         }
     }
 
@@ -94,6 +93,6 @@ public class Logger : ILogger
 
     private string FormatMessageWithTraceId(string message)
     {
-        return !string.IsNullOrEmpty(TraceId) ? $"{TraceIdLabel} {TraceId} {message}" : message;
+        return !string.IsNullOrEmpty(TraceId) ? $"[{nameof(TraceId)}] {TraceId} | {message}" : message;
     }
 }

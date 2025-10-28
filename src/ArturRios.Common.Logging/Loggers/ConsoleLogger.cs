@@ -10,57 +10,57 @@ public class ConsoleLogger(ConsoleLoggerConfiguration configuration) : IInternal
 
     public void Trace(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Trace, filePath, methodName, message);
+        Write(CustomLogLevel.Trace, filePath, methodName, message);
     }
 
     public void Debug(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Debug, filePath, methodName, message);
+        Write(CustomLogLevel.Debug, filePath, methodName, message);
     }
 
     public void Info(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Information, filePath, methodName, message);
+        Write(CustomLogLevel.Information, filePath, methodName, message);
     }
 
     public void Warn(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Warning, filePath, methodName, message);
+        Write(CustomLogLevel.Warning, filePath, methodName, message);
     }
 
     public void Error(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Error, filePath, methodName, message);
+        Write(CustomLogLevel.Error, filePath, methodName, message);
     }
 
     public void Exception(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Exception, filePath, methodName, message);
+        Write(CustomLogLevel.Exception, filePath, methodName, message);
     }
 
     public void Critical(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Critical, filePath, methodName, message);
+        Write(CustomLogLevel.Critical, filePath, methodName, message);
     }
 
     public void Fatal(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Fatal, filePath, methodName, message);
+        Write(CustomLogLevel.Fatal, filePath, methodName, message);
     }
 
-    private static string GetAnsiColorSequence(LogLevel level) => level switch
+    private static string GetAnsiColorSequence(CustomLogLevel level) => level switch
     {
-        LogLevel.Trace => ConsoleAnsiColors.DarkGray,
-        LogLevel.Debug => ConsoleAnsiColors.Cyan,
-        LogLevel.Information => ConsoleAnsiColors.White,
-        LogLevel.Warning => ConsoleAnsiColors.Yellow,
-        LogLevel.Error => ConsoleAnsiColors.Red,
-        LogLevel.Exception => ConsoleAnsiColors.Magenta,
-        LogLevel.Critical or LogLevel.Fatal => ConsoleAnsiColors.BrightRed,
+        CustomLogLevel.Trace => ConsoleAnsiColors.DarkGray,
+        CustomLogLevel.Debug => ConsoleAnsiColors.Cyan,
+        CustomLogLevel.Information => ConsoleAnsiColors.Green,
+        CustomLogLevel.Warning => ConsoleAnsiColors.Yellow,
+        CustomLogLevel.Error => ConsoleAnsiColors.Red,
+        CustomLogLevel.Exception => ConsoleAnsiColors.Magenta,
+        CustomLogLevel.Critical or CustomLogLevel.Fatal => ConsoleAnsiColors.BrightRed,
         _ => ConsoleAnsiColors.White
     };
 
-    private void Write(LogLevel level, string filePath, string methodName, string message)
+    private void Write(CustomLogLevel level, string filePath, string methodName, string message)
     {
         var entry = LogEntryFactory.Create(level, filePath, methodName, message);
 

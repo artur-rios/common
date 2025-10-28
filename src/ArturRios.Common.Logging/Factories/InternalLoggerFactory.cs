@@ -4,7 +4,7 @@ using ArturRios.Common.Logging.Loggers;
 
 namespace ArturRios.Common.Logging.Factories;
 
-public static class LoggerFactory
+public static class InternalLoggerFactory
 {
     public static IInternalLogger Create(LoggerConfiguration loggerConfiguration)
     {

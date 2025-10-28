@@ -2,7 +2,7 @@
 
 namespace ArturRios.Common.Logging.Interfaces;
 
-public interface ILogger
+public interface IStandaloneLogger
 {
     string? TraceId { get; set; }
 

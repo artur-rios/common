@@ -13,22 +13,22 @@ public class ConfigurationLoader
     private readonly string _basePath;
     private readonly IConfigurationBuilder? _configurationBuilder;
     private readonly string _environmentName;
-
-    private readonly ILogger _logger =
-        LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<ConfigurationLoader>();
+    private readonly ILogger<ConfigurationLoader> _logger;
 
     public ConfigurationLoader(IConfigurationBuilder configurationBuilder, string environmentName,
-        string? basePath = null)
+        string? basePath = null, ILogger<ConfigurationLoader>? logger = null)
     {
         _configurationBuilder = configurationBuilder;
         _environmentName = environmentName;
         _basePath = string.IsNullOrEmpty(basePath) ? AppDomain.CurrentDomain.BaseDirectory : basePath;
+        _logger = logger ?? LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<ConfigurationLoader>();
     }
 
-    public ConfigurationLoader(string environmentName, string? basePath = null)
+    public ConfigurationLoader(string environmentName, string? basePath = null, ILogger<ConfigurationLoader>? logger = null)
     {
         _environmentName = environmentName;
         _basePath = string.IsNullOrEmpty(basePath) ? AppDomain.CurrentDomain.BaseDirectory : basePath;
+        _logger = logger ?? LoggerFactory.Create(builder => builder.AddConsole()).CreateLogger<ConfigurationLoader>();
     }
 
     public void LoadEnvironment()

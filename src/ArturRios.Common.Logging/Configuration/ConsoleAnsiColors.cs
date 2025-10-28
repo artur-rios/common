@@ -9,4 +9,5 @@ public static class ConsoleAnsiColors
     public const string Red = "\x1b[31m";
     public const string Magenta = "\x1b[35m";
     public const string BrightRed = "\x1b[31;1m";
+    public const string Green = "\x1b[32m";
 }

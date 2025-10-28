@@ -1,9 +1,8 @@
 ﻿using System.Diagnostics;
-using ILogger = ArturRios.Common.Logging.Interfaces.ILogger;
 
 namespace ArturRios.Common.Web.Middleware;
 
-public class TraceActivityMiddleware(RequestDelegate next, ILogger logger) : WebApiMiddleware
+public class TraceActivityMiddleware(RequestDelegate next, ILogger<TraceActivityMiddleware> logger) : WebApiMiddleware
 {
     private const string TraceParentHeader = "traceparent";
 
@@ -33,9 +32,7 @@ public class TraceActivityMiddleware(RequestDelegate next, ILogger logger) : Web
 
         context.Response.Headers[TraceParentHeader] = tp;
 
-        logger.TraceId = traceId;
-
-        logger.Trace($"Started request with TraceId {traceId}");
+        logger.LogTrace("Started request with TraceId {TraceId}", traceId);
 
         try
         {
@@ -43,7 +40,7 @@ public class TraceActivityMiddleware(RequestDelegate next, ILogger logger) : Web
         }
         finally
         {
-            logger.Trace($"Ending request with TraceId {traceId}");
+            logger.LogTrace("Ending request with TraceId {TraceId}", traceId);
 
             if (createdActivity && Activity.Current == activity)
             {

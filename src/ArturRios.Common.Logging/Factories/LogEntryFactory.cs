@@ -4,7 +4,7 @@ namespace ArturRios.Common.Logging.Factories;
 
 public static class LogEntryFactory
 {
-    public static string Create(LogLevel level, string filePath, string methodName, string message)
+    public static string Create(CustomLogLevel level, string filePath, string methodName, string message)
     {
         var logLevel = level.GetDescription()!;
         var className = Path.GetFileNameWithoutExtension(filePath);
