@@ -33,9 +33,9 @@ public class ConsoleLogger(ConsoleLoggerConfiguration configuration) : IInternal
         Write(LogLevel.Error, filePath, methodName, message);
     }
 
-    public void Exception(Exception? exception, string filePath, string methodName)
+    public void Exception(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Exception, filePath, methodName, exception?.ToString() ?? "(null)");
+        Write(LogLevel.Exception, filePath, methodName, message);
     }
 
     public void Critical(string message, string filePath, string methodName)
@@ -68,13 +68,13 @@ public class ConsoleLogger(ConsoleLoggerConfiguration configuration) : IInternal
         {
             _ = ConsoleAnsi.EnableVirtualTerminalProcessing();
 
-            var ansi = GetAnsiColorSequence(level);
+            var ansiColor = GetAnsiColorSequence(level);
 
-            const string reset = "\x1b[0m";
+            const string colorReset = "\x1b[0m";
 
             lock (s_writeLock)
             {
-                Console.Write(ansi + entry + reset);
+                Console.Write(ansiColor + entry + colorReset);
             }
         }
         else

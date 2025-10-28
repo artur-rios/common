@@ -8,6 +8,9 @@ namespace ArturRios.Common.Logging;
 public class Logger : ILogger
 {
     private readonly List<IInternalLogger> _loggers = [];
+    private const string TraceIdLabel = "[TraceId]";
+
+    public string? TraceId { get; set; }
 
     public Logger(List<LoggerConfiguration> configurations)
     {
@@ -22,7 +25,7 @@ public class Logger : ILogger
     {
         foreach (var logger in _loggers)
         {
-            logger.Trace(message, filePath, methodName);
+            logger.Trace(FormatMessageWithTraceId(message), filePath, methodName);
         }
     }
 
@@ -31,7 +34,7 @@ public class Logger : ILogger
     {
         foreach (var logger in _loggers)
         {
-            logger.Debug(message, filePath, methodName);
+            logger.Debug(FormatMessageWithTraceId(message), filePath, methodName);
         }
     }
 
@@ -40,7 +43,7 @@ public class Logger : ILogger
     {
         foreach (var logger in _loggers)
         {
-            logger.Info(message, filePath, methodName);
+            logger.Info(FormatMessageWithTraceId(message), filePath, methodName);
         }
     }
 
@@ -49,7 +52,7 @@ public class Logger : ILogger
     {
         foreach (var logger in _loggers)
         {
-            logger.Warn(message, filePath, methodName);
+            logger.Warn(FormatMessageWithTraceId(message), filePath, methodName);
         }
     }
 
@@ -58,7 +61,7 @@ public class Logger : ILogger
     {
         foreach (var logger in _loggers)
         {
-            logger.Error(message, filePath, methodName);
+            logger.Error(FormatMessageWithTraceId(message), filePath, methodName);
         }
     }
 
@@ -67,7 +70,7 @@ public class Logger : ILogger
     {
         foreach (var logger in _loggers)
         {
-            logger.Exception(exception, filePath, methodName);
+            logger.Exception(FormatMessageWithTraceId(exception.Message), filePath, methodName);
         }
     }
 
@@ -76,7 +79,7 @@ public class Logger : ILogger
     {
         foreach (var logger in _loggers)
         {
-            logger.Critical(message, filePath, methodName);
+            logger.Critical(FormatMessageWithTraceId(message), filePath, methodName);
         }
     }
 
@@ -85,7 +88,12 @@ public class Logger : ILogger
     {
         foreach (var logger in _loggers)
         {
-            logger.Fatal(message, filePath, methodName);
+            logger.Fatal(FormatMessageWithTraceId(message), filePath, methodName);
         }
+    }
+
+    private string FormatMessageWithTraceId(string message)
+    {
+        return !string.IsNullOrEmpty(TraceId) ? $"{TraceIdLabel} {TraceId} {message}" : message;
     }
 }

@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ArturRios.Common.Configuration\ArturRios.Common.Configuration.csproj"/>
     <ProjectReference Include="..\ArturRios.Common.Extensions\ArturRios.Common.Extensions.csproj"/>
+    <ProjectReference Include="..\ArturRios.Common.Logging\ArturRios.Common.Logging.csproj" />
   </ItemGroup>
 
   <ItemGroup>

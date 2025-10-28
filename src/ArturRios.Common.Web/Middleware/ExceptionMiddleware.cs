@@ -1,18 +1,25 @@
 ﻿using ArturRios.Common.Output;
 using ArturRios.Common.Web.Http;
 using Newtonsoft.Json;
+using ILogger = ArturRios.Common.Logging.Interfaces.ILogger;
 
 namespace ArturRios.Common.Web.Middleware;
 
-public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFactory) : WebApiMiddleware
+public class ExceptionMiddleware(RequestDelegate next, ILogger logger) : WebApiMiddleware
 {
-    private readonly ILogger _logger = loggerFactory.CreateLogger(typeof(ExceptionMiddleware));
-
     public async Task Invoke(HttpContext httpContext)
     {
         try
         {
             await next(httpContext);
+        }
+        catch (OperationCanceledException oce) when (httpContext.RequestAborted.IsCancellationRequested)
+        {
+            logger.Debug($"Request was canceled by the client: {oce.Message}");
+        }
+        catch (TaskCanceledException tce) when (httpContext.RequestAborted.IsCancellationRequested)
+        {
+            logger.Debug($"Request was canceled by the client (TaskCanceled): {tce.Message}");
         }
         catch (Exception ex)
         {
@@ -22,24 +29,30 @@ public class ExceptionMiddleware(RequestDelegate next, ILoggerFactory loggerFact
 
     private async Task HandleException(HttpContext context, Exception exception)
     {
-        string[] messages = ["Internal server error, please try again later"];
+        if (context.RequestAborted.IsCancellationRequested || context.Response.HasStarted)
+        {
+            logger.Debug("Cannot write error response because the request was aborted or the response has already started.");
+            return;
+        }
+
+        var messages = new[] { "Internal server error, please try again later" };
 
         if (exception is CustomException customException)
         {
             messages = customException.Messages;
         }
 
-        _logger.LogError("Error: {error}", exception.Message);
-        _logger.LogError("Stack: {stack}", exception.StackTrace);
+        logger.Exception(exception);
+        logger.Error($"Stack: {exception.StackTrace}");
 
         foreach (var message in messages)
         {
-            _logger.LogError("Message: {message}", message);
+            logger.Error($"Message: {message}");
         }
 
         if (exception.InnerException is not null)
         {
-            _logger.LogError("Inner exception on request: {message}", exception.InnerException.Message);
+            logger.Error($"Inner exception on request: {exception.InnerException.Message}");
         }
 
         context.Response.ContentType = "application/json";

@@ -1,11 +1,12 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+
+namespace ArturRios.Common.Logging;
 
 internal static partial class ConsoleAnsi
 {
-    private const int STD_OUTPUT_HANDLE = -11;
-    private const uint ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
-    private const uint DISABLE_NEWLINE_AUTO_RETURN = 0x0008; // optional
+    private const int StdOutputHandle = -11;
+    private const uint EnableVirtualTerminalProcessingHex = 0x0004;
+    private const uint DisableNewlineAutoReturn = 0x0008;
 
     [LibraryImport("kernel32.dll", SetLastError = true)]
     private static partial IntPtr GetStdHandle(int nStdHandle);
@@ -21,19 +22,28 @@ internal static partial class ConsoleAnsi
     public static bool EnableVirtualTerminalProcessing()
     {
         if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+        {
             return false;
+        }
 
-        var handle = GetStdHandle(STD_OUTPUT_HANDLE);
+        var handle = GetStdHandle(StdOutputHandle);
         if (handle == IntPtr.Zero)
+        {
             return false;
+        }
 
         if (!GetConsoleMode(handle, out var mode))
+        {
             return false;
+        }
 
-        if ((mode & ENABLE_VIRTUAL_TERMINAL_PROCESSING) != 0)
+        if ((mode & EnableVirtualTerminalProcessingHex) != 0)
+        {
             return true;
+        }
 
-        var newMode = mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING | DISABLE_NEWLINE_AUTO_RETURN;
+        var newMode = mode | EnableVirtualTerminalProcessingHex | DisableNewlineAutoReturn;
+
         return SetConsoleMode(handle, newMode);
     }
 }

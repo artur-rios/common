@@ -1,6 +1,7 @@
 ﻿using ArturRios.Common.Logging;
 using ArturRios.Common.Logging.Configuration;
 using ArturRios.Common.Web.Api.Configuration;
+using ArturRios.Common.Web.Handlers;
 using ArturRios.Common.Web.Middleware;
 using Microsoft.OpenApi.Models;
 using ILogger = ArturRios.Common.Logging.Interfaces.ILogger;
@@ -13,6 +14,12 @@ public class Startup(string[] args) : WebApiStartup(args)
     public override void Build()
     {
         LoadConfiguration();
+
+        Builder.Services.AddHttpContextAccessor();
+        Builder.Services.AddTransient<TracePropagationHandler>();
+        Builder.Services.AddHttpClient("external")
+            .AddHttpMessageHandler<TracePropagationHandler>();
+
         ConfigureWebApi();
         AddDependencies();
         UseSwaggerGen(swaggerGenOptions: options =>
@@ -24,7 +31,8 @@ public class Startup(string[] args) : WebApiStartup(args)
 
         BuildApp();
 
-        AddMiddlewares([typeof(ExceptionMiddleware)]);
+        AddMiddlewares([typeof(TraceActivityMiddleware), typeof(ExceptionMiddleware)]);
+
         ConfigureApp();
         UseSwagger();
     }

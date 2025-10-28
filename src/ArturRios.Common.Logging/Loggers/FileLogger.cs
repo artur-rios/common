@@ -35,9 +35,9 @@ public class FileLogger(FileLoggerConfiguration configuration) : IInternalLogger
         Write(LogLevel.Error, filePath, methodName, message);
     }
 
-    public void Exception(Exception exception, string filePath, string methodName)
+    public void Exception(string message, string filePath, string methodName)
     {
-        Write(LogLevel.Exception, filePath, methodName, exception.Message);
+        Write(LogLevel.Exception, filePath, methodName, message);
     }
 
     public void Critical(string message, string filePath, string methodName)

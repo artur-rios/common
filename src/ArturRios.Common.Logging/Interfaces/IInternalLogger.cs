@@ -7,7 +7,7 @@ public interface IInternalLogger
     void Info(string message, string filePath, string methodName);
     void Warn(string message, string filePath, string methodName);
     void Error(string message, string filePath, string methodName);
-    void Exception(Exception exception, string filePath, string methodName);
+    void Exception(string message, string filePath, string methodName);
     void Critical(string message, string filePath, string methodName);
     void Fatal(string message, string filePath, string methodName);
 }
