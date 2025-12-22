@@ -1,19 +1,14 @@
 ﻿using System.Diagnostics;
-using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
 using ArturRios.Common.Logging.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace ArturRios.Common.Logging.Adapter;
 
-public class MicrosoftLoggerAdapter : ILogger
+public class MicrosoftLoggerAdapter(IServiceProvider services) : ILogger
 {
-    private readonly IServiceProvider _services;
-
-    public MicrosoftLoggerAdapter(IServiceProvider services)
-    {
-        _services = services ?? throw new ArgumentNullException(nameof(services));
-    }
+    private readonly IServiceProvider _services = services ?? throw new ArgumentNullException(nameof(services));
 
     // Expose TraceId by reading/writing the current HttpContext item (if available)
     public string? TraceId
