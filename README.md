@@ -1,20 +1,16 @@
 # Common
 
-## Important Notice
+## ⚠️ Archived
 
-I do not update this repository anymore. I changed the approach by building separate libraries for each utility, which allows for better versioning and dependency management.
-You can find the new libraries here:
+**This repository is archived and no longer receives updates.**
 
-- [dotnet-configuration](https://github.com/artur-rios/dotnet-configuration)
-- [dotnet-data](https://github.com/artur-rios/dotnet-data)
-- [dotnet-extensions](https://github.com/artur-rios/dotnet-extensions)
-- [dotnet-logging](https://github.com/artur-rios/dotnet-logging)
-- [dotnet-output](https://github.com/artur-rios/dotnet-output)
-- [dotnet-util](https://github.com/artur-rios/dotnet-util)
-- [dotnet-web-api-util](https://github.com/artur-rios/dotnet-web-api-util)
+I changed the approach by building separate libraries for each utility, which allows for better versioning and
+dependency management. The migrated libraries are listed here:
 
-Not everything has been migrated yet, but I plan to do so in the future. If you have any questions or need assistance, feel free to reach out.
-You can still use this repository, but I recommend checking out the new libraries for a more up-to-date experience. However, the new libraries are targeting .NET 10, cause I intend to always use the latest versions of .NET for test purposes. This collection of libraries will still be targeting .NET 8.
+👉 **[artur-rios.github.io/dotnet-libraries](https://artur-rios.github.io/dotnet-libraries/)**
+
+The code below is kept for reference only and still targets .NET 8. The new libraries target the latest version of
+.NET.
 
 ## Overview
 
